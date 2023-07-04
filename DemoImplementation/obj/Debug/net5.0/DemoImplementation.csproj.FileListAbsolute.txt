@@ -1,0 +1,16 @@
+D:\Revision\DemoImplementation\bin\Debug\net5.0\DemoImplementation.exe
+D:\Revision\DemoImplementation\bin\Debug\net5.0\DemoImplementation.deps.json
+D:\Revision\DemoImplementation\bin\Debug\net5.0\DemoImplementation.runtimeconfig.json
+D:\Revision\DemoImplementation\bin\Debug\net5.0\DemoImplementation.runtimeconfig.dev.json
+D:\Revision\DemoImplementation\bin\Debug\net5.0\DemoImplementation.dll
+D:\Revision\DemoImplementation\bin\Debug\net5.0\ref\DemoImplementation.dll
+D:\Revision\DemoImplementation\bin\Debug\net5.0\DemoImplementation.pdb
+D:\Revision\DemoImplementation\obj\Debug\net5.0\DemoImplementation.csproj.AssemblyReference.cache
+D:\Revision\DemoImplementation\obj\Debug\net5.0\DemoImplementation.GeneratedMSBuildEditorConfig.editorconfig
+D:\Revision\DemoImplementation\obj\Debug\net5.0\DemoImplementation.AssemblyInfoInputs.cache
+D:\Revision\DemoImplementation\obj\Debug\net5.0\DemoImplementation.AssemblyInfo.cs
+D:\Revision\DemoImplementation\obj\Debug\net5.0\DemoImplementation.csproj.CoreCompileInputs.cache
+D:\Revision\DemoImplementation\obj\Debug\net5.0\DemoImplementation.dll
+D:\Revision\DemoImplementation\obj\Debug\net5.0\ref\DemoImplementation.dll
+D:\Revision\DemoImplementation\obj\Debug\net5.0\DemoImplementation.pdb
+D:\Revision\DemoImplementation\obj\Debug\net5.0\DemoImplementation.genruntimeconfig.cache

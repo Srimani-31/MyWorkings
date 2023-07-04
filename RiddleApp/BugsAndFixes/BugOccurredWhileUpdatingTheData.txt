@@ -1,0 +1,11 @@
+System.InvalidOperationException: 
+The instance of entity type '' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked. 
+When attaching existing entities, ensure that only one entity instance with a given key value is attached. 
+
+Why?
+	Attempting to update the data in the table along with checking the existence with the same primary key.
+	Also I am trying to throw custom exception with the built-in constructor.
+	
+How?
+	First try to do the error-free operation without the exception handling.
+	Then try to do throw exception for improper operations.

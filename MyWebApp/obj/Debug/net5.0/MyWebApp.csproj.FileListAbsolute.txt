@@ -1,0 +1,7 @@
+D:\Revision\MyWebApp\obj\Debug\net5.0\MyWebApp.GeneratedMSBuildEditorConfig.editorconfig
+D:\Revision\MyWebApp\obj\Debug\net5.0\MyWebApp.AssemblyInfoInputs.cache
+D:\Revision\MyWebApp\obj\Debug\net5.0\MyWebApp.AssemblyInfo.cs
+D:\Revision\MyWebApp\obj\Debug\net5.0\MyWebApp.csproj.CoreCompileInputs.cache
+D:\Revision\MyWebApp\obj\Debug\net5.0\MyWebApp.MvcApplicationPartsAssemblyInfo.cache
+D:\Revision\MyWebApp\obj\Debug\net5.0\MyWebApp.RazorAssemblyInfo.cache
+D:\Revision\MyWebApp\obj\Debug\net5.0\MyWebApp.RazorAssemblyInfo.cs

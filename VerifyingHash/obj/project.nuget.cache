@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "4roPp+4NSvR+vdn8aD2JOBFrQfBNMMzFaY7Y6nMs0sjBrUJbKCdU3GXU4aLhQbM7EvBt5RpMslKML5NXKLaj7g==",
+  "success": true,
+  "projectFilePath": "D:\\Revision\\VerifyingHash\\VerifyingHash.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\srimani.ravikumar\\.nuget\\packages\\bcrypt.net-next\\4.0.0\\bcrypt.net-next.4.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
