@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 using SportsZoneWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Repositories;
 
 namespace SportsZoneWebAPI
 {
@@ -36,11 +37,21 @@ namespace SportsZoneWebAPI
             });
             //configuring the dependency injection
             //services.AddTransient<IUserRepository, UserRepository>();//map the interface to their implementation
-            services.AddSingleton<SportsZoneDbContext>();
+            services.AddScoped<SportsZoneDbContext>();
+            services.AddTransient<CustomerRepository>();
+            //services.AddTransient<SecurityRepository>();
+            //services.AddTransient<CategoryRepository>();
+            //services.AddTransient<ProductRepository>();
+            //services.AddTransient<CartRepository>();
+            //services.AddTransient<CartItemRepository>();
+            //services.AddTransient<ShippingRepository>();
+            //services.AddTransient<PaymentRepository>();
+            //services.AddTransient<OrderRepository>();
+            //services.AddTransient<OrderItemRepository>();
             //services.AddTransient<IUserService, UserService>();
             //automapper configuration
             //var mappingConfig = new MapperConfiguration(
-              //   mc => mc.AddProfile(new UserProfile()));
+            //   mc => mc.AddProfile(new UserProfile()));
             //IMapper mapper = mappingConfig.CreateMapper();
             //services.AddSingleton(mapper);
 

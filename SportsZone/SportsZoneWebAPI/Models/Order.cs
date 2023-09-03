@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Text.Json.Serialization;
 #nullable disable
 
 namespace SportsZoneWebAPI.Models
@@ -24,11 +24,15 @@ namespace SportsZoneWebAPI.Models
         public DateTime CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
-
+        [JsonIgnore]
         public virtual Cart Cart { get; set; }
+        [JsonIgnore]
         public virtual Customer Customer { get; set; }
+        [JsonIgnore]
         public virtual Payment Payment { get; set; }
+        [JsonIgnore]
         public virtual Shipping Shipping { get; set; }
+        [JsonIgnore]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

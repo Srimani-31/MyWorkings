@@ -16,7 +16,7 @@ namespace SportsZoneWebAPI.Repositories
             _sportsZoneDbContext = sportsZoneDbContext;
         }
 
-        public async Task<IEnumerable<Customer>> GetAllCustomer()
+        public async Task<IEnumerable<Customer>> GetAllCustomers()
         {
             try
             {
@@ -82,6 +82,23 @@ namespace SportsZoneWebAPI.Repositories
                 }
             }
             catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task DeleteAllCustomers()
+        {
+            try
+            {
+                IEnumerable<Customer> customers = await GetAllCustomers();
+                foreach (Customer customer in customers)
+                {
+                    _sportsZoneDbContext.Customers.Remove(customer);
+                }
+                await _sportsZoneDbContext.SaveChangesAsync();
+            }
+            catch (Exception)
             {
                 throw;
             }
