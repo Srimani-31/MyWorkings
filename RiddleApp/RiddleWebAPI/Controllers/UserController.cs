@@ -65,7 +65,7 @@ namespace RiddleWebAPI.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(501, ex.Message);
+                return StatusCode(501, ex.InnerException);
             }
             
         }
@@ -113,6 +113,22 @@ namespace RiddleWebAPI.Controllers
                 return StatusCode(400, ex.Message);
             }
             
+        }
+        [HttpPost,Route("AuthenticateUser")]
+        public async Task<IActionResult> AuthenticateUser(LoginDto loginDto)
+        {
+            try
+            {
+                if(await _userService.AuthenticateUser(loginDto))
+                {
+                    return StatusCode(200, "User authenticated successfully");
+                }
+                return StatusCode(201, "Unauthenticated user.");
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
         }
     }
 }

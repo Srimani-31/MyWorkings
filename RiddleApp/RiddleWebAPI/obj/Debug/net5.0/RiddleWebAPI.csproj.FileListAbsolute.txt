@@ -7,6 +7,9 @@ D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\RiddleWebAPI.runtimeconfig.d
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\RiddleWebAPI.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\ref\RiddleWebAPI.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\RiddleWebAPI.pdb
+D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\AutoMapper.dll
+D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\BCrypt.Net-Next.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Humanizer.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.Data.SqlClient.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
@@ -14,6 +17,9 @@ D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCor
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
+D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.Identity.Client.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
@@ -28,6 +34,7 @@ D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagg
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\System.Configuration.ConfigurationManager.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\System.Runtime.Caching.dll
+D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
 D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
@@ -57,9 +64,3 @@ D:\Revision\RiddleApp\RiddleWebAPI\obj\Debug\net5.0\ref\RiddleWebAPI.dll
 D:\Revision\RiddleApp\RiddleWebAPI\obj\Debug\net5.0\RiddleWebAPI.pdb
 D:\Revision\RiddleApp\RiddleWebAPI\obj\Debug\net5.0\RiddleWebAPI.genruntimeconfig.cache
 D:\Revision\RiddleApp\RiddleWebAPI\obj\Debug\net5.0\RiddleWebAPI.csproj.AssemblyReference.cache
-D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\AutoMapper.dll
-D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
-D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
-D:\Revision\RiddleApp\RiddleWebAPI\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll

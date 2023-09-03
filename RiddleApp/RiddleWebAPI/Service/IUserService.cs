@@ -9,10 +9,11 @@ namespace RiddleWebAPI.Service
 {
     public interface IUserService
     {
-        Task<IEnumerable<User>> GetAllUserAsync();
-        Task<User> GetUserByUsernameAsync(string username);
-        Task AddUserAsync(UserDto userDto);
-        Task UpdateUserAsync(UserDto userDto);
-        Task DeleteUserAsync(string username);
+        public Task<IEnumerable<UserDto>> GetAllUserAsync();
+        public Task<UserDto> GetUserByUsernameAsync(string username);
+        public Task AddUserAsync(UserDto userDto);
+        public Task UpdateUserAsync(UserDto userDto);
+        public Task DeleteUserAsync(string username);
+        public Task<bool> AuthenticateUser(LoginDto loginDto);
     }
 }

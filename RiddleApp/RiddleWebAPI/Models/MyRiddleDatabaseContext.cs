@@ -79,7 +79,7 @@ namespace RiddleWebAPI.Models
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(60)
                     .IsUnicode(false);
             });
 

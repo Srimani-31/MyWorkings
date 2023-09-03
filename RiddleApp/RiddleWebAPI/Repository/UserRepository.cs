@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RiddleWebAPI.Models;
-
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace RiddleWebAPI.Repository
 {
     public class UserRepository : IUserRepository
@@ -43,12 +41,13 @@ namespace RiddleWebAPI.Repository
         {
             try
             {
+                user.Password = HashPassword(user.Password);
                 _dbContext.Users.Add(user);
                 await _dbContext.SaveChangesAsync();
             }
             catch(Exception)
             {
-                throw new Exception("An error occured while adding the data");
+                throw;
             }
 
         }
@@ -115,6 +114,24 @@ namespace RiddleWebAPI.Repository
                 throw new Exception("An error occured while retrieving the data");
             }
 
+        }
+        public async Task<bool> AuthenticateUser(Login login)
+        {
+            User user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Username == login.Username);
+            if (user != null)
+            {
+                return IsValidPassword(login.Password, user.Password);
+            }
+            return false;
+        }
+        public string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+        public bool IsValidPassword(string password,string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+           
         }
 
 

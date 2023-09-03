@@ -13,6 +13,7 @@ namespace RiddleWebAPI.Mappings
         public UserProfile()
         {
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<Login, LoginDto>().ReverseMap();
             
         }
     }
