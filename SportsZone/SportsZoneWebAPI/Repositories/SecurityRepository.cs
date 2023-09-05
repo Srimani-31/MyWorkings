@@ -44,9 +44,9 @@ namespace SportsZoneWebAPI.Repositories
                 Security security = _mapper.Map<Security>(securityRequestDto);
                 security.Answer = answer;
                 security.Password = password;
-                security.CreatedBy = securityRequestDto.Email;
+                security.CreatedBy = securityRequestDto.CreatedUpdatedBy;
                 security.CreatedDate = DateTime.Now;
-                security.UpdatedBy = securityRequestDto.Email;
+                security.UpdatedBy = securityRequestDto.CreatedUpdatedBy;
                 security.UpdatedDate = DateTime.Now;
 
                 _sportsZoneDbContext.Securities.Add(security);

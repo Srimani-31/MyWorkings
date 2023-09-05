@@ -11,5 +11,6 @@ namespace SportsZoneWebAPI.DTOs
         public string NormalPassword { get; set; }
         public string SecurityQuestion { get; set; }
         public string NormalAnswer { get; set; }      
+        public string CreatedUpdatedBy { get; set; }
     }
 }
