@@ -241,5 +241,19 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
+        public async Task DeleteCartByCartID(int cartID)
+        {
+            try
+            {
+                Cart cart = await GetCartByCartID(cartID);
+                await _cartItemRepository.DeleteAllCartItemsByCartID(cart.CartID);
+                _sportsZoneDbContext.Remove(cart);
+                await _sportsZoneDbContext.SaveChangesAsync();
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
     }
 }

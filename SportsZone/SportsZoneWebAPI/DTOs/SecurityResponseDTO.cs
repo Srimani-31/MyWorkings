@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SportsZoneWebAPI.DTOs
+{
+    public class SecurityResponseDTO
+    {
+        public string Email { get; set; }
+        public byte[] Password { get; set; }
+        public string SecurityQuestion { get; set; }
+        public byte[] Answer { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+
+    }
+}

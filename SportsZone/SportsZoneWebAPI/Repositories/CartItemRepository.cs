@@ -64,7 +64,7 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task UpdateCart(CartItem cartItem)
+        public async Task UpdateCartItem(CartItem cartItem)
         {
             try
             {

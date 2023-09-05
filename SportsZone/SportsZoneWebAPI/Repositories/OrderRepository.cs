@@ -67,6 +67,64 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
+        public async Task<IEnumerable<Order>> GetAllDeliveredOrders()
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == "Delivered")
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllCancelledOrders()
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == "Cancelled")
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllDeliveredOrdersByCustomerID(string email)
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == "Delivered")
+                    .Where(order => order.CustomerID == email)
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllCancelledOrdersByCustomerID(string email)
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == "Cancelled")
+                    .Where(order => order.CustomerID == email)
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<Order>> GetAllOrdersViaCartModeByCustomerID(string email)
         {
             try
@@ -96,7 +154,7 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task<IEnumerable<Order>> GetAllOrdersViaImmediatePurchaseByCustomerID(string email)
+        public async Task<IEnumerable<Order>> GetAllOrdersViaDirectPurchaseByCustomerID(string email)
         {
             try
             {
@@ -251,7 +309,19 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task  PlaceOrderViaCartMode(int cartID,string email,int paymentID,int shippingID)
+        public async Task UpdateOrder(Order order)
+        {
+            try
+            {
+                _sportsZoneDbContext.Orders.Update(order);
+                await _sportsZoneDbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task  PlaceOrderViaCartMode(string email, int cartID, int paymentID,int shippingID)
         {
             try
             {

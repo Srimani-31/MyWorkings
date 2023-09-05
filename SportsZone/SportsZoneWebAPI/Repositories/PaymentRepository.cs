@@ -16,7 +16,7 @@ namespace SportsZoneWebAPI.Repositories
             _sportsZoneDbContext = sportsZoneDbContext;
         }
 
-        public async Task<IEnumerable<Payment>> GetAllPaymentModes()
+        public async Task<IEnumerable<Payment>> GetAllPaymentMethods()
         {
             try
             {
@@ -27,7 +27,7 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task<Payment> GetPaymentModeByPaymentID(int paymentID)
+        public async Task<Payment> GetPaymentMethodByPaymentID(int paymentID)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task AddNewPaymentMode(Payment payment)
+        public async Task AddNewPaymentMethod(Payment payment)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task DeletePaymentModeByPaymentID(int paymentID)
+        public async Task DeletePaymentMethodByPaymentID(int paymentID)
         {
             try
             {
@@ -86,11 +86,11 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task DeleteAllPaymentModes()
+        public async Task DeleteAllPaymentMethods()
         {
             try
             {
-                IEnumerable<Payment> payments = await GetAllPaymentModes();
+                IEnumerable<Payment> payments = await GetAllPaymentMethods();
 
                 foreach (Payment payment in payments)
                 {

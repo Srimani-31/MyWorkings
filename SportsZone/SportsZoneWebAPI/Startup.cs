@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 using SportsZoneWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using SportsZoneWebAPI.Repositories;
+using AutoMapper;
+using SportsZoneWebAPI.Mappings;
+using SportsZoneWebAPI.DTOs;
 
 namespace SportsZoneWebAPI
 {
@@ -39,21 +42,22 @@ namespace SportsZoneWebAPI
             //services.AddTransient<IUserRepository, UserRepository>();//map the interface to their implementation
             services.AddScoped<SportsZoneDbContext>();
             services.AddTransient<CustomerRepository>();
-            //services.AddTransient<SecurityRepository>();
-            //services.AddTransient<CategoryRepository>();
-            //services.AddTransient<ProductRepository>();
-            //services.AddTransient<CartRepository>();
-            //services.AddTransient<CartItemRepository>();
-            //services.AddTransient<ShippingRepository>();
-            //services.AddTransient<PaymentRepository>();
-            //services.AddTransient<OrderRepository>();
-            //services.AddTransient<OrderItemRepository>();
+            services.AddTransient<SecurityRepository>();
+            services.AddTransient<CategoryRepository>();
+            services.AddTransient<ProductRepository>();
+            services.AddTransient<CartRepository>();
+            services.AddTransient<CartItemRepository>();
+            services.AddTransient<ShippingRepository>();
+            services.AddTransient<PaymentRepository>();
+            services.AddTransient<OrderRepository>();
+            services.AddTransient<OrderItemRepository>();
             //services.AddTransient<IUserService, UserService>();
             //automapper configuration
-            //var mappingConfig = new MapperConfiguration(
-            //   mc => mc.AddProfile(new UserProfile()));
-            //IMapper mapper = mappingConfig.CreateMapper();
-            //services.AddSingleton(mapper);
+            services.AddAutoMapper(typeof(SecurityMapping));
+            var mappingConfig = new MapperConfiguration(
+               mc =>  mc.AddProfile(new SecurityMapping()));
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

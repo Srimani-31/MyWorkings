@@ -5,23 +5,28 @@ using System.Threading.Tasks;
 
 using SportsZoneWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.DTOs;
+using AutoMapper;
 
 namespace SportsZoneWebAPI.Repositories
 {
     public class SecurityRepository
     {
         private readonly SportsZoneDbContext _sportsZoneDbContext;
-
-        public SecurityRepository(SportsZoneDbContext sportsZoneDbContext)
+        private readonly IMapper _mapper;
+        public SecurityRepository(SportsZoneDbContext sportsZoneDbContext,IMapper mapper)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
+            _mapper = mapper;
         }
 
-        public async Task<Security> GetSecurityDetailsByCustomerID(string email)
+        public async Task<SecurityResponseDTO> GetSecurityDetailsByCustomerID(string email)
         {
             try
             {
-                return await _sportsZoneDbContext.Securities.FindAsync(email);
+                Security security = await _sportsZoneDbContext.Securities.FindAsync(email);
+                SecurityResponseDTO securityResponseDto = _mapper.Map<SecurityResponseDTO>(security);
+                return securityResponseDto;
             }
             catch(Exception)
             {
@@ -29,10 +34,21 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task AddSecurityDetails(Security security)
+        public async Task AddSecurityDetails(SecurityRequestDTO securityRequestDto)
         {
             try
             {
+                byte[] password = Util.HashItemToBytes(securityRequestDto.NormalPassword);
+                byte[] answer = Util.HashItemToBytes(securityRequestDto.NormalAnswer);
+
+                Security security = _mapper.Map<Security>(securityRequestDto);
+                security.Answer = answer;
+                security.Password = password;
+                security.CreatedBy = securityRequestDto.Email;
+                security.CreatedDate = DateTime.Now;
+                security.UpdatedBy = securityRequestDto.Email;
+                security.UpdatedDate = DateTime.Now;
+
                 _sportsZoneDbContext.Securities.Add(security);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }

@@ -42,7 +42,7 @@ namespace SportsZoneWebAPI.Repositories
         public async Task CreateCustomer (Customer customer)
         {
             try
-            {
+            { 
                 _sportsZoneDbContext.Customers.Add(customer);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
@@ -69,7 +69,7 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                Customer customer = await _sportsZoneDbContext.Customers.SingleOrDefaultAsync(customer => customer.Email == email);
+                Customer customer = await GetCustomerByCustomerID(email);
 
                 if (customer != null)
                 {
@@ -103,6 +103,6 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-
+       
     }
 }

@@ -59,3 +59,10 @@ D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\ref\SportsZoneWebAPI.dl
 D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\SportsZoneWebAPI.pdb
 D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\SportsZoneWebAPI.genruntimeconfig.cache
 D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\SportsZoneWebAPI.csproj.AssemblyReference.cache
+D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\AutoMapper.dll
+D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\BCrypt.Net-Next.dll
+D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
+D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
