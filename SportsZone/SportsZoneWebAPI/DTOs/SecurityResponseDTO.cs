@@ -11,8 +11,5 @@ namespace SportsZoneWebAPI.DTOs
         public byte[] Password { get; set; }
         public string SecurityQuestion { get; set; }
         public byte[] Answer { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
-
     }
 }

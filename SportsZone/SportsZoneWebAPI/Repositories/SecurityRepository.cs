@@ -20,13 +20,12 @@ namespace SportsZoneWebAPI.Repositories
             _mapper = mapper;
         }
 
-        public async Task<SecurityResponseDTO> GetSecurityDetailsByCustomerID(string email)
+        public async Task<Security> GetSecurityDetailsByCustomerID(string email)
         {
             try
             {
                 Security security = await _sportsZoneDbContext.Securities.FindAsync(email);
-                SecurityResponseDTO securityResponseDto = _mapper.Map<SecurityResponseDTO>(security);
-                return securityResponseDto;
+                return security;
             }
             catch(Exception)
             {
@@ -34,21 +33,10 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task AddSecurityDetails(SecurityRequestDTO securityRequestDto)
+        public async Task AddSecurityDetails(Security security)
         {
             try
-            {
-                byte[] password = Util.HashItemToBytes(securityRequestDto.NormalPassword);
-                byte[] answer = Util.HashItemToBytes(securityRequestDto.NormalAnswer);
-
-                Security security = _mapper.Map<Security>(securityRequestDto);
-                security.Answer = answer;
-                security.Password = password;
-                security.CreatedBy = securityRequestDto.CreatedUpdatedBy;
-                security.CreatedDate = DateTime.Now;
-                security.UpdatedBy = securityRequestDto.CreatedUpdatedBy;
-                security.UpdatedDate = DateTime.Now;
-
+            {                
                 _sportsZoneDbContext.Securities.Add(security);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }

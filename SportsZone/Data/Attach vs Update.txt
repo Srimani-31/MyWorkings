@@ -1,0 +1,34 @@
+In Entity Framework, the `Attach` and `Update` methods are used to work with entity objects that are disconnected from the context. These methods help you reattach or update the state of an entity object so that you can persist changes to the database. However, they are used in slightly different scenarios:
+
+1. **Attach**:
+
+   - **Scenario**: You use `Attach` when you want to attach an entity object to the context as an Unchanged entity. This is typically used for entities that you intend to mark as Unchanged without any changes.
+   
+   - **Usage**: You might use `Attach` when you're working with disconnected entities, such as when you want to reattach an entity that was detached earlier or when you're working with DTOs (Data Transfer Objects) and you want to attach them to the context before saving changes.
+
+   - **Common Use Case**: Reattaching an entity to the context without making any changes to it.
+
+   ```csharp
+   dbContext.Attach(entity);
+   ```
+
+2. **Update**:
+
+   - **Scenario**: You use `Update` (or `Entry.State = EntityState.Modified`) when you have a disconnected entity that you want to mark as Modified so that Entity Framework knows it should be updated in the database. This is used when you have made changes to an entity and you want to persist those changes.
+
+   - **Usage**: You typically use `Update` when you're updating an existing entity and want to make sure that the changes you made to its properties are saved to the database.
+
+   - **Common Use Case**: Updating an existing entity with changes made to its properties.
+
+   ```csharp
+   dbContext.Update(entity);
+   // or
+   dbContext.Entry(entity).State = EntityState.Modified;
+   ```
+
+In summary:
+
+- `Attach` is used to attach an entity to the context as Unchanged, often without any changes.
+- `Update` is used to mark an entity as Modified when you have made changes to its properties and want those changes to be saved to the database.
+
+The choice between `Attach` and `Update` depends on whether you're attaching an unchanged entity or updating an entity with changes.

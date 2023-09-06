@@ -5,19 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using SportsZoneWebAPI.Services;
 using SportsZoneWebAPI.Repositories;
 using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.DTOs;
+
 namespace SportsZoneWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class SecurityController : ControllerBase
     {
-        private readonly SecurityRepository _securityRepository;
-        public SecurityController(SecurityRepository securityRepository)
+        private readonly SecurityService _securityService;
+        public SecurityController(SecurityService securityService)
         {
-            _securityRepository = securityRepository;
+            _securityService = securityService;
         }
 
         [HttpGet, Route("GetSecurityDetails/{email}")]
@@ -25,7 +27,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                SecurityResponseDTO securityResponseDto = await _securityRepository.GetSecurityDetailsByCustomerID(email);
+                SecurityResponseDTO securityResponseDto = await _securityService.GetSecurityDetailsByCustomerID(email);
                 return Ok(securityResponseDto);
             }
             catch (Exception e)
@@ -39,7 +41,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _securityRepository.AddSecurityDetails(securityRequestDto);
+                await _securityService.AddSecurityDetails(securityRequestDto);
                 return Ok(securityRequestDto);
             }
             catch (Exception e)
@@ -49,12 +51,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPut, Route("UpdateSecurityDetails")]
-        public async Task<ActionResult<Security>> UpdateCustomer([FromBody] Security security)
+        public async Task<ActionResult<SecurityRequestDTO>> UpdateSecurityDetails([FromBody] SecurityRequestDTO securityRequestDTO)
         {
             try
             {
-                await _securityRepository.UpdateSecurityDetails(security);
-                return Ok(security);
+                await _securityService.UpdateSecurityDetails(securityRequestDTO);
+                return Ok(securityRequestDTO);
             }
             catch (Exception e)
             {
@@ -67,7 +69,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _securityRepository.DeleteSecurityDetailsByCustomerID(email);
+                await _securityService.DeleteSecurityDetailsByCustomerID(email);
                 return Ok($"Security details with ID : {email} deleted succesfully");
             }
             catch (Exception e)

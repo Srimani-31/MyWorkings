@@ -15,17 +15,20 @@ namespace SportsZoneWebAPI.Repositories
         private readonly CartRepository _cartRepository;
         private readonly CartItemRepository _cartItemRepository;
         private readonly ProductRepository _productRepository;
+        private readonly Util _util;
         public OrderRepository(SportsZoneDbContext sportsZoneDbContext, 
             OrderItemRepository orderItemRepository,
             CartRepository cartRepository,
             CartItemRepository cartItemRepository,
-            ProductRepository productRepository)
+            ProductRepository productRepository,
+            Util util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
             _orderItemRepository = orderItemRepository;
             _cartRepository = cartRepository;
             _cartItemRepository = cartItemRepository;
             _productRepository = productRepository;
+            _util = util;
         }
 
         public async Task<IEnumerable<Order>> GetAllOrders()
@@ -247,56 +250,6 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        
-        public string GenerateOrderID()
-        {
-            try
-            {
-                //get timestamp
-                DateTime currentDateTime = DateTime.Now;
-                string formattedDateTime = currentDateTime.ToString("yyyyMMddHHmmss");
-
-                //generate guid of 4 chars
-                string guidPrefix = Guid.NewGuid().ToString("N").Substring(0, 4);
-
-                //get last orderserailnumber and increament it
-                string increament = GetOrderSerialNumber(_sportsZoneDbContext.Orders).ToString();
-
-                string orderID = "SPRTZN-" + formattedDateTime + "-" + guidPrefix + "-" + increament;
-
-                return orderID;
-            }
-            catch(Exception)
-            {
-                throw;
-            }
-        }
-        public int GetOrderSerialNumber(DbSet<Order> orders)
-        {
-            try
-            {
-                // Retrieve the last four digits of OrderID from the database
-                IEnumerable<string> lastFourDigits = orders
-                    .Select(order => order.OrderID.Substring(order.OrderID.Length - 4))
-                    .ToList();
-
-                // Parse the last four digits to integers
-                IEnumerable<int> lastFourDigitsInt = lastFourDigits
-                    .Select(str => int.TryParse(str, out int value) ? value : 0)
-                    .ToList();
-
-                // Calculate the maximum of the parsed integers
-                int maxIncrement = lastFourDigitsInt.DefaultIfEmpty().Max();
-
-                int increment = maxIncrement + 1;
-                return increment;
-            }
-            catch(Exception)
-            {
-                throw;
-            }
-        }
-
         public async Task AddNewOrder(Order order)
         {
             try
@@ -325,8 +278,8 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                string orderID = GenerateOrderID();
-                decimal totalAmount = await _cartItemRepository.EvaluateCartTotal(cartID);
+                string orderID = _util.GenerateOrderID();
+                decimal totalAmount = _util.EvaluateCartTotal(cartID);
                 Order order = new Order()
                 {
                     OrderID = orderID,
@@ -368,8 +321,8 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                string orderID = GenerateOrderID();
-                decimal totalAmount = _productRepository.CalculateTotalAmountByQuantity(productID, quantity);
+                string orderID = _util.GenerateOrderID();
+                decimal totalAmount = _util.CalculateTotalAmountByQuantity(productID, quantity);
                 Order order = new Order()
                 {
                     OrderID = orderID,

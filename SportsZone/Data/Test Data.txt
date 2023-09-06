@@ -1,0 +1,43 @@
+Customer create request 
+{
+  "email": "sri@gmail.com",
+  "firstName": "srimani",
+  "lastName": "ravikumar",
+  "contactNumber": "9677899682",
+  "address": "Lalgudi",
+  "city": "Trichy",
+  "country": "Tamil Nadu",
+  "zipCode": "621218",
+  "profilePhoto": "reltivepath/file.png",
+  "createdUpdatedBy": "sri@gmail.com"
+}
+customer update request
+{
+  "email": "sri@gmail.com",
+  "firstName": "srimani",
+  "lastName": "ravikumar",
+  "contactNumber": "9677899682",
+  "address": "Lalgudi",
+  "city": "Trichy",
+  "country": "Tamil Nadu",
+  "zipCode": "621218",
+  "profilePhoto": "reltivepath/file.png",
+  "createdUpdatedBy": "Admin"
+}
+Security create request
+{
+  "email": "sri@gmail.com",
+  "password": "sri@123",
+  "securityQuestion": "What is you surname",
+  "answer": "Manikandaa",
+  "createdUpdatedBy": "sri@gmail.com"
+}
+Security update request
+{
+  "email": "sri@gmail.com",
+  "password": "sri@123",
+  "securityQuestion": "What is you surname",
+  "answer": "Manikandaa",
+  "createdUpdatedBy": "Admin"
+}
+

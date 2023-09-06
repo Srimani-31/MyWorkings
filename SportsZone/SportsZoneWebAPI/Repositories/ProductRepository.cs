@@ -11,11 +11,9 @@ namespace SportsZoneWebAPI.Repositories
     public class ProductRepository
     {
         private readonly SportsZoneDbContext _sportsZoneDbContext;
-        private readonly CategoryRepository _categoryRepository;
-        public ProductRepository(SportsZoneDbContext sportsZoneDbContext, CategoryRepository categoryRepository)
+        public ProductRepository(SportsZoneDbContext sportsZoneDbContext)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
-            _categoryRepository = categoryRepository;
         }
 
         public async Task<IEnumerable<Product>> GetAllProducts()
@@ -120,23 +118,9 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                await _categoryRepository.DeleteAllCategories();
+                //await _categoryRepository.DeleteAllCategories();
                 await _sportsZoneDbContext.SaveChangesAsync();
 
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        public decimal CalculateTotalAmountByQuantity(int productID, int quantity)
-        {
-            try
-            {
-                decimal totalAmount = _sportsZoneDbContext.Products
-                    .SingleOrDefault(product => product.ProductID == productID)
-                    .Price * quantity;
-                return totalAmount;
             }
             catch (Exception)
             {

@@ -31,7 +31,8 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                return await _sportsZoneDbContext.Customers.FindAsync(email); 
+                Customer customer = await _sportsZoneDbContext.Customers.FindAsync(email);
+                return customer;
             }
             catch (Exception)
             {
@@ -44,6 +45,7 @@ namespace SportsZoneWebAPI.Repositories
             try
             { 
                 _sportsZoneDbContext.Customers.Add(customer);
+
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
             catch (Exception)

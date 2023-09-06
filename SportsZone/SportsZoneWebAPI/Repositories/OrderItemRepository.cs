@@ -12,17 +12,14 @@ namespace SportsZoneWebAPI.Repositories
     {
         private readonly SportsZoneDbContext _sportsZoneDbContext;
         private readonly CartItemRepository _cartItemRepository;
-        private readonly OrderRepository _orderRepository;
-        private readonly ProductRepository _productRepository;        
+        private readonly Util _util;        
         public OrderItemRepository(SportsZoneDbContext sportsZoneDbContext
             , CartItemRepository cartItemRepository
-            , OrderRepository orderRepository
-            ,ProductRepository productRepository)
+            ,Util util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
             _cartItemRepository = cartItemRepository;
-            _orderRepository = orderRepository;
-            _productRepository = productRepository;
+            _util = util;
         }
         public async Task<IEnumerable<OrderItem>> GetAllOrderedItems()
         {
@@ -140,7 +137,7 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                Order order = await _orderRepository.GetOrderByOrderID(orderID);
+                Order order = await _sportsZoneDbContext.Orders.FindAsync(orderID);
 
                 IEnumerable<CartItem> cartItems = await _cartItemRepository.GetAllCartItemsByCartID(cartID);
 
@@ -171,9 +168,9 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                Order order = await _orderRepository.GetOrderByOrderID(orderID);
+                Order order = await _sportsZoneDbContext.Orders.FindAsync(orderID);
 
-                decimal totalPrice = _productRepository.CalculateTotalAmountByQuantity(productID,quantity);
+                decimal totalPrice = _util.CalculateTotalAmountByQuantity(productID,quantity);
 
                 OrderItem orderItem = new OrderItem()
                 {

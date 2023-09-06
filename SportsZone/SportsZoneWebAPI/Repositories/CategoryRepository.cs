@@ -11,11 +11,9 @@ namespace SportsZoneWebAPI.Repositories
     public class CategoryRepository
     {
         private readonly SportsZoneDbContext _sportsZoneDbContext;
-        private readonly ProductRepository _productRepository;
-        public CategoryRepository(SportsZoneDbContext sportsZoneDbContext, ProductRepository productRepository)
+        public CategoryRepository(SportsZoneDbContext sportsZoneDbContext)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
-            _productRepository = productRepository;
         }
 
         public async Task<IEnumerable<Category>> GetAllCategories()
@@ -75,7 +73,11 @@ namespace SportsZoneWebAPI.Repositories
                 Category category = _sportsZoneDbContext.Categories.SingleOrDefault(category => category.CategoryID == categoryID);
                 if (category != null)
                 {
-                    await _productRepository.DeleteAllProductsByCategoryID(category.CategoryID);
+                    IEnumerable<Product> products = await _sportsZoneDbContext.Products.Where(product => product.CategoryID == categoryID).ToListAsync();
+                    foreach (Product product in products)
+                    {
+                        _sportsZoneDbContext.Products.Remove(product);
+                    }
                     _sportsZoneDbContext.Categories.Remove(category);
                 }             
                 else
@@ -96,7 +98,11 @@ namespace SportsZoneWebAPI.Repositories
                 IEnumerable<Category> categories = await GetAllCategories();
                 foreach(Category category in categories)
                 {
-                    await _productRepository.DeleteAllProductsByCategoryID(category.CategoryID);
+                    IEnumerable<Product> products = await _sportsZoneDbContext.Products.Where(product => product.CategoryID == category.CategoryID).ToListAsync();
+                    foreach (Product product in products)
+                    {
+                        _sportsZoneDbContext.Products.Remove(product);
+                    }
                     _sportsZoneDbContext.Categories.Remove(category);
                 }
                 await _sportsZoneDbContext.SaveChangesAsync();

@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using SportsZoneWebAPI.Repositories;
+using SportsZoneWebAPI.Services;
+using SportsZoneWebAPI.DTOs;
 using SportsZoneWebAPI.Models;
 
 namespace SportsZoneWebAPI.Controllers
@@ -14,19 +15,19 @@ namespace SportsZoneWebAPI.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly CustomerRepository _customerRepository;
-        public CustomerController(CustomerRepository customerRepository)
+        private readonly CustomerService _customerService;
+        public CustomerController(CustomerService customerService)
         {
-            _customerRepository = customerRepository;
+            _customerService = customerService;
         }
 
         [HttpGet, Route("GetAllCustomers")]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetAllCustomer()
+        public async Task<ActionResult<IEnumerable<CustomerResponseDTO>>> GetAllCustomers()
         {
             try
             {
-                IEnumerable<Customer> customers = await _customerRepository.GetAllCustomers();
-                return Ok(customers);
+                IEnumerable<CustomerResponseDTO> customerResponseDTOs = await _customerService.GetAllCustomers();
+                return Ok(customerResponseDTOs);
             }
             catch(Exception e)
             {
@@ -34,12 +35,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetCustomerByCustomerID/{email}")]
-        public async Task<ActionResult<Customer>> GetCustomerByCustomerID(string email)
+        public async Task<ActionResult<CustomerResponseDTO>> GetCustomerByCustomerID(string email)
         {
             try
             {
-                Customer customer = await _customerRepository.GetCustomerByCustomerID(email);
-                return Ok(customer);
+                CustomerResponseDTO customerResponseDTO = await _customerService.GetCustomerByCustomerID(email);
+                return Ok(customerResponseDTO);
             }
             catch (Exception e)
             {
@@ -48,12 +49,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPost,Route("CreateCustomer")]
-        public async Task<ActionResult<Customer>> CreateCustomer([FromBody]Customer customer)
+        public async Task<ActionResult<CustomerRequestDTO>> CreateCustomer([FromBody]CustomerRequestDTO customerRequestDTO)
         {
             try
             {
-                await _customerRepository.CreateCustomer(customer);
-                return Ok(customer);
+                await _customerService.CreateCustomer(customerRequestDTO);
+                return Ok(customerRequestDTO);
             }
             catch(Exception e)
             {
@@ -62,12 +63,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPut, Route("UpdateCustomer")]
-        public async Task<ActionResult<Customer>> UpdateCustomer([FromBody] Customer customer)
+        public async Task<ActionResult<CustomerRequestDTO>> UpdateCustomer([FromBody] CustomerRequestDTO customerRequestDTO)
         {
             try
             {
-                await _customerRepository.UpdateCustomer(customer);
-                return Ok(customer);
+                await _customerService.UpdateCustomer(customerRequestDTO);
+                return Ok(customerRequestDTO);
             }
             catch (Exception e)
             {
@@ -79,7 +80,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _customerRepository.DeleteAllCustomers();
+                await _customerService.DeleteAllCustomers();
                 return Ok("All Customers deleted succesfully");
             }
             catch (Exception e)
@@ -93,7 +94,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _customerRepository.DeleteCustomerByCustomerID(email);
+                await _customerService.DeleteCustomerByCustomerID(email);
                 return Ok($"Customer with ID : {email} deleted succesfully");
             }
             catch (Exception e)
