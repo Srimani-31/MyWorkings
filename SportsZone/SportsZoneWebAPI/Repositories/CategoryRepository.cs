@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Models;
-
 namespace SportsZoneWebAPI.Repositories
 {
-    public class CategoryRepository
+    public class CategoryRepository : ICategoryRespository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        public CategoryRepository(SportsZoneDbContext sportsZoneDbContext)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        public CategoryRepository(ISportsZoneDbContext sportsZoneDbContext)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
         }
@@ -22,7 +22,7 @@ namespace SportsZoneWebAPI.Repositories
             {
                 return await _sportsZoneDbContext.Categories.ToListAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -34,7 +34,7 @@ namespace SportsZoneWebAPI.Repositories
             {
                 return await _sportsZoneDbContext.Categories.FindAsync(categoryID);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -47,7 +47,7 @@ namespace SportsZoneWebAPI.Repositories
                 _sportsZoneDbContext.Categories.Add(category);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -60,7 +60,7 @@ namespace SportsZoneWebAPI.Repositories
                 _sportsZoneDbContext.Categories.Update(category);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -79,13 +79,13 @@ namespace SportsZoneWebAPI.Repositories
                         _sportsZoneDbContext.Products.Remove(product);
                     }
                     _sportsZoneDbContext.Categories.Remove(category);
-                }             
+                }
                 else
                 {
                     throw new KeyNotFoundException("Category not found");
-                }                     
+                }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -96,7 +96,7 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 IEnumerable<Category> categories = await GetAllCategories();
-                foreach(Category category in categories)
+                foreach (Category category in categories)
                 {
                     IEnumerable<Product> products = await _sportsZoneDbContext.Products.Where(product => product.CategoryID == category.CategoryID).ToListAsync();
                     foreach (Product product in products)
@@ -106,9 +106,9 @@ namespace SportsZoneWebAPI.Repositories
                     _sportsZoneDbContext.Categories.Remove(category);
                 }
                 await _sportsZoneDbContext.SaveChangesAsync();
-                
+
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }

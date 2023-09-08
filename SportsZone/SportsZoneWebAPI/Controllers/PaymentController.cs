@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using SportsZoneWebAPI.Repositories;
-using SportsZoneWebAPI.Models;
-using SportsZoneWebAPI.DTOs;
 
 namespace SportsZoneWebAPI.Controllers
 {
@@ -15,18 +11,18 @@ namespace SportsZoneWebAPI.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly PaymentRepository _paymentRepository;
-        public PaymentController(PaymentRepository paymentRepository)
+        private readonly IPaymentService _paymentService;
+        public PaymentController(IPaymentService paymentService)
         {
-            _paymentRepository = paymentRepository;
+            _paymentService = paymentService;
         }
         [HttpGet, Route("GetAllPaymentMethods")]
-        public async Task<ActionResult<IEnumerable<Payment>>> GetAllPaymentMethods()
+        public async Task<ActionResult<IEnumerable<PaymentResponseDTO>>> GetAllPaymentMethods()
         {
             try
             {
-                IEnumerable<Payment> payments = await _paymentRepository.GetAllPaymentMethods();
-                return Ok(payments);
+                IEnumerable<PaymentResponseDTO> paymentResponseDTOs = await _paymentService.GetAllPaymentMethods();
+                return Ok(paymentResponseDTOs);
             }
             catch (Exception e)
             {
@@ -34,12 +30,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetPaymentMethod/{paymentID}")]
-        public async Task<ActionResult<Payment>> GetPaymentMethodByPaymentID(int paymentID)
+        public async Task<ActionResult<PaymentResponseDTO>> GetPaymentMethodByPaymentID(int paymentID)
         {
             try
             {
-                Payment payment = await _paymentRepository.GetPaymentMethodByPaymentID(paymentID);
-                return Ok(payment);
+                PaymentResponseDTO paymentResponseDTO = await _paymentService.GetPaymentMethodByPaymentID(paymentID);
+                return Ok(paymentResponseDTO);
             }
             catch (Exception e)
             {
@@ -48,12 +44,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPost, Route("AddNewPaymentMethod")]
-        public async Task<ActionResult<Payment>> AddNewPaymentMethod([FromBody] Payment payment)
+        public async Task<ActionResult<PaymentRequestDTO>> AddNewPaymentMethod([FromBody] PaymentRequestDTO paymentRequestDTO)
         {
             try
             {
-                await _paymentRepository.AddNewPaymentMethod(payment);
-                return Ok(payment);
+                await _paymentService.AddNewPaymentMethod(paymentRequestDTO);
+                return Ok(paymentRequestDTO);
             }
             catch (Exception e)
             {
@@ -62,12 +58,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPut, Route("UpdatePayment")]
-        public async Task<ActionResult<Payment>> UpdatePayment([FromBody] Payment payment)
+        public async Task<ActionResult<PaymentRequestDTO>> UpdatePayment([FromBody] PaymentRequestDTO paymentRequestDTO)
         {
             try
             {
-                await _paymentRepository.UpdatePayment(payment);
-                return Ok(payment);
+                await _paymentService.UpdatePayment(paymentRequestDTO);
+                return Ok(paymentRequestDTO);
             }
             catch (Exception e)
             {
@@ -80,7 +76,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _paymentRepository.DeletePaymentMethodByPaymentID(paymentID);
+                await _paymentService.DeletePaymentByPaymentID(paymentID);
                 return Ok($"Payment method with ID : {paymentID} deleted succesfully");
             }
             catch (Exception e)

@@ -1,27 +1,27 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Models;
-
 namespace SportsZoneWebAPI.Repositories
 {
-    public class OrderRepository
+    public class OrderRepository : IOrderRepository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        private readonly OrderItemRepository _orderItemRepository;
-        private readonly CartRepository _cartRepository;
-        private readonly CartItemRepository _cartItemRepository;
-        private readonly ProductRepository _productRepository;
-        private readonly Util _util;
-        public OrderRepository(SportsZoneDbContext sportsZoneDbContext, 
-            OrderItemRepository orderItemRepository,
-            CartRepository cartRepository,
-            CartItemRepository cartItemRepository,
-            ProductRepository productRepository,
-            Util util)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        private readonly IOrderItemRepository _orderItemRepository;
+        private readonly ICartRepository _cartRepository;
+        private readonly ICartItemRepository _cartItemRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IUtil _util;
+        public OrderRepository(ISportsZoneDbContext sportsZoneDbContext,
+            IOrderItemRepository orderItemRepository,
+            ICartRepository cartRepository,
+            ICartItemRepository cartItemRepository,
+            IProductRepository productRepository,
+            IUtil util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
             _orderItemRepository = orderItemRepository;
@@ -61,7 +61,21 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.CartID == null)
+                    .Where(order => order.CartID != null)
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllPlacedOrders()
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == "Placed")
                     .ToListAsync();
                 return orders;
             }
@@ -133,7 +147,7 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.CartID == null)
+                    .Where(order => order.CartID != null)
                     .Where(order => order.CustomerID == email)
                     .ToListAsync();
                 return orders;
@@ -148,7 +162,7 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.CartID != null)
+                    .Where(order => order.CartID == null)
                     .ToListAsync();
                 return orders;
             }
@@ -162,7 +176,7 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.CartID != null)
+                    .Where(order => order.CartID == null)
                     .Where(order => order.CustomerID == email)
                     .ToListAsync();
                 return orders;
@@ -176,7 +190,8 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                return await _sportsZoneDbContext.Orders.FindAsync(orderID);
+                var res = await _sportsZoneDbContext.Orders.FindAsync(orderID);
+                return res;
             }
             catch (Exception)
             {
@@ -208,7 +223,7 @@ namespace SportsZoneWebAPI.Repositories
                 }
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -257,7 +272,7 @@ namespace SportsZoneWebAPI.Repositories
                 _sportsZoneDbContext.Orders.Add(order);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -274,12 +289,12 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task  PlaceOrderViaCartMode(string email, int cartID, int paymentID,int shippingID)
+        public async Task PlaceOrderViaCartMode(string email, int? cartID, int paymentID, int shippingID)
         {
             try
             {
                 string orderID = _util.GenerateOrderID();
-                decimal totalAmount = _util.EvaluateCartTotal(cartID);
+                decimal totalAmount = _util.EvaluateCartTotal((int)cartID);
                 Order order = new Order()
                 {
                     OrderID = orderID,
@@ -298,17 +313,17 @@ namespace SportsZoneWebAPI.Repositories
 
                 await AddNewOrder(order);
 
-                await _orderItemRepository.InsertOrderItemsFromCartItems(orderID, cartID);
+                await _orderItemRepository.InsertOrderItemsFromCartItems(orderID, (int)cartID);
 
                 //update stock count in the product table
-                IEnumerable<CartItem> cartItems = await _cartItemRepository.GetAllCartItemsByCartID(cartID);
-                foreach(CartItem cartItem in cartItems)
+                IEnumerable<CartItem> cartItems = await _cartItemRepository.GetAllCartItemsByCartID((int)cartID);
+                foreach (CartItem cartItem in cartItems)
                 {
                     await _productRepository.UpdateStockCount(cartItem.ProductID, cartItem.Quantity);
                 }
 
                 //Disable the cart to the customer
-                Cart cart = await _cartRepository.GetCartByCartID(cartID);
+                Cart cart = await _cartRepository.GetCartByCartID((int)cartID);
                 cart.IsEnabled = false;
                 await _cartRepository.UpdateCart(cart);
             }
@@ -317,7 +332,7 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task PlaceOrderViaDirectPurchase(string email, int productID,int quantity,int paymentID, int shippingID)
+        public async Task PlaceOrderViaDirectPurchase(string email, int productID, int quantity, int paymentID, int shippingID)
         {
             try
             {
@@ -341,7 +356,7 @@ namespace SportsZoneWebAPI.Repositories
 
                 await AddNewOrder(order);
 
-                await _orderItemRepository.InsertOrderItem(orderID,productID,quantity);
+                await _orderItemRepository.InsertOrderItem(orderID, productID, quantity);
 
                 //update the product stock cout
                 await _productRepository.UpdateStockCount(productID, quantity);

@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using SportsZoneWebAPI.Services;
-using SportsZoneWebAPI.DTOs;
-using SportsZoneWebAPI.Models;
 
 namespace SportsZoneWebAPI.Controllers
 {
@@ -15,8 +11,8 @@ namespace SportsZoneWebAPI.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly CustomerService _customerService;
-        public CustomerController(CustomerService customerService)
+        private readonly ICustomerService _customerService;
+        public CustomerController(ICustomerService customerService)
         {
             _customerService = customerService;
         }
@@ -29,7 +25,7 @@ namespace SportsZoneWebAPI.Controllers
                 IEnumerable<CustomerResponseDTO> customerResponseDTOs = await _customerService.GetAllCustomers();
                 return Ok(customerResponseDTOs);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
@@ -48,15 +44,15 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
 
-        [HttpPost,Route("CreateCustomer")]
-        public async Task<ActionResult<CustomerRequestDTO>> CreateCustomer([FromBody]CustomerRequestDTO customerRequestDTO)
+        [HttpPost, Route("CreateCustomer")]
+        public async Task<ActionResult<CustomerRequestDTO>> CreateCustomer([FromBody] CustomerRequestDTO customerRequestDTO)
         {
             try
             {
                 await _customerService.CreateCustomer(customerRequestDTO);
                 return Ok(customerRequestDTO);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
@@ -75,7 +71,7 @@ namespace SportsZoneWebAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpDelete,Route("DeleteAllCustomers")]
+        [HttpDelete, Route("DeleteAllCustomers")]
         public async Task<ActionResult> DeleteAllCustomers()
         {
             try

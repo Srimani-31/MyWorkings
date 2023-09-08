@@ -1,24 +1,18 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Mappings.MappingProfiles;
 using SportsZoneWebAPI.Models;
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Services;
 using SportsZoneWebAPI.Repositories;
-using AutoMapper;
-using SportsZoneWebAPI.Mappings;
-using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using SportsZoneWebAPI.Services;
+using SportsZoneWebAPI.Services.Interfaces;
 
 namespace SportsZoneWebAPI
 {
@@ -35,35 +29,52 @@ namespace SportsZoneWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //adding connection globally
-            services.AddDbContext<SportsZoneDbContext>(options => {
+            services.AddDbContext<SportsZoneDbContext>(options =>
+            {
                 options.UseSqlServer(Configuration.GetConnectionString("SportsZoneDB"));
                 options.EnableSensitiveDataLogging();
             });
+
             //configuring the dependency injection
-            //services.AddTransient<IUserRepository, UserRepository>();//map the interface to their implementation
-            services.AddTransient<SportsZoneDbContext>();
-            services.AddTransient<CustomerService>();
-            services.AddTransient<CustomerRepository>();
-            services.AddTransient<SecurityService>();
-            services.AddTransient<SecurityRepository>();
-            services.AddTransient<CategoryRepository>();
-            services.AddTransient<ProductRepository>();
-            services.AddTransient<CartRepository>();
-            services.AddTransient<CartItemRepository>();
-            services.AddTransient<ShippingRepository>();
-            services.AddTransient<PaymentRepository>();
-            services.AddTransient<OrderRepository>();
-            services.AddTransient<OrderItemRepository>();
-            services.AddTransient<Util>();
-            //services.AddTransient<IUserService, UserService>();
+            services.AddScoped<ISportsZoneDbContext, SportsZoneDbContext>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ICustomerRespository, CustomerRepository>();
+            services.AddScoped<ISecurityService, SecurityService>();
+            services.AddScoped<ISecurityRepository, SecurityRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryRespository, CategoryRepository>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<ICartItemService, CartItemService>();
+            services.AddScoped<ICartItemRepository, CartItemRepository>();
+            services.AddScoped<IShippingService, ShippingService>();
+            services.AddScoped<IShippingRepository, ShippingRepository>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderItemService, OrderItemService>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IUtil, Util>();
+
             //automapper configuration
             services.AddAutoMapper(typeof(SecurityMapping));
             var mappingConfig = new MapperConfiguration(
-               mc => {
+               mc =>
+               {
                    mc.AddProfile(new SecurityMapping());
                    mc.AddProfile(new CustomerMapping());
                    mc.AddProfile(new CategoryMapping());
-                   });
+                   mc.AddProfile(new ProductMapping());
+                   mc.AddProfile(new CartMapping());
+                   mc.AddProfile(new CartItemMapping());
+                   mc.AddProfile(new ShippingMapping());
+                   mc.AddProfile(new PaymentMapping());
+                   mc.AddProfile(new OrderMapping());
+                   mc.AddProfile(new OrderItemMapping());
+               });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 

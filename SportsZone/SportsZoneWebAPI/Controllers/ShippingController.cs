@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using SportsZoneWebAPI.Repositories;
-using SportsZoneWebAPI.Models;
-using SportsZoneWebAPI.DTOs;
 
 namespace SportsZoneWebAPI.Controllers
 {
@@ -15,19 +11,31 @@ namespace SportsZoneWebAPI.Controllers
     [ApiController]
     public class ShippingController : ControllerBase
     {
-        private readonly ShippingRepository _shippingRepository;
-        public ShippingController(ShippingRepository shippingRepository)
+        private readonly IShippingService _shippingService;
+        public ShippingController(IShippingService shippingService)
         {
-            _shippingRepository = shippingRepository;
+            _shippingService = shippingService;
         }
-
-        [HttpGet, Route("GetAllShippingAddressesByCustomerID/{email}")]
-        public async Task<ActionResult<IEnumerable<Shipping>>> GetAllShippingAddressesByCustomerID(string email)
+        [HttpGet, Route("GetAllShippingAddresses")]
+        public async Task<ActionResult<IEnumerable<ShippingResponseDTO>>> GetAllShippingAddresses()
         {
             try
             {
-                IEnumerable<Shipping> shippings = await _shippingRepository.GetAllShippingAddressesByCustomerID(email);
-                return Ok(shippings);
+                IEnumerable<ShippingResponseDTO> shippingResponseDTOs = await _shippingService.GetAllShippingAddresses();
+                return Ok(shippingResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet, Route("GetAllShippingAddressesByCustomerID/{email}")]
+        public async Task<ActionResult<IEnumerable<ShippingResponseDTO>>> GetAllShippingAddressesByCustomerID(string email)
+        {
+            try
+            {
+                IEnumerable<ShippingResponseDTO> shippingResponseDTOs = await _shippingService.GetAllShippingAddressesByCustomerID(email);
+                return Ok(shippingResponseDTOs);
             }
             catch (Exception e)
             {
@@ -35,12 +43,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetShippingAddressByShippingID/{shippingID}")]
-        public async Task<ActionResult<Shipping>> GetShippingAddressByShippingID(int shippingID)
+        public async Task<ActionResult<ShippingResponseDTO>> GetShippingAddressByShippingID(int shippingID)
         {
             try
             {
-                Shipping shipping = await _shippingRepository.GetShippingAddressByShippingID(shippingID);
-                return Ok(shipping);
+                ShippingResponseDTO shippingResponseDTO = await _shippingService.GetShippingAddressByShippingID(shippingID);
+                return Ok(shippingResponseDTO);
             }
             catch (Exception e)
             {
@@ -49,12 +57,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPost, Route("AddNewShippingAddress")]
-        public async Task<ActionResult<Shipping>> AddNewShippingAddress([FromBody] Shipping shipping)
+        public async Task<ActionResult<ShippingRequestDTO>> AddNewShippingAddress([FromBody] ShippingRequestDTO shippingRequestDTO)
         {
             try
             {
-                await _shippingRepository.AddNewShippingAddress(shipping);
-                return Ok(shipping);
+                await _shippingService.AddNewShippingAddress(shippingRequestDTO);
+                return Ok(shippingRequestDTO);
             }
             catch (Exception e)
             {
@@ -63,12 +71,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPut, Route("UpdateShippingAddress")]
-        public async Task<ActionResult<Shipping>> UpdateShippingAddress([FromBody] Shipping shipping)
+        public async Task<ActionResult<ShippingRequestDTO>> UpdateShippingAddress([FromBody] ShippingRequestDTO shippingRequestDTO)
         {
             try
             {
-                await _shippingRepository.UpdateShippingAddress(shipping);
-                return Ok(shipping);
+                await _shippingService.UpdateShippingAddress(shippingRequestDTO);
+                return Ok(shippingRequestDTO);
             }
             catch (Exception e)
             {
@@ -81,7 +89,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _shippingRepository.DeleteShippingAddressByShippingID(shippingID);
+                await _shippingService.DeleteShippingAddressByShippingID(shippingID);
                 return Ok($"Shipping address with ID : {shippingID} deleted succesfully");
             }
             catch (Exception e)

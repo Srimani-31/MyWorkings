@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using SportsZoneWebAPI.Repositories;
-using SportsZoneWebAPI.Models;
-using SportsZoneWebAPI.DTOs;
 
 namespace SportsZoneWebAPI.Controllers
 {
@@ -15,18 +11,18 @@ namespace SportsZoneWebAPI.Controllers
     [ApiController]
     public class CartItemController : ControllerBase
     {
-        private readonly CartItemRepository _carItemRepository;
-        public CartItemController(CartItemRepository cartItemRepository)
+        private readonly ICartItemService _cartItemService;
+        public CartItemController(ICartItemService cartItemService)
         {
-            _carItemRepository = cartItemRepository;
+            _cartItemService = cartItemService;
         }
         [HttpGet, Route("GetAllCartItems")]
-        public async Task<ActionResult<IEnumerable<CartItem>>> GetAllCartItems()
+        public async Task<ActionResult<IEnumerable<CartItemResponseDTO>>> GetAllCartItems()
         {
             try
             {
-                IEnumerable<CartItem> cartItems = await _carItemRepository.GetAllCartItems();
-                return Ok(cartItems);
+                IEnumerable<CartItemResponseDTO> cartItemResponseDTOs = await _cartItemService.GetAllCartItems();
+                return Ok(cartItemResponseDTOs);
             }
             catch (Exception e)
             {
@@ -34,12 +30,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetAllCartItemsByCartID/{cartID}")]
-        public async Task<ActionResult<IEnumerable<CartItem>>> GetAllCartItemsByCartID(int cartID)
+        public async Task<ActionResult<IEnumerable<CartItemResponseDTO>>> GetAllCartItemsByCartID(int cartID)
         {
             try
             {
-                IEnumerable<CartItem> cartItems = await _carItemRepository.GetAllCartItemsByCartID(cartID);
-                return Ok(cartItems);
+                IEnumerable<CartItemResponseDTO> cartItemResponseDTOs = await _cartItemService.GetAllCartItemsByCartID(cartID);
+                return Ok(cartItemResponseDTOs);
             }
             catch (Exception e)
             {
@@ -47,12 +43,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetCartItemByCartItemID/{cartItemID}")]
-        public async Task<ActionResult<CartItem>> GetCartItemByCartItemID(int cartItemID)
+        public async Task<ActionResult<CartItemResponseDTO>> GetCartItemByCartItemID(int cartItemID)
         {
             try
             {
-                CartItem cartItem = await _carItemRepository.GetCartItemByCartItemID(cartItemID);
-                return Ok(cartItem);
+                CartItemResponseDTO cartItemResponseDTO = await _cartItemService.GetCartItemByCartItemID(cartItemID);
+                return Ok(cartItemResponseDTO);
             }
             catch (Exception e)
             {
@@ -61,12 +57,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPost, Route("AddNewCartItem")]
-        public async Task<ActionResult<CartItem>> AddNewCartItem([FromBody] CartItem cartItem)
+        public async Task<ActionResult<CartItemRequestDTO>> AddNewCartItem([FromBody] CartItemRequestDTO cartItemRequestDTO)
         {
             try
             {
-                await _carItemRepository.AddNewCartItem(cartItem);
-                return Ok(cartItem);
+                await _cartItemService.AddNewCartItem(cartItemRequestDTO);
+                return Ok(cartItemRequestDTO);
             }
             catch (Exception e)
             {
@@ -75,12 +71,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPut, Route("UpdateCartItem")]
-        public async Task<ActionResult<CartItem>> UpdateCartItem([FromBody] CartItem cartItem)
+        public async Task<ActionResult<CartItemRequestDTO>> UpdateCartItem([FromBody] CartItemRequestDTO cartItemRequestDTO)
         {
             try
             {
-                await _carItemRepository.UpdateCartItem(cartItem);
-                return Ok(cartItem);
+                await _cartItemService.UpdateCartItem(cartItemRequestDTO);
+                return Ok(cartItemRequestDTO);
             }
             catch (Exception e)
             {
@@ -93,7 +89,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _carItemRepository.DeleteCartItemByCartItemID(cartItemID);
+                await _cartItemService.DeleteCartItemByCartItemID(cartItemID);
                 return Ok($"Cart item with ID : {cartItemID} deleted succesfully");
             }
             catch (Exception e)
@@ -106,7 +102,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _carItemRepository.DeleteAllCartItems();
+                await _cartItemService.DeleteAllCartItems();
                 return Ok($"Cart items deleted succesfully");
             }
             catch (Exception e)
@@ -119,7 +115,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _carItemRepository.DeleteAllCartItemsByCartID(cartID);
+                await _cartItemService.DeleteAllCartItemsByCartID(cartID);
                 return Ok($"Cart items on the cartID : {cartID} deleted succesfully");
             }
             catch (Exception e)

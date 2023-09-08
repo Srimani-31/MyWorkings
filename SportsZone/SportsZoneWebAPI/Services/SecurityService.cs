@@ -1,22 +1,19 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-using SportsZoneWebAPI.Repositories;
-using SportsZoneWebAPI.Models;
-using SportsZoneWebAPI.DTOs;
-using AutoMapper;
 namespace SportsZoneWebAPI.Services
 {
-    public class SecurityService
+    public class SecurityService : ISecurityService
     {
-        private readonly SecurityRepository _securityRepository;
+        private readonly ISecurityRepository _securityRepository;
         private readonly IMapper _mapper;
 
-        public SecurityService(SecurityRepository securityRepository, IMapper mapper)
+        public SecurityService(ISecurityRepository securityRepository, IMapper mapper)
         {
             _securityRepository = securityRepository;
             _mapper = mapper;

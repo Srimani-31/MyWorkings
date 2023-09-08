@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using SportsZoneWebAPI.Repositories;
-using SportsZoneWebAPI.Models;
-using SportsZoneWebAPI.DTOs;
 
 namespace SportsZoneWebAPI.Controllers
 {
@@ -15,18 +11,18 @@ namespace SportsZoneWebAPI.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        private readonly CartRepository _cartRepository;
-        public CartController(CartRepository cartRepository)
+        private readonly ICartService _cartService;
+        public CartController(ICartService cartService)
         {
-            _cartRepository = cartRepository;
+            _cartService = cartService;
         }
         [HttpGet, Route("GetAllCarts")]
-        public async Task<ActionResult<IEnumerable<Cart>>> GetAllCarts()
+        public async Task<ActionResult<IEnumerable<CartResponseDTO>>> GetAllCarts()
         {
             try
             {
-                IEnumerable<Cart> carts = await _cartRepository.GetAllCarts();
-                return Ok(carts);
+                IEnumerable<CartResponseDTO> cartResponseDTOs = await _cartService.GetAllCarts();
+                return Ok(cartResponseDTOs);
             }
             catch (Exception e)
             {
@@ -34,12 +30,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetAllActiveCarts")]
-        public async Task<ActionResult<IEnumerable<Cart>>> GetAllActiveCarts()
+        public async Task<ActionResult<IEnumerable<CartResponseDTO>>> GetAllActiveCarts()
         {
             try
             {
-                IEnumerable<Cart> carts = await _cartRepository.GetAllActiveCarts();
-                return Ok(carts);
+                IEnumerable<CartResponseDTO> cartResponseDTOs = await _cartService.GetAllActiveCarts();
+                return Ok(cartResponseDTOs);
             }
             catch (Exception e)
             {
@@ -47,12 +43,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetActiveCartByCustomerID/{email}")]
-        public async Task<ActionResult<Cart>> GetActiveCartByCustomerID(string email)
+        public async Task<ActionResult<CartResponseDTO>> GetActiveCartByCustomerID(string email)
         {
             try
             {
-                Cart cart = await _cartRepository.GetActiveCartByCustomerID(email);
-                return Ok(cart);
+                CartResponseDTO cartResponseDTO = await _cartService.GetActiveCartByCustomerID(email);
+                return Ok(cartResponseDTO);
             }
             catch (Exception e)
             {
@@ -60,12 +56,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetAllOrderedCarts")]
-        public async Task<ActionResult<IEnumerable<Cart>>> GetAllOrderedCarts()
+        public async Task<ActionResult<IEnumerable<CartResponseDTO>>> GetAllOrderedCarts()
         {
             try
             {
-                IEnumerable<Cart> carts = await _cartRepository.GetAllOrderedCarts();
-                return Ok(carts);
+                IEnumerable<CartResponseDTO> cartResponseDTOs = await _cartService.GetAllOrderedCarts();
+                return Ok(cartResponseDTOs);
             }
             catch (Exception e)
             {
@@ -73,12 +69,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetAllOrderedCartsByCustomerID/{email}")]
-        public async Task<ActionResult<IEnumerable<Cart>>> GetAllOrderedCartsByCustomerID(string email)
+        public async Task<ActionResult<IEnumerable<CartResponseDTO>>> GetAllOrderedCartsByCustomerID(string email)
         {
             try
             {
-                IEnumerable<Cart> carts = await _cartRepository.GetAllOrderedCartsByCustomerID(email);
-                return Ok(carts);
+                IEnumerable<CartResponseDTO> cartResponseDTOs = await _cartService.GetAllOrderedCartsByCustomerID(email);
+                return Ok(cartResponseDTOs);
             }
             catch (Exception e)
             {
@@ -86,12 +82,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetAllCartsByCustomerID/{email}")]
-        public async Task<ActionResult<IEnumerable<Cart>>> GetAllCartsByCustomerID(string email)
+        public async Task<ActionResult<IEnumerable<CartResponseDTO>>> GetAllCartsByCustomerID(string email)
         {
             try
             {
-                IEnumerable<Cart> carts = await _cartRepository.GetAllCartsByCustomerID(email);
-                return Ok(carts);
+                IEnumerable<CartResponseDTO> cartResponseDTOs = await _cartService.GetAllCartsByCustomerID(email);
+                return Ok(cartResponseDTOs);
             }
             catch (Exception e)
             {
@@ -101,12 +97,12 @@ namespace SportsZoneWebAPI.Controllers
 
 
         [HttpGet, Route("GetCartByCartID/{cartID}")]
-        public async Task<ActionResult<Cart>> GetCartByCartID(int cartID)
+        public async Task<ActionResult<CartResponseDTO>> GetCartByCartID(int cartID)
         {
             try
             {
-                Cart cart = await _cartRepository.GetCartByCartID(cartID);
-                return Ok(cart);
+                CartResponseDTO cartResponseDTO = await _cartService.GetCartByCartID(cartID);
+                return Ok(cartResponseDTO);
             }
             catch (Exception e)
             {
@@ -115,12 +111,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPost, Route("AddNewCart")]
-        public async Task<ActionResult<Cart>> AddNewCart([FromBody] Cart cart)
+        public async Task<ActionResult<CartRequestDTO>> AddNewCart([FromBody] CartRequestDTO cartRequestDTO)
         {
             try
             {
-                await _cartRepository.AddNewCart(cart);
-                return Ok(cart);
+                await _cartService.AddNewCart(cartRequestDTO);
+                return Ok(cartRequestDTO);
             }
             catch (Exception e)
             {
@@ -129,12 +125,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPut, Route("UpdateCart")]
-        public async Task<ActionResult<Cart>> UpdateCart([FromBody] Cart cart)
+        public async Task<ActionResult<CartRequestDTO>> UpdateCart([FromBody] CartRequestDTO cartRequestDTO)
         {
             try
             {
-                await _cartRepository.UpdateCart(cart);
-                return Ok(cart);
+                await _cartService.UpdateCart(cartRequestDTO);
+                return Ok(cartRequestDTO);
             }
             catch (Exception e)
             {
@@ -146,7 +142,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _cartRepository.DeleteCartByCartID(cartID);
+                await _cartService.DeleteCartByCartID(cartID);
                 return Ok($"Cart with ID : {cartID} deleted succesfully");
             }
             catch (Exception e)
@@ -160,7 +156,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _cartRepository.DeleteAllCartsByCustomerID(customerID);
+                await _cartService.DeleteAllCartsByCustomerID(customerID);
                 return Ok($"Carts with customerID : {customerID} deleted succesfully");
             }
             catch (Exception e)
@@ -168,6 +164,6 @@ namespace SportsZoneWebAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
     }
 }

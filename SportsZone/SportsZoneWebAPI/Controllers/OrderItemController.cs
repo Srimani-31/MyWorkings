@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using SportsZoneWebAPI.Repositories;
-using SportsZoneWebAPI.Models;
-using SportsZoneWebAPI.DTOs;
 
 namespace SportsZoneWebAPI.Controllers
 {
@@ -15,18 +11,18 @@ namespace SportsZoneWebAPI.Controllers
     [ApiController]
     public class OrderItemController : ControllerBase
     {
-        private readonly OrderItemRepository _orderItemRepository;
-        public OrderItemController(OrderItemRepository orderItemRepository)
+        private readonly IOrderItemService _orderItemService;
+        public OrderItemController(IOrderItemService orderItemService)
         {
-            _orderItemRepository = orderItemRepository;
+            _orderItemService = orderItemService;
         }
         [HttpGet, Route("GetAllOrderedItems")]
-        public async Task<ActionResult<IEnumerable<OrderItem>>> GetAllOrderedItems()
+        public async Task<ActionResult<IEnumerable<OrderItemResponseDTO>>> GetAllOrderedItems()
         {
             try
             {
-                IEnumerable<OrderItem> orderItems = await _orderItemRepository.GetAllOrderedItems();
-                return Ok(orderItems);
+                IEnumerable<OrderItemResponseDTO> orderItemResponseDTOs = await _orderItemService.GetAllOrderedItems();
+                return Ok(orderItemResponseDTOs);
             }
             catch (Exception e)
             {
@@ -34,12 +30,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetAllOrderedItemsByOrderID/{orderId}")]
-        public async Task<ActionResult<IEnumerable<OrderItem>>> GetAllOrderedItemsByOrderID(string orderID)
+        public async Task<ActionResult<IEnumerable<OrderItemResponseDTO>>> GetAllOrderedItemsByOrderID(string orderID)
         {
             try
             {
-                IEnumerable<OrderItem> orderItems = await _orderItemRepository.GetAllOrderItemsByOrderID(orderID);
-                return Ok(orderItems);
+                IEnumerable<OrderItemResponseDTO> orderItemResponseDTOs = await _orderItemService.GetAllOrderedItemsByOrderID(orderID);
+                return Ok(orderItemResponseDTOs);
             }
             catch (Exception e)
             {
@@ -47,12 +43,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetOrderItemByOrderItemID/{orderItemID}")]
-        public async Task<ActionResult<OrderItem>> GetOrderItemByOrderItemID(int orderItemID)
+        public async Task<ActionResult<OrderItemResponseDTO>> GetOrderItemByOrderItemID(int orderItemID)
         {
             try
             {
-                OrderItem orderItem = await _orderItemRepository.GetOrderItemByOrderItemID(orderItemID);
-                return Ok(orderItem);
+                OrderItemResponseDTO orderItemResponseDTO = await _orderItemService.GetOrderItemByOrderItemID(orderItemID);
+                return Ok(orderItemResponseDTO);
             }
             catch (Exception e)
             {
@@ -61,12 +57,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPost, Route("AddNewOrderItem")]
-        public async Task<ActionResult<OrderItem>> AddNewOrderItem([FromBody] OrderItem orderItem)
+        public async Task<ActionResult<OrderItemRequestDTO>> AddNewOrderItem([FromBody] OrderItemRequestDTO orderItemRequestDTO)
         {
             try
             {
-                await _orderItemRepository.AddNewOrderItem(orderItem);
-                return Ok(orderItem);
+                await _orderItemService.AddNewOrderItem(orderItemRequestDTO);
+                return Ok(orderItemRequestDTO);
             }
             catch (Exception e)
             {
@@ -75,12 +71,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPut, Route("UpdateOrderItem")]
-        public async Task<ActionResult<OrderItem>> UpdateOrderItem([FromBody] OrderItem orderItem)
+        public async Task<ActionResult<OrderItemRequestDTO>> UpdateOrderItem([FromBody] OrderItemRequestDTO orderItemRequestDTO)
         {
             try
             {
-                await _orderItemRepository.UpdateOrderItem(orderItem);
-                return Ok(orderItem);
+                await _orderItemService.UpdateOrderItem(orderItemRequestDTO);
+                return Ok(orderItemRequestDTO);
             }
             catch (Exception e)
             {
@@ -93,7 +89,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _orderItemRepository.DeleteOrderItemByOrderItemID(orderItemID);
+                await _orderItemService.DeleteOrderItemByOrderItemID(orderItemID);
                 return Ok($"Order item with ID : {orderItemID} deleted succesfully");
             }
             catch (Exception e)
@@ -106,7 +102,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _orderItemRepository.DeleteAllOrderItems();
+                await _orderItemService.DeleteAllOrderItems();
                 return Ok($"Cart items deleted succesfully");
             }
             catch (Exception e)
@@ -119,7 +115,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _orderItemRepository.DeleteAllOrderItemsByOrderID(orderID);
+                await _orderItemService.DeleteAllOrderItemsByOrderID(orderID);
                 return Ok($"Order items on the OrderID : {orderID} deleted succesfully");
             }
             catch (Exception e)

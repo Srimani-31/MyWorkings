@@ -1,23 +1,20 @@
-﻿using System;
+﻿using AutoMapper;
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using SportsZoneWebAPI.Models;
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.DTOs;
-using AutoMapper;
-
 namespace SportsZoneWebAPI.Repositories
 {
-    public class SecurityRepository
+    public class SecurityRepository : ISecurityRepository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        private readonly IMapper _mapper;
-        public SecurityRepository(SportsZoneDbContext sportsZoneDbContext,IMapper mapper)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        public SecurityRepository(ISportsZoneDbContext sportsZoneDbContext)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
-            _mapper = mapper;
         }
 
         public async Task<Security> GetSecurityDetailsByCustomerID(string email)
@@ -27,7 +24,7 @@ namespace SportsZoneWebAPI.Repositories
                 Security security = await _sportsZoneDbContext.Securities.FindAsync(email);
                 return security;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -36,11 +33,11 @@ namespace SportsZoneWebAPI.Repositories
         public async Task AddSecurityDetails(Security security)
         {
             try
-            {                
+            {
                 _sportsZoneDbContext.Securities.Add(security);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -52,7 +49,7 @@ namespace SportsZoneWebAPI.Repositories
                 _sportsZoneDbContext.Securities.Update(security);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -63,7 +60,7 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 Security security = _sportsZoneDbContext.Securities.SingleOrDefault(security => security.Email == email);
-                if(security != null)
+                if (security != null)
                 {
                     _sportsZoneDbContext.Securities.Remove(security);
                     await _sportsZoneDbContext.SaveChangesAsync();
@@ -73,7 +70,7 @@ namespace SportsZoneWebAPI.Repositories
                     throw new KeyNotFoundException("customer not found");
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
 using SportsZoneWebAPI.Models;
-using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Repositories
 {
-    public class CustomerRepository
+    public class CustomerRepository : ICustomerRespository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        public CustomerRepository(SportsZoneDbContext sportsZoneDbContext)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        public CustomerRepository(ISportsZoneDbContext sportsZoneDbContext)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
         }
@@ -22,10 +22,10 @@ namespace SportsZoneWebAPI.Repositories
             {
                 return await _sportsZoneDbContext.Customers.ToListAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
-            }            
+            }
         }
         public async Task<Customer> GetCustomerByCustomerID(string email)
         {
@@ -40,10 +40,10 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task CreateCustomer (Customer customer)
+        public async Task CreateCustomer(Customer customer)
         {
             try
-            { 
+            {
                 _sportsZoneDbContext.Customers.Add(customer);
 
                 await _sportsZoneDbContext.SaveChangesAsync();
@@ -54,14 +54,14 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task UpdateCustomer (Customer customer)
+        public async Task UpdateCustomer(Customer customer)
         {
             try
             {
-                 _sportsZoneDbContext.Customers.Update(customer);
+                _sportsZoneDbContext.Customers.Update(customer);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -83,7 +83,7 @@ namespace SportsZoneWebAPI.Repositories
                     throw new KeyNotFoundException("customer not found");
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -105,6 +105,6 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-       
+
     }
 }

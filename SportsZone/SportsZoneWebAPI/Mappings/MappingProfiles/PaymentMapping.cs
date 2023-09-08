@@ -3,14 +3,14 @@ using SportsZoneWebAPI.DTOs;
 using SportsZoneWebAPI.Models;
 using System;
 
-namespace SportsZoneWebAPI.Mappings
+namespace SportsZoneWebAPI.Mappings.MappingProfiles
 {
-    public class CategoryMapping : Profile
+    public class PaymentMapping : Profile
     {
-        public CategoryMapping()
+        public PaymentMapping()
         {
-            CreateMap<Category, CategoryResponseDTO>();
-            CreateMap<CategoryRequestDTO, Category>()
+            CreateMap<Payment, PaymentResponseDTO>();
+            CreateMap<PaymentRequestDTO, Payment>()
                 .ForMember(dest => dest.UpdatedBy, opt => opt.MapFrom(src => src.CreatedUpdatedBy))
                 .ForMember(dest => dest.UpdatedDate, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())

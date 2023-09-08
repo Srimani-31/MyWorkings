@@ -1,18 +1,19 @@
-﻿using System;
+﻿using AutoMapper;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SportsZoneWebAPI.Repositories;
-using SportsZoneWebAPI.Models;
-using SportsZoneWebAPI.DTOs;
-using AutoMapper;
+using SportsZoneWebAPI.Services.Interfaces;
 
 namespace SportsZoneWebAPI.Services
 {
-    public class CustomerService
+    public class CustomerService : ICustomerService
     {
-        private readonly CustomerRepository _customerRepository;
+        private readonly ICustomerRespository _customerRepository;
         private readonly IMapper _mapper;
-        public CustomerService(CustomerRepository customerRepository,IMapper mapper)
+        public CustomerService(ICustomerRespository customerRepository, IMapper mapper)
         {
             _customerRepository = customerRepository;
             _mapper = mapper;

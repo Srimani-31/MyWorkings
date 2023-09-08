@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using SportsZoneWebAPI.Repositories;
-using SportsZoneWebAPI.Models;
-using SportsZoneWebAPI.DTOs;
 
 namespace SportsZoneWebAPI.Controllers
 {
@@ -15,19 +11,19 @@ namespace SportsZoneWebAPI.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly CategoryRepository _categoryRepository;
-        public CategoryController(CategoryRepository categoryRepository)
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
         {
-            _categoryRepository = categoryRepository;
+            _categoryService = categoryService;
         }
 
         [HttpGet, Route("GetAllCategories")]
-        public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
+        public async Task<ActionResult<IEnumerable<CategoryResponseDTO>>> GetAllCategories()
         {
             try
             {
-                IEnumerable<Category> categories = await _categoryRepository.GetAllCategories();
-                return Ok(categories);
+                IEnumerable<CategoryResponseDTO> categoryResponseDTOs = await _categoryService.GetAllCategories();
+                return Ok(categoryResponseDTOs);
             }
             catch (Exception e)
             {
@@ -35,12 +31,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetCategoryByCategoryID/{categoryID}")]
-        public async Task<ActionResult<Category>> GetCategoryByCategoryID(int categoryID)
+        public async Task<ActionResult<CategoryResponseDTO>> GetCategoryByCategoryID(int categoryID)
         {
             try
             {
-                Category category = await _categoryRepository.GetCategoryByCategoryID(categoryID);
-                return Ok(category);
+                CategoryResponseDTO categoryResponseDTO = await _categoryService.GetCategoryByCategoryID(categoryID);
+                return Ok(categoryResponseDTO);
             }
             catch (Exception e)
             {
@@ -49,12 +45,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPost, Route("AddNewCategory")]
-        public async Task<ActionResult<Category>> AddNewCategory([FromBody] Category category)
+        public async Task<ActionResult<CategoryRequestDTO>> AddNewCategory([FromBody] CategoryRequestDTO categoryRequestDTO)
         {
             try
             {
-                await _categoryRepository.AddNewCategory(category);
-                return Ok(category);
+                await _categoryService.AddNewCategory(categoryRequestDTO);
+                return Ok(categoryRequestDTO);
             }
             catch (Exception e)
             {
@@ -63,12 +59,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPut, Route("UpdateCategory")]
-        public async Task<ActionResult<Category>> UpdateCategory([FromBody] Category category)
+        public async Task<ActionResult<CategoryRequestDTO>> UpdateCategory([FromBody] CategoryRequestDTO categoryRequestDTO)
         {
             try
             {
-                await _categoryRepository.UpdateCategory(category);
-                return Ok(category);
+                await _categoryService.UpdateCategory(categoryRequestDTO);
+                return Ok(categoryRequestDTO);
             }
             catch (Exception e)
             {
@@ -81,7 +77,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _categoryRepository.DeleteCategoryByCategoryID(categoryID);
+                await _categoryService.DeleteCategoryByCategoryID(categoryID);
                 return Ok($"Category with ID : {categoryID} deleted succesfully");
             }
             catch (Exception e)

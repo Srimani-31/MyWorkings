@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using AutoMapper;
-using SportsZoneWebAPI.Models;
+﻿using AutoMapper;
 using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Repositories;
+using System;
 
-namespace SportsZoneWebAPI.Mappings
+namespace SportsZoneWebAPI.Mappings.MappingProfiles
 {
     public class SecurityMapping : Profile
     {

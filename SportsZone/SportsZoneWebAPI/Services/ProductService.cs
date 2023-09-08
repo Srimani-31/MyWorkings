@@ -1,116 +1,136 @@
-﻿//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
+﻿using AutoMapper;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using SportsZoneWebAPI.Services.Interfaces;
 
-//using SportsZoneWebAPI.Repositories;
-//using SportsZoneWebAPI.Models;
-//using SportsZoneWebAPI.DTOs;
+namespace SportsZoneWebAPI.Services
+{
+    public class ProductService : IProductService
+    {
+        private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
+        public ProductService(IProductRepository productRepository, IMapper mapper)
+        {
+            _productRepository = productRepository;
+            _mapper = mapper;
+        }
+        public async Task<IEnumerable<ProductResponseDTO>> GetAllProducts()
+        {
+            try
+            {
+                IEnumerable<Product> products = await _productRepository.GetAllProducts();
+                IList<ProductResponseDTO> productResponseDTOs = new List<ProductResponseDTO>();
+                foreach (Product product in products)
+                {
+                    ProductResponseDTO productResponseDTO = _mapper.Map<ProductResponseDTO>(product);
+                    productResponseDTOs.Add(productResponseDTO);
+                }
+                return productResponseDTOs;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<ProductResponseDTO>> GetAllProductsByCategoryID(int categoryID)
+        {
+            try
+            {
+                IEnumerable<Product> products = await _productRepository.GetAllProductsByCategoryID(categoryID);
+                IList<ProductResponseDTO> productResponseDTOs = new List<ProductResponseDTO>();
+                foreach (Product product in products)
+                {
+                    ProductResponseDTO productResponseDTO = _mapper.Map<ProductResponseDTO>(product);
+                    productResponseDTOs.Add(productResponseDTO);
+                }
+                return productResponseDTOs;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<ProductResponseDTO> GetProductByproductID(int productID)
+        {
+            try
+            {
+                Product product = await _productRepository.GetProductByProductID(productID);
+                ProductResponseDTO productResponseDTO = _mapper.Map<ProductResponseDTO>(product);
+                return productResponseDTO;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
-//namespace SportsZoneWebAPI.Services
-//{
-//    public class ProductService 
-//    {
-//        private readonly ProductRepository _productRepository;
-//        public ProductService(ProductRepository productRepository)
-//        {
-//            _productRepository = productRepository;
-//        }
-//        public async Task<IEnumerable<Product>> GetAllProducts()
-//        {
-//            try
-//            {
-//                IEnumerable<Product> products = await _productRepository.GetAllProducts();
-//                return products;
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
-//        public async Task<IEnumerable<Product>> GetAllProductByCategoryID(int categoryID)
-//        {
-//            try
-//            {
-//                IEnumerable<Product> products = await _productRepository.GetAllProductsByCategoryID(categoryID);
-//                return products;
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
-//        public async Task<Product> GetProductByproductID(int productID)
-//        {
-//            try
-//            {
-//                Product product = await _productRepository.GetProductByProductID(productID);
-//                return product;
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
+        public async Task AddNewProduct(ProductRequestDTO productRequestDTO)
+        {
+            try
+            {
+                Product product = _mapper.Map<Product>(productRequestDTO);
+                product.CreatedBy = productRequestDTO.CreatedUpdatedBy;
+                product.CreatedDate = DateTime.Now;
 
-//        public async Task AddNewProduct(Product product)
-//        {
-//            try
-//            {
-//                await _productRepository.AddNewProduct(product);
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
+                await _productRepository.AddNewProduct(product);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
-//        public async Task UpdateProduct(Product product)
-//        {
-//            try
-//            {
-//                await _productRepository.UpdateProduct(product);
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
-//        public async Task DeleteProductByProductID(int productID)
-//        {
-//            try
-//            {
-//                await _productRepository.DeleteProductByProductID(productID);
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
+        public async Task UpdateProduct(ProductRequestDTO productRequestDTO)
+        {
+            try
+            {
+                Product product = await _productRepository.GetProductByProductID(productRequestDTO.ProductID);
+                _mapper.Map(productRequestDTO, product);
 
-//        public async Task DeleteAllProductsByCategoryID(int categoryID)
-//        {
-//            try
-//            {
-//                await _productRepository.DeleteAllProductsByCategoryID(categoryID);
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
-//        public async Task DeleteAllProducts()
-//        {
-//            try
-//            {
-//                await _productRepository.DeleteAllProducts();
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
-//    }
-//}
+                await _productRepository.UpdateProduct(product);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task DeleteProductByProductID(int productID)
+        {
+            try
+            {
+                await _productRepository.DeleteProductByProductID(productID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task DeleteAllProductsByCategoryID(int categoryID)
+        {
+            try
+            {
+                await _productRepository.DeleteAllProductsByCategoryID(categoryID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task DeleteAllProducts()
+        {
+            try
+            {
+                await _productRepository.DeleteAllProducts();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
+}

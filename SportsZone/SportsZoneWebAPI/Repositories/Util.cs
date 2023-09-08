@@ -1,18 +1,18 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Models;
 
 namespace SportsZoneWebAPI.Repositories
 {
-    public class Util
+    public class Util : IUtil
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        public Util(SportsZoneDbContext sportsZoneDbContext)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        public Util(ISportsZoneDbContext sportsZoneDbContext)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
         }
@@ -51,7 +51,7 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                decimal cartTotal =  _sportsZoneDbContext.CartItems
+                decimal cartTotal = _sportsZoneDbContext.CartItems
                     .Where(cartItem => cartItem.CartID == cartID)
                     .Select(cartItem => cartItem.TotalPrice)
                     .Sum();
@@ -74,7 +74,7 @@ namespace SportsZoneWebAPI.Repositories
                 string guidPrefix = Guid.NewGuid().ToString("N").Substring(0, 4);
 
                 //get last orderserailnumber and increament it
-                string increament = GetOrderSerialNumber(_sportsZoneDbContext.Orders).ToString();
+                string increament = GetOrderSerialNumber(_sportsZoneDbContext.Orders);
 
                 string orderID = "SPRTZN-" + formattedDateTime + "-" + guidPrefix + "-" + increament;
 
@@ -85,7 +85,7 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public static int GetOrderSerialNumber(DbSet<Order> orders)
+        private static string GetOrderSerialNumber(DbSet<Order> orders)
         {
             try
             {
@@ -103,7 +103,11 @@ namespace SportsZoneWebAPI.Repositories
                 int maxIncrement = lastFourDigitsInt.DefaultIfEmpty().Max();
 
                 int increment = maxIncrement + 1;
-                return increment;
+
+                // Format the increment to have leading zeros and four digits
+                string formattedIncrement = increment.ToString("D4");
+
+                return formattedIncrement;
             }
             catch (Exception)
             {

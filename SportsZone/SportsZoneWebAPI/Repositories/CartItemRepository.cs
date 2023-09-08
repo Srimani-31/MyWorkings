@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Models;
-
 namespace SportsZoneWebAPI.Repositories
 {
-    public class CartItemRepository
+    public class CartItemRepository : ICartItemRepository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        private readonly Util _util;
-        public CartItemRepository(SportsZoneDbContext sportsZoneDbContext, Util util)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        private readonly IUtil _util;
+        public CartItemRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
             _util = util;
@@ -68,6 +69,9 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
+                decimal totalPrice = _util.CalculateTotalAmountByQuantity(cartItem.ProductID, cartItem.Quantity);
+                cartItem.TotalPrice = totalPrice;
+
                 _sportsZoneDbContext.CartItems.Update(cartItem);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
@@ -126,7 +130,7 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        
+
         public async Task InsertCartItem(int cartID, int productID, int quantity, string createdBy)
         {
             try

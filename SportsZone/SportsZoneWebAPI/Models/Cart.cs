@@ -11,11 +11,12 @@ namespace SportsZoneWebAPI.Models
         {
             CartItems = new HashSet<CartItem>();
             Orders = new HashSet<Order>();
+            IsEnabled = true;
         }
 
         public int CartID { get; set; }
         public string BelongsTo { get; set; }
-        public bool? IsEnabled { get; set; }
+        public bool IsEnabled { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public string UpdatedBy { get; set; }

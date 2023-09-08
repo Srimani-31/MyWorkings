@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using SportsZoneWebAPI.Repositories;
-using SportsZoneWebAPI.Models;
-using SportsZoneWebAPI.DTOs;
 
 namespace SportsZoneWebAPI.Controllers
 {
@@ -15,18 +11,18 @@ namespace SportsZoneWebAPI.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly ProductRepository _productRepository;
-        public ProductController(ProductRepository productRepository)
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService)
         {
-            _productRepository = productRepository;
+            _productService = productService;
         }
         [HttpGet, Route("GetAllProducts")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllProducts()
+        public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAllProducts()
         {
             try
             {
-                IEnumerable<Product> products = await _productRepository.GetAllProducts();
-                return Ok(products);
+                IEnumerable<ProductResponseDTO> productResponseDTOs = await _productService.GetAllProducts();
+                return Ok(productResponseDTOs);
             }
             catch (Exception e)
             {
@@ -34,12 +30,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetAllProductByCategoryID/{categoryID}")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllProductByCategoryID(int categoryID)
+        public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAllProductsByCategoryID(int categoryID)
         {
             try
             {
-                IEnumerable<Product> products = await _productRepository.GetAllProductsByCategoryID(categoryID);
-                return Ok(products);
+                IEnumerable<ProductResponseDTO> productResponseDTOs = await _productService.GetAllProductsByCategoryID(categoryID);
+                return Ok(productResponseDTOs);
             }
             catch (Exception e)
             {
@@ -47,12 +43,12 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
         [HttpGet, Route("GetProductByproductID/{productID}")]
-        public async Task<ActionResult<Product>> GetProductByproductID(int productID)
+        public async Task<ActionResult<ProductResponseDTO>> GetProductByproductID(int productID)
         {
             try
             {
-                Product product = await _productRepository.GetProductByProductID(productID);
-                return Ok(product);
+                ProductResponseDTO productResponseDTO = await _productService.GetProductByproductID(productID);
+                return Ok(productResponseDTO);
             }
             catch (Exception e)
             {
@@ -61,12 +57,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPost, Route("AddNewProduct")]
-        public async Task<ActionResult<Product>> AddNewProduct([FromBody] Product product)
+        public async Task<ActionResult<ProductRequestDTO>> AddNewProduct([FromBody] ProductRequestDTO productRequestDTO)
         {
             try
             {
-                await _productRepository.AddNewProduct(product);
-                return Ok(product);
+                await _productService.AddNewProduct(productRequestDTO);
+                return Ok(productRequestDTO);
             }
             catch (Exception e)
             {
@@ -75,12 +71,12 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPut, Route("UpdateProduct")]
-        public async Task<ActionResult<Product>> UpdateProduct([FromBody] Product product)
+        public async Task<ActionResult<ProductRequestDTO>> UpdateProduct([FromBody] ProductRequestDTO productRequestDTO)
         {
             try
             {
-                await _productRepository.UpdateProduct(product);
-                return Ok(product);
+                await _productService.UpdateProduct(productRequestDTO);
+                return Ok(productRequestDTO);
             }
             catch (Exception e)
             {
@@ -92,7 +88,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _productRepository.DeleteProductByProductID(productID);
+                await _productService.DeleteProductByProductID(productID);
                 return Ok($"Products with ID : {productID} deleted succesfully");
             }
             catch (Exception e)
@@ -106,7 +102,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _productRepository.DeleteAllProductsByCategoryID(categoryID);
+                await _productService.DeleteAllProductsByCategoryID(categoryID);
                 return Ok($"Products with categoryID : {categoryID} deleted succesfully");
             }
             catch (Exception e)
@@ -119,7 +115,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
-                await _productRepository.DeleteAllProducts();
+                await _productService.DeleteAllProducts();
                 return Ok($"Products deleted succesfully");
             }
             catch (Exception e)

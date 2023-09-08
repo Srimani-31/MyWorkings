@@ -7,10 +7,6 @@ namespace SportsZoneWebAPI.Models
 {
     public partial class Order
     {
-        public Order()
-        {
-            OrderItems = new HashSet<OrderItem>();
-        }
 
         public string OrderID { get; set; }
         public string CustomerID { get; set; }

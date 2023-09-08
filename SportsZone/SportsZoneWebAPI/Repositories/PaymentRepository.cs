@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
 using SportsZoneWebAPI.Models;
-
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace SportsZoneWebAPI.Repositories
 {
-    public class PaymentRepository
+    public class PaymentRepository : IPaymentRepository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        public PaymentRepository(SportsZoneDbContext sportsZoneDbContext)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        public PaymentRepository(ISportsZoneDbContext sportsZoneDbContext)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
         }
@@ -79,7 +78,7 @@ namespace SportsZoneWebAPI.Repositories
                 else
                 {
                     throw new KeyNotFoundException("Payment mode not found");
-                } 
+                }
             }
             catch (Exception)
             {

@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using SportsZoneWebAPI.Services;
-using SportsZoneWebAPI.Repositories;
-using SportsZoneWebAPI.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Services.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Controllers
 {
@@ -16,8 +10,8 @@ namespace SportsZoneWebAPI.Controllers
     [ApiController]
     public class SecurityController : ControllerBase
     {
-        private readonly SecurityService _securityService;
-        public SecurityController(SecurityService securityService)
+        private readonly ISecurityService _securityService;
+        public SecurityController(ISecurityService securityService)
         {
             _securityService = securityService;
         }

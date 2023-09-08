@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Models;
-
 namespace SportsZoneWebAPI.Repositories
 {
-    public class OrderItemRepository
+    public class OrderItemRepository : IOrderItemRepository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        private readonly CartItemRepository _cartItemRepository;
-        private readonly Util _util;        
-        public OrderItemRepository(SportsZoneDbContext sportsZoneDbContext
-            , CartItemRepository cartItemRepository
-            ,Util util)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        private readonly ICartItemRepository _cartItemRepository;
+        private readonly IUtil _util;
+        public OrderItemRepository(ISportsZoneDbContext sportsZoneDbContext
+            , ICartItemRepository cartItemRepository
+            , IUtil util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
             _cartItemRepository = cartItemRepository;
@@ -133,7 +134,7 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task InsertOrderItemsFromCartItems(string orderID,int cartID)
+        public async Task InsertOrderItemsFromCartItems(string orderID, int cartID)
         {
             try
             {
@@ -170,7 +171,7 @@ namespace SportsZoneWebAPI.Repositories
             {
                 Order order = await _sportsZoneDbContext.Orders.FindAsync(orderID);
 
-                decimal totalPrice = _util.CalculateTotalAmountByQuantity(productID,quantity);
+                decimal totalPrice = _util.CalculateTotalAmountByQuantity(productID, quantity);
 
                 OrderItem orderItem = new OrderItem()
                 {

@@ -1,82 +1,115 @@
-﻿//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
+﻿using AutoMapper;
+using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using SportsZoneWebAPI.Services.Interfaces;
 
-//using SportsZoneWebAPI.Repositories;
-//using SportsZoneWebAPI.Models;
-//using SportsZoneWebAPI.DTOs;
+namespace SportsZoneWebAPI.Services
+{
+    public class ShippingService : IShippingService
+    {
+        private readonly IShippingRepository _shippingRepository;
+        private readonly IMapper _mapper;
+        public ShippingService(IShippingRepository shippingRepository, IMapper mapper)
+        {
+            _shippingRepository = shippingRepository;
+            _mapper = mapper;
+        }
+        public async Task<IEnumerable<ShippingResponseDTO>> GetAllShippingAddresses()
+        {
+            try
+            {
+                IEnumerable<Shipping> shippings = await _shippingRepository.GetAllShippingAddresses();
+                IList<ShippingResponseDTO> shippingResponseDTOs = new List<ShippingResponseDTO>();
+                foreach (Shipping shipping in shippings)
+                {
+                    ShippingResponseDTO shippingResponseDTO = _mapper.Map<ShippingResponseDTO>(shipping);
+                    shippingResponseDTOs.Add(shippingResponseDTO);
+                }
+                return shippingResponseDTOs;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
-//namespace SportsZoneWebAPI.Services
-//{
-//    public class ShippingService
-//    {
-//        private readonly ShippingRepository _shippingRepository;
-//        public ShippingService(ShippingRepository shippingRepository)
-//        {
-//            _shippingRepository = shippingRepository;
-//        }
+        public async Task<IEnumerable<ShippingResponseDTO>> GetAllShippingAddressesByCustomerID(string email)
+        {
+            try
+            {
+                IEnumerable<Shipping> shippings = await _shippingRepository.GetAllShippingAddressesByCustomerID(email);
+                IList<ShippingResponseDTO> shippingResponseDTOs = new List<ShippingResponseDTO>();
+                foreach (Shipping shipping in shippings)
+                {
+                    ShippingResponseDTO shippingResponseDTO = _mapper.Map<ShippingResponseDTO>(shipping);
+                    shippingResponseDTOs.Add(shippingResponseDTO);
+                }
+                return shippingResponseDTOs;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<ShippingResponseDTO> GetShippingAddressByShippingID(int shippingID)
+        {
+            try
+            {
+                Shipping shipping = await _shippingRepository.GetShippingAddressByShippingID(shippingID);
+                ShippingResponseDTO shippingResponseDTO = _mapper.Map<ShippingResponseDTO>(shipping);
 
-//        public async Task<IEnumerable<Shipping>> GetAllShippingAddressesByCustomerID(string email)
-//        {
-//            try
-//            {
-//                IEnumerable<Shipping> shippings = await _shippingRepository.GetAllShippingAddressesByCustomerID(email);
-//                return shippings;
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
-//        public async Task<Shipping> GetShippingAddressByShippingID(int shippingID)
-//        {
-//            try
-//            {
-//                Shipping shipping = await _shippingRepository.GetShippingAddressByShippingID(shippingID);
-//                return shipping;
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
+                return shippingResponseDTO;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
-//        public async Task AddNewShippingAddress(Shipping shipping)
-//        {
-//            try
-//            {
-//                await _shippingRepository.AddNewShippingAddress(shipping);
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
-//        public async Task UpdateShippingAddress(Shipping shipping)
-//        {
-//            try
-//            {
-//                await _shippingRepository.UpdateShippingAddress(shipping);
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
+        public async Task AddNewShippingAddress(ShippingRequestDTO shippingRequestDTO)
+        {
+            try
+            {
+                Shipping shipping = _mapper.Map<Shipping>(shippingRequestDTO);
+                shipping.CreatedBy = shippingRequestDTO.CreatedUpdatedBy;
+                shipping.CreatedDate = DateTime.Now;
 
-//        public async Task DeleteShippingAddressByShippingID(int shippingID)
-//        {
-//            try
-//            {
-//                await _shippingRepository.DeleteShippingAddressByShippingID(shippingID);
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
-//        }
-//    }
-//}
+                await _shippingRepository.AddNewShippingAddress(shipping);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task UpdateShippingAddress(ShippingRequestDTO shippingRequestDTO)
+        {
+            try
+            {
+                Shipping shipping = await _shippingRepository.GetShippingAddressByShippingID(shippingRequestDTO.ShippingID);
+                _mapper.Map(shippingRequestDTO, shipping);
+
+                await _shippingRepository.UpdateShippingAddress(shipping);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task DeleteShippingAddressByShippingID(int shippingID)
+        {
+            try
+            {
+                await _shippingRepository.DeleteShippingAddressByShippingID(shippingID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
+}
