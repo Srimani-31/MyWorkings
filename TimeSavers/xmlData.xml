@@ -1,0 +1,26 @@
+﻿<user>
+  <email>string</email>
+  <firstName>string</firstName>
+  <lastName>string</lastName>
+  <contactNumber>string</contactNumber>
+  <address>string</address>
+  <city>string</city>
+  <country>string</country>
+  <zipCode>string</zipCode>
+  <profilePhoto>string</profilePhoto>
+  <createdBy>string</createdBy>
+  <createdDate>2023-09-04T07:50:41.664Z</createdDate>
+  <updatedBy>string</updatedBy>
+  <updatedDate>2023-09-04T07:50:41.664Z</updatedDate>
+  <isEnabled>true</isEnabled>
+  <security>
+    <email>string</email>
+    <password>string</password>
+    <securityQuestion>string</securityQuestion>
+    <answer>string</answer>
+    <createdBy>string</createdBy>
+    <createdDate>2023-09-04T07:51:54.632Z</createdDate>
+    <updatedBy>string</updatedBy>
+    <updatedDate>2023-09-04T07:51:54.632Z</updatedDate>
+  </security>
+</user>
