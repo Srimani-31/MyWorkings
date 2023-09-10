@@ -14,7 +14,7 @@ namespace SportsZoneWebAPI.Mappings.MappingProfiles
 
             CreateMap<SecurityRequestDTO, Security>()
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-            .ForMember(dest => dest.SecurityQuestion, opt => opt.MapFrom(src => Util.HashItem(src.SecurityQuestion)))
+            .ForMember(dest => dest.SecurityQuestion, opt => opt.MapFrom(src => src.SecurityQuestion))
             .ForMember(dest => dest.Password, opt => opt.MapFrom(src => Util.HashItemToBytes(src.Password)))
             .ForMember(dest => dest.Answer, opt => opt.MapFrom(src => Util.HashItemToBytes(src.Answer)))
             .ForMember(dest => dest.UpdatedBy, opt => opt.MapFrom(src => src.CreatedUpdatedBy))

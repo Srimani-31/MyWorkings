@@ -7,7 +7,8 @@ namespace SportsZoneWebAPI.Data.Interfaces
 {
     public interface ISportsZoneDbContext
     {
-        DbSet<TEntity> Set<TEntity>() where TEntity : class; Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Category> Categories { get; set; }

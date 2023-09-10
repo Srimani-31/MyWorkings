@@ -1,0 +1,168 @@
+CREATE TABLE [Customer] (
+  [Email] VARCHAR(255) PRIMARY KEY NOT NULL,
+  [FirstName] VARCHAR(255) NOT NULL,
+  [LastName] VARCHAR(255) NOT NULL,
+  [ContactNumber] VARCHAR(255) NOT NULL,
+  [Address] VARCHAR(255),
+  [City] VARCHAR(255),
+  [Country] VARCHAR(255),
+  [ZipCode] VARCHAR(255),
+  [ProfilePhoto] VARCHAR(MAX),
+  [IsEnabled] BIT NOT NULL DEFAULT (1),
+  [CreatedBy] VARCHAR(255) NOT NULL,
+  [CreatedDate] DATETIME NOT NULL DEFAULT (GETDATE()),
+  [UpdatedBy] VARCHAR(255) NOT NULL,
+  [UpdatedDate] DATETIME NOT NULL DEFAULT (GETDATE())
+)
+GO
+
+CREATE TABLE [Security] (
+  [Email] VARCHAR(255) PRIMARY KEY NOT NULL,
+  [Password] VARBINARY(64) NOT NULL,
+  [SecurityQuestion] VARCHAR(MAX) NOT NULL,
+  [Answer] VARBINARY(MAX) NOT NULL,
+  [CreatedBy] VARCHAR(255) NOT NULL,
+  [CreatedDate] DATETIME NOT NULL DEFAULT (GETDATE()),
+  [UpdatedBy] VARCHAR(255) NOT NULL,
+  [UpdatedDate] DATETIME NOT NULL DEFAULT (GETDATE())
+)
+GO
+
+CREATE TABLE [Category] (
+  [CategoryID] INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [CategoryName] VARCHAR(MAX) NOT NULL,
+  [Description] VARCHAR(MAX),
+  [CreatedBy] VARCHAR(255) NOT NULL,
+  [CreatedDate] DATETIME NOT NULL DEFAULT (GETDATE()),
+  [UpdatedBy] VARCHAR(255) NOT NULL,
+  [UpdatedDate] DATETIME NOT NULL DEFAULT (GETDATE())
+)
+GO
+
+CREATE TABLE [Product] (
+  [ProductID] INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [ProductName] VARCHAR(MAX) NOT NULL,
+  [ProductImage] VARCHAR(MAX) NOT NULL,
+  [StockCount] INT NOT NULL,
+  [Price] DECIMAL(10,2) NOT NULL,
+  [CategoryID] INT NOT NULL,
+  [CreatedBy] VARCHAR(255) NOT NULL,
+  [CreatedDate] DATETIME NOT NULL DEFAULT (GETDATE()),
+  [UpdatedBy] VARCHAR(255) NOT NULL,
+  [UpdatedDate] DATETIME NOT NULL DEFAULT (GETDATE())
+)
+GO
+
+CREATE TABLE [Cart] (
+  [CartID] INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [BelongsTo] VARCHAR(255) NOT NULL,
+  [IsEnabled] BIT NOT NULL DEFAULT (1),
+  [CreatedBy] VARCHAR(255) NOT NULL,
+  [CreatedDate] DATETIME NOT NULL DEFAULT (GETDATE()),
+  [UpdatedBy] VARCHAR(255) NOT NULL,
+  [UpdatedDate] DATETIME NOT NULL DEFAULT (GETDATE())
+)
+GO
+
+CREATE TABLE [CartItem] (
+  [CartItemID] INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [CartID] INT NOT NULL,
+  [ProductID] INT NOT NULL,
+  [Quantity] INT NOT NULL,
+  [TotalPrice] DECIMAL(10,2) NOT NULL,
+  [CreatedBy] VARCHAR(255) NOT NULL,
+  [CreatedDate] DATETIME NOT NULL DEFAULT (GETDATE()),
+  [UpdatedBy] VARCHAR(255) NOT NULL,
+  [UpdatedDate] DATETIME NOT NULL DEFAULT (GETDATE())
+)
+GO
+
+CREATE TABLE [Shipping] (
+  [ShippingID] INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [Address] VARCHAR(255) NOT NULL,
+  [City] VARCHAR(255) NOT NULL,
+  [Country] VARCHAR(255) NOT NULL,
+  [ZipCode] VARCHAR(255) NOT NULL,
+  [Landmark] VARCHAR(255) NOT NULL,
+  [BelongsTo] VARCHAR(255) NOT NULL,
+  [CreatedBy] VARCHAR(255) NOT NULL,
+  [CreatedDate] DATETIME NOT NULL DEFAULT (GETDATE()),
+  [UpdatedBy] VARCHAR(255) NOT NULL,
+  [UpdatedDate] DATETIME NOT NULL DEFAULT (GETDATE())
+)
+GO
+
+CREATE TABLE [Payment] (
+  [PaymentID] INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [PaymentType] VARCHAR(255) NOT NULL,
+  [CreatedBy] VARCHAR(255) NOT NULL,
+  [CreatedDate] DATETIME NOT NULL DEFAULT (GETDATE()),
+  [UpdatedBy] VARCHAR(255) NOT NULL,
+  [UpdatedDate] DATETIME NOT NULL DEFAULT (GETDATE())
+)
+GO
+
+CREATE TABLE [Order] (
+  [OrderID] VARCHAR(255) PRIMARY KEY NOT NULL,
+  [CustomerID] VARCHAR(255) NOT NULL,
+  [OrderDate] DATETIME NOT NULL,
+  [Status] VARCHAR(255) NOT NULL DEFAULT 'Placed',
+  [TotalAmount] DECIMAL(10,2) NOT NULL,
+  [PaymentID] INT NOT NULL,
+  [ShippingID] INT NOT NULL,
+  [CartID] INT,
+  [CreatedBy] VARCHAR(255) NOT NULL,
+  [CreatedDate] DATETIME NOT NULL DEFAULT (GETDATE()),
+  [UpdatedBy] VARCHAR(255) NOT NULL,
+  [UpdatedDate] DATETIME NOT NULL DEFAULT (GETDATE())
+)
+GO
+
+CREATE TABLE [OrderItem] (
+  [OrderITemID] INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [OrderID] VARCHAR(255) NOT NULL,
+  [ProductID] INT NOT NULL,
+  [Quantity] INT NOT NULL,
+  [TotalPrice] DECIMAL(10,2) NOT NULL,
+  [CreatedBy] VARCHAR(255) NOT NULL,
+  [CreatedDate] DATETIME NOT NULL DEFAULT (GETDATE()),
+  [UpdatedBy] VARCHAR(255) NOT NULL,
+  [UpdatedDate] DATETIME NOT NULL DEFAULT (GETDATE())
+)
+GO
+
+ALTER TABLE [Security] ADD FOREIGN KEY ([Email]) REFERENCES [Customer] ([Email])
+GO
+
+ALTER TABLE [Product] ADD FOREIGN KEY ([CategoryID]) REFERENCES [Category] ([CategoryID])
+GO
+
+ALTER TABLE [Cart] ADD FOREIGN KEY ([BelongsTo]) REFERENCES [Customer] ([Email])
+GO
+
+ALTER TABLE [CartItem] ADD FOREIGN KEY ([CartID]) REFERENCES [Cart] ([CartID])
+GO
+
+ALTER TABLE [CartItem] ADD FOREIGN KEY ([ProductID]) REFERENCES [Product] ([ProductID])
+GO
+
+ALTER TABLE [Shipping] ADD FOREIGN KEY ([BelongsTo]) REFERENCES [Customer] ([Email])
+GO
+
+ALTER TABLE [Order] ADD FOREIGN KEY ([CustomerID]) REFERENCES [Customer] ([Email])
+GO
+
+ALTER TABLE [Order] ADD FOREIGN KEY ([ShippingID]) REFERENCES [Shipping] ([ShippingID])
+GO
+
+ALTER TABLE [Order] ADD FOREIGN KEY ([PaymentID]) REFERENCES [Payment] ([PaymentID])
+GO
+
+ALTER TABLE [Order] ADD FOREIGN KEY ([CartID]) REFERENCES [Cart] ([CartID])
+GO
+
+ALTER TABLE [OrderItem] ADD FOREIGN KEY ([OrderID]) REFERENCES [Order] ([OrderID])
+GO
+
+ALTER TABLE [OrderItem] ADD FOREIGN KEY ([ProductID]) REFERENCES [Product] ([ProductID])
+GO
