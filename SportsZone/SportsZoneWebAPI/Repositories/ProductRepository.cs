@@ -129,12 +129,15 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task UpdateStockCount(int productID, int quantityPurchased)
+        public async Task UpdateStockCount(int productID, int quantityPurchased,bool IsReturn=false)
         {
             try
             {
                 Product product = await GetProductByProductID(productID);
-                product.StockCount = product.StockCount - quantityPurchased;
+                if (!IsReturn)
+                    product.StockCount = product.StockCount - quantityPurchased;
+                else
+                    product.StockCount = product.StockCount + quantityPurchased;
                 await UpdateProduct(product);
             }
             catch (Exception)

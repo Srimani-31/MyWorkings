@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 #nullable disable
 
 namespace SportsZoneWebAPI.Models
@@ -15,9 +14,7 @@ namespace SportsZoneWebAPI.Models
         public DateTime CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
-        [JsonIgnore]
         public virtual Order Order { get; set; }
-        [JsonIgnore]
         public virtual Product Product { get; set; }
     }
 }

@@ -14,6 +14,6 @@ namespace SportsZoneWebAPI.Repositories.Interfaces
         public Task DeleteProductByProductID(int productID);
         public Task DeleteAllProductsByCategoryID(int categoryID);
         public Task DeleteAllProducts();
-        public Task UpdateStockCount(int productID, int quantityPurchased);
+        public Task UpdateStockCount(int productID, int quantityPurchased, bool IsReturn = false);
     }
 }

@@ -25,6 +25,7 @@ namespace SportsZoneWebAPI.Repositories.Interfaces
         public Task UpdateOrder(Order order);
         public Task PlaceOrderViaCartMode(string email, int? cartID, int paymentID, int shippingID);
         public Task PlaceOrderViaDirectPurchase(string email, int productID, int quantity, int paymentID, int shippingID);
-
+        public Task CancelOrder(string orderID);
+        public Task ReturnOrder(string orderID);
     }
 }
