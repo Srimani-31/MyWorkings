@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "m/cEV/+CaZhNa3pCPDEbL0OiLv4Lyt8fzx/4fiEN8xs/P8Bww4yYnTD7U5ng043hMqz/0KM3b5o16waFAhbH5Q==",
+  "dgSpecHash": "TXpFPh/ziD1P2/2c2v2px0P0O6kC0nBOG+g5deBlYgg0DMcjmOTOkf+BBOs56Zy7nIdWYcBLSoDRPXeUfb/QKw==",
   "success": true,
   "projectFilePath": "D:\\Revision\\SportsZone\\SportsZoneWebAPI\\SportsZoneWebAPI.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\srimani.ravikumar\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\srimani.ravikumar\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\srimani.ravikumar\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\srimani.ravikumar\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.32\\microsoft.aspnetcore.authentication.jwtbearer.3.1.32.nupkg.sha512",
     "C:\\Users\\srimani.ravikumar\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\srimani.ravikumar\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",
     "C:\\Users\\srimani.ravikumar\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.0.1\\microsoft.data.sqlclient.sni.runtime.2.0.1.nupkg.sha512",

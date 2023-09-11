@@ -114,5 +114,10 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
+        public static bool IsEqual(string password, string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+
+        }
     }
 }

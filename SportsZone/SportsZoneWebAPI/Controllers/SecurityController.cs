@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Services;
 using SportsZoneWebAPI.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Controllers
@@ -14,6 +16,20 @@ namespace SportsZoneWebAPI.Controllers
         public SecurityController(ISecurityService securityService)
         {
             _securityService = securityService;
+        }
+
+        [HttpGet, Route("GetAllSecurityDetails")]
+        public async Task<ActionResult<IEnumerable<SecurityResponseDTO>>> GetAllSecurityDetails()
+        {
+            try
+            {
+                IEnumerable<SecurityResponseDTO> securityResponseDTOs = await _securityService.GetAllSecurityDetails();
+                return Ok(securityResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet, Route("GetSecurityDetails/{email}")]

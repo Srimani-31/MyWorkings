@@ -66,3 +66,4 @@ D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\ref\SportsZoneWebAPI.dl
 D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\SportsZoneWebAPI.pdb
 D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\SportsZoneWebAPI.genruntimeconfig.cache
 D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\SportsZoneWebAPI.csproj.AssemblyReference.cache
+D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
