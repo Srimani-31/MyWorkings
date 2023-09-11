@@ -200,7 +200,33 @@ namespace SportsZoneWebAPI.Controllers
                 return BadRequest(e.InnerException);
             }
         }
+        [HttpPut,Route("CancelOrder/{orderID}")]
+        public async Task<ActionResult> CancelOrder(string orderID)
+        {
+            try
+            {
+                await _orderService.CancelOrder(orderID);
+                return Ok($"Order with ID: {orderID} cancelled successfully");
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
 
+        [HttpPut, Route("ReturnOrder/{orderID}")]
+        public async Task<ActionResult> ReturnOrder(string orderID)
+        {
+            try
+            {
+                await _orderService.ReturnOrder(orderID);
+                return Ok($"Order with ID: {orderID} returned successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
         [HttpPut, Route("UpdateOrder")]
         public async Task<ActionResult<OrderRequestDTO>> UpdateOrder([FromBody] OrderRequestDTO orderRequestDTO)
         {

@@ -300,7 +300,7 @@ namespace SportsZoneWebAPI.Repositories
                     OrderID = orderID,
                     OrderDate = DateTime.Now,
                     CustomerID = email,
-                    Status = "Placed",
+                    Status = OrderStatus.Placed,
                     TotalAmount = totalAmount,
                     PaymentID = paymentID,
                     ShippingID = shippingID,
@@ -343,7 +343,7 @@ namespace SportsZoneWebAPI.Repositories
                     OrderID = orderID,
                     OrderDate = DateTime.Now,
                     CustomerID = email,
-                    Status = "Placed",
+                    Status = OrderStatus.Placed,
                     TotalAmount = totalAmount,
                     PaymentID = paymentID,
                     ShippingID = shippingID,
@@ -370,6 +370,48 @@ namespace SportsZoneWebAPI.Repositories
             {
                 throw;
             }
+        }
+        public async Task CancelOrder(string orderID)
+        {
+            try
+            {
+                Order order = await GetOrderByOrderID(orderID);
+                order.Status = OrderStatus.Cancelled;
+                await UpdateOrder(order);
+                IEnumerable<OrderItem> orderItems = _sportsZoneDbContext.OrderItems.Where(x => x.OrderID == orderID);
+
+                foreach(OrderItem orderItem in orderItems)
+                {
+                    await _productRepository.UpdateStockCount(orderItem.ProductID, orderItem.Quantity, true);
+                }
+                await _sportsZoneDbContext.SaveChangesAsync();
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+            
+        }
+        public async Task ReturnOrder(string orderID)
+        {
+            try
+            {
+                Order order = await GetOrderByOrderID(orderID);
+                order.Status = OrderStatus.Returned;
+                await UpdateOrder(order);
+                IEnumerable<OrderItem> orderItems = _sportsZoneDbContext.OrderItems.Where(x => x.OrderID == orderID);
+
+                foreach (OrderItem orderItem in orderItems)
+                {
+                    await _productRepository.UpdateStockCount(orderItem.ProductID, orderItem.Quantity, true);
+                }
+                await _sportsZoneDbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

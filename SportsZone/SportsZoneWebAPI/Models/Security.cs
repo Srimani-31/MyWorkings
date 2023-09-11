@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 #nullable disable
 
 namespace SportsZoneWebAPI.Models
@@ -14,7 +13,6 @@ namespace SportsZoneWebAPI.Models
         public DateTime CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
-        [JsonIgnore]
         public virtual Customer EmailNavigation { get; set; }
     }
 }

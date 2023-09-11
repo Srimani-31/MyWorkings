@@ -180,7 +180,6 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
-
         public async Task<IEnumerable<OrderResponseDTO>> GetAllOrdersViaDirectPurchase()
         {
             try
@@ -230,7 +229,6 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
-
         public async Task PlaceOrderViaDirectPurchase(OrderRequestDTO orderRequestDTO)
         {
             try
@@ -261,6 +259,28 @@ namespace SportsZoneWebAPI.Services
             }
         }
 
+        public async Task CancelOrder(string orderID)
+        {
+            try
+            {
+                await _orderRepository.CancelOrder(orderID);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+        public async Task ReturnOrder(string orderID)
+        {
+            try
+            {
+                await _orderRepository.ReturnOrder(orderID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task UpdateOrder(OrderRequestDTO orderRequestDTO)
         {
             try

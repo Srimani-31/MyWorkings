@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 #nullable disable
 
 namespace SportsZoneWebAPI.Models
 {
     public partial class CartItem
     {
+
         public int CartItemID { get; set; }
         public int CartID { get; set; }
         public int ProductID { get; set; }
@@ -15,9 +15,7 @@ namespace SportsZoneWebAPI.Models
         public DateTime CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
-        [JsonIgnore]
         public virtual Cart Cart { get; set; }
-        [JsonIgnore]
         public virtual Product Product { get; set; }
     }
 }
