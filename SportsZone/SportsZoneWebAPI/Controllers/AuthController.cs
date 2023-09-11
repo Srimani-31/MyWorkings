@@ -98,7 +98,7 @@ namespace SportsZoneWebAPI.Controllers
             IEnumerable<SecurityResponseDTO> securityResponseDTOs = await _securityService.GetAllSecurityDetails();
             foreach (SecurityResponseDTO securityResponseDTO in securityResponseDTOs)
             {
-                if (Util.IsEqual(password, securityResponseDTO.ToString()))
+                if (Util.VerifyPassword(securityResponseDTO.Password, password)) ;
                     return true;
             }
             return false;

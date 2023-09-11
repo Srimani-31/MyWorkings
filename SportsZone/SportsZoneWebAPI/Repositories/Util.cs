@@ -28,11 +28,6 @@ namespace SportsZoneWebAPI.Repositories
             return BCrypt.Net.BCrypt.HashPassword(item);
         }
 
-        //compare the input with stored hash
-        public static bool IsValid(string userItem, string databaseItem)
-        {
-            return BCrypt.Net.BCrypt.Verify(userItem, databaseItem);
-        }
         public decimal CalculateTotalAmountByQuantity(int productID, int quantity)
         {
             try
@@ -114,10 +109,15 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public static bool IsEqual(string password, string hashedPassword)
+        public static bool VerifyPassword(byte[] hashedPassword, string enteredPassword)
         {
-            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+            // Convert the byte[] hashed password to a string
+            string hashedPasswordString = Encoding.UTF8.GetString(hashedPassword);
 
+            // Use BCrypt's Verify method to compare the entered password with the hashed password
+            bool isPasswordMatch = BCrypt.Net.BCrypt.Verify(enteredPassword, hashedPasswordString);
+
+            return isPasswordMatch;
         }
     }
 }
