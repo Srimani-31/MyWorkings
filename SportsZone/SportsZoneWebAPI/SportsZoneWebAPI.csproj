@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repositories\AuthRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IAuthRepository.cs" />
+    <Compile Remove="Services\AuthService.cs" />
+    <Compile Remove="Services\Interfaces\IAuthService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.32" />
