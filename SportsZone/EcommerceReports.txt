@@ -1,0 +1,251 @@
+A Project to showcase the tech skills
+===========================================================================
+
+Domain = Ecommerce 
+Title = ecommerce platform
+
+===========================================================================
+
+Planning & Requirement analysis
+ER Diagram
+Database schema
+API Design
+
+===========================================================================
+
+Database schema
+---------------------------------------------------------------------------
+Customer table => Used to store the details of the customer
+Security table => Handles the security details
+Product table => Used to store the details of the product to be purchased
+Catogory table => Used to store the variety of catogories
+Cart table => Used to map cart to each user
+CartItem table => Used to store the products included in the cart
+Order table => Used to store the details of the order such as the user info, order date
+Payment table => Used to store the details of various payment details
+OrderedItem table => Used to store the details of ordered item on the each order
+
+
+How I include the reports with this data?
+
+Sales reports
+	Order reports
+		fetch all the data from order table and export as an excel or pdf
+		fetch all the data from order table by user and export as an excel or pdf ( group by users )
+	By product purchased 
+		for each product in product table fetch the data from orderedItem table summon the quantity purchased ( to show the amount of quantity sold )
+User reports
+	fetch the details of the all users from user table and export as an excel or pdf
+	fetch the details of the single user from user table along with order details from order table and export as an excel or pdf
+Inventory reports
+	fetch the details of the all products along with quanity available
+============================================================================
+
+define the database schema
+	define the table columns
+Create the database with defined columns
+Add sample data
+Design API end points
+Perform api end points operations in SSMS
+
+
+
+=============================================================================
+anomalies to be followed:
+
+File should be shared in wwwroot folder => done
+order id should be in yyyymmddhhmmss-random number => done
+Always use 1.srimani user data for testing
+
+Customer can place order in two ways:
+1. via Buy Now
+2. via Cart
+
+If cartID is not passed while calling the procedure
+then no need calculate the TotalAmount
+If TotalAmount is passed while calling the procedure
+then cartID should be mentioned
+
+default value for CartID = NULL
+default value for TotalAmount = NULL
+
+case 1: EXECUTE InsertNewOrder @CustomerID ='user1' @TotalAmount = 500.99
+	Here the CartID is NULL
+	We will skip the Evaluate CartTotal Function and proceed the order processing
+case 2: EXECUTE InsertNewOrder @CustomerID='user 1' @CartID = 2
+	Here the TotalAmount is NULL
+	TotalAmount will be calculated by calling Evaluate CartTotal function
+
+After placing the order the STOCKCOUNT has to be updated in the Product
+Case 1: Via Buy Now
+		Get the ProductID, Quantity and update the Product table StockCount => PresentValue - Quantity
+Case 2 : Via Cart
+		Get All Cart item's ProductID, Quantity and update the Product table StockCount => PresentValue - Quantity
+
+* Iterating over the table is not possible in sql server stored procedrue
+* It has to be done only in the API layer (Middleware)
+* Get all of the records which is related to the OrderID
+* Iterate over the table in C# looping
+* Get the Present StockCount of the Product in PresentCount 
+* Update the Product table with reference of ProductID, StockCount as PresentCount - Quantity
+
+Add Log table to log the user 
+
+Add the IsEnabled column to know the account active status => done
+
+Naming conventions:
+change the Models to Data transfer objects
+
+Bugs fix
+* "System.Type Exception" => fixed nullable type to value type
+* Router parameter mismatch
+
+Special feature
+INJECTING THE ABSTRACTED DBCONTEXT
+-----------Abstracting the dbcontext----------------
+* defining the IDbcontext interface with proto of the crud methods and other methods which is to be used in executing against the database
+* Create Dbcontext class that implements IDbcontext, DbContext (metadata)
+* Define all the methods 
+
+
+==============================================================================
+Technology & Concepts to be used:
+------------------------------------------------------------------------------
+ASP.NET Core WebAPI
+MVC Design Pattern
+Databases First Approach
+Stored Procedure
+Functions
+Views
+Exception handling
+DTO
+Automapper
+Iron pdf hyperlink => https://ironpdf.com/how-to/csharp-pdf-reports/
+Execute the sql queries via EF Core to achieve innovative things such as sp_GenerateOrderId() 
+Process excel file data into the database
+===============================================================================
+Apparel: 
+This category should include all clothing items related to sports, 
+such as jerseys, uniforms, sports-specific clothing 
+(e.g., soccer shorts, basketball jerseys), compression wear, sports bras, socks, and athletic jackets.
+
+Footwear: 
+Include all types of sports shoes, including cleats (for various sports), 
+tennis shoes, running shoes, golf shoes, hiking boots, ice skates, and rollerblades.
+
+Equipment: 
+This category should encompass all sports equipment, 
+such as balls (for different sports), rackets and paddles, bats and clubs, helmets, pads, gloves, goggles, swim caps, and other protective gear.
+
+Accessories: 
+Include sports-related accessories like water bottles, sports bags, sports watches and trackers, nutrition supplements, and any other accessory items.
+
+==================================================================================
+28-08-2023
+To do List:
+* Design Database schemas => done
+* Add Sample data to it  => done
+
+29-08-2023
+To do List:
+* API design => done
+
+30-08-2023
+To do List:
+* Create Database schema as designed => done
+* Insert data into it => done
+
+31-08-2023
+To do List:
+* Create all stored procedure. => done
+* Perform mock workflow insertion in sql server => done
+* Analyze What? Why? How? When? DTO => done
+
+01-08-2023
+To do List:
+* Convert all the stored procedure computation into repository computation => done
+* Explain your system to two person => done
+
+02-08-2023
+To do List:
+* Create an ASP.NET CORE WEB API with EF CORE as ORM via DB first approach => done
+* Revisit LINQ What? Why? When? How? =>  done
+* Walkthrough the RiddleWebAPI project.=> done
+* Implement the Repository layer. => done
+
+03-08-2023
+To do List
+* Tested the repository layer via end point => done
+
+04-08-2023
+To do List:
+* Implement the Hashing mechanism password & email at last => done
+* Create Json request object for the post and put actions => done
+* Define other controller based on the workflow which is defined in the docx => done
+
+08-09-2023
+To do List:
+* Need to fix Placeorder bug "System.Type Exception" => fixed nullable type to value type => done
+* Router parameter mismatch => done
+
+09-09-2023
+To do List:
+* Implement the abstract injection for repo,service => done
+* Implement the abstract inject for DbContext class => done
+
+10-09-2023
+To do List:
+* Implement the code clean up => done
+* Learn about JWT How it works? => done
+
+11-09-2023
+To do List:
+* Structured the folder hierarchy of Perfect Rest API => done
+* Implement the JWT Authentication => done
+
+12-09-2023
+To do List:
+* Explore ID token vs Access token => done
+* Document the JWT observation for later purpose
+
+12-09-2023
+To do List:
+* Structure the API response as per the best practices
+* Implement role based authorisation 
+
+13-09-2023
+To do List:
+* Extract data from the excel to database to add products and category 
+
+
+ 
+Web API procedure
+
+* Create a asp.net core web api project
+* Import Nuget package 
+	Microsoft.EntityframeworkCore.Sqlserver
+	Microsoft.EntityFramewrokCore.Tools
+	Microsoft.EntityFrameworkCore.Desing
+* Execute the Scaffold cmd in PMC
+* Configure the connections string globally
+* Created repository layer computation (actual data access layer)
+* Created Data transfer objects DTOs for request & response
+* Map the DTO to the models using automapper
+* configure the automapper in startup.cs
+* Created the controller for customer handling
+* configured the dependency injection for injected classes
+* Resolved the Circular dependency
+* Implemented the Hashing mechanism with Bcrypt Nuget package
+* Created Auth Controller with necessary repo & service layer
+
+
+
+
+
+
+
+
+	
+
+
+		
