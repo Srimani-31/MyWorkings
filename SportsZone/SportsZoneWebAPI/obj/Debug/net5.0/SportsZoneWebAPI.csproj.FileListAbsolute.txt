@@ -1,7 +1,7 @@
+D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\SportsZoneWebAPI.deps.json
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\appsettings.Development.json
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\appsettings.json
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\SportsZoneWebAPI.exe
-D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\SportsZoneWebAPI.deps.json
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\SportsZoneWebAPI.runtimeconfig.json
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\SportsZoneWebAPI.runtimeconfig.dev.json
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\SportsZoneWebAPI.dll
@@ -11,6 +11,7 @@ D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\AutoMapper.dll
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\BCrypt.Net-Next.dll
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\Humanizer.dll
+D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\Microsoft.Data.SqlClient.dll
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
 D:\Revision\SportsZone\SportsZoneWebAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -65,4 +66,3 @@ D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\SportsZoneWebAPI.dll
 D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\ref\SportsZoneWebAPI.dll
 D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\SportsZoneWebAPI.pdb
 D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\SportsZoneWebAPI.genruntimeconfig.cache
-D:\Revision\SportsZone\SportsZoneWebAPI\obj\Debug\net5.0\SportsZoneWebAPI.csproj.AssemblyReference.cache

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SportsZoneWebAPI.Data.Interfaces;
 using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Repositories.Interfaces;
@@ -17,6 +18,17 @@ namespace SportsZoneWebAPI.Repositories
             _sportsZoneDbContext = sportsZoneDbContext;
         }
 
+        public async Task<IEnumerable<Security>> GetAllSecurityDetails()
+        {
+            try
+            {
+                return await _sportsZoneDbContext.Securities.ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<Security> GetSecurityDetailsByCustomerID(string email)
         {
             try

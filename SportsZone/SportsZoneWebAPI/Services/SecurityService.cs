@@ -4,6 +4,7 @@ using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Repositories.Interfaces;
 using SportsZoneWebAPI.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Services
@@ -18,6 +19,24 @@ namespace SportsZoneWebAPI.Services
             _securityRepository = securityRepository;
             _mapper = mapper;
 
+        }
+        public async Task<IEnumerable<SecurityResponseDTO>> GetAllSecurityDetails()
+        {
+            try
+            {
+                IEnumerable<Security> securities = await _securityRepository.GetAllSecurityDetails();
+                IList<SecurityResponseDTO> securityResponseDTOs = new List<SecurityResponseDTO>();
+                foreach (Security security in securities)
+                {
+                    SecurityResponseDTO securityResponseDTO = _mapper.Map<SecurityResponseDTO>(security);
+                    securityResponseDTOs.Add(securityResponseDTO);
+                }
+                return securityResponseDTOs;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public async Task<SecurityResponseDTO> GetSecurityDetailsByCustomerID(string email)
         {
