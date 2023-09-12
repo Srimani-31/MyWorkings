@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SportsZoneWebAPI.DTOs;
 using SportsZoneWebAPI.Services.Interfaces;
 using System;
@@ -8,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : ControllerBase

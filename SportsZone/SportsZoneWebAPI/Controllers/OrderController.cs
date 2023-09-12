@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SportsZoneWebAPI.DTOs;
 using SportsZoneWebAPI.Services.Interfaces;
 using System;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -29,6 +31,7 @@ namespace SportsZoneWebAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
+       
         [HttpGet, Route("GetAllPlacedOrders")]
         public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllPlacedOrders()
         {

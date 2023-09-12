@@ -60,6 +60,8 @@ namespace SportsZoneWebAPI
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderItemService, OrderItemService>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUtil, Util>();
 
             //automapper configuration

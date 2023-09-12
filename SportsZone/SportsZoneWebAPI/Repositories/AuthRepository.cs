@@ -49,7 +49,7 @@ namespace SportsZoneWebAPI.Repositories
                     expires: DateTime.Now.AddMinutes(10),
                     signingCredentials: signIn
                 );
-                string tokenhandler = new JwtSecurityTokenHandler().WriteToken(token);
+                string tokenhandler = "Bearer "+ new JwtSecurityTokenHandler().WriteToken(token);
                 return tokenhandler;
             }
             catch (Exception)
