@@ -1,0 +1,195 @@
+Customer post request 
+{
+  "email": "cristiano@gmail.com",
+  "firstName": "Cristiano",
+  "lastName": "Ronaldo",
+  "contactNumber": "876789450",
+  "address": "Kingston Street",
+  "city": "Washington",
+  "country": "United States of America",
+  "zipCode": "236543",
+  "profilePhoto": "reltivepath/file.png",
+  "createdUpdatedBy": "cristiano@gmail.com"
+}
+customer put request
+{
+  "email": "cristiano@gmail.com",
+  "firstName": "Cristiano",
+  "lastName": "Ronaldo",
+  "contactNumber": "7876543456",
+  "address": "Kingston Street",
+  "city": "Washington",
+  "country": "United States of America",
+  "zipCode": "236543",
+  "profilePhoto": "reltivepath/file.png",
+  "createdUpdatedBy": "Admin"
+}
+Security post request
+{
+  "email": "cristiano@gmail.com",
+  "password": "1234",
+  "securityQuestion": "What is you surname?",
+  "answer": "Seeeuuuuu",
+  "createdUpdatedBy": "cristiano@gmail.com"
+}
+Security put request
+{
+  "email": "cristiano@gmail.com",
+  "password": "1234",
+  "securityQuestion": "What is you surname?",
+  "answer": "cr7",
+  "createdUpdatedBy": "Admin"
+}
+
+Category post request
+{
+  "categoryID": 0,
+  "categoryName": "Apparel",
+  "description": "Include all clothing items related to sports, such as jerseys, uniforms, sports-specific clothing (e.g., soccer shorts, basketball jerseys), compression wear, sports bras, socks, and athletic jackets.",
+  "createdUpdatedBy": "Srimani"
+}
+
+Category put request
+{
+  "categoryID": 2,
+  "categoryName": "Apparel",
+  "description": "Include all clothing items related to sports, such as jerseys, uniforms, sports-specific clothing (e.g., soccer shorts, basketball jerseys), compression wear, sports bras, socks, and athletic jackets.",
+  "createdUpdatedBy": "Admin"
+}
+
+
+Product post request
+Need to handle the escape sequence for productImage relative path
+{
+    "productID": 0,
+    "productName": "Nike Men's Dri-FIT Running Shirt",
+    "productImage": "D:\\MyDocumentaries\\Images\\ProductImage\\Apparel\\Nike Men's Dri-FIT Running Shirt.jpeg",
+    "stockCount": 150,
+    "price": 888,
+    "categoryID": 2,
+	"createdUpdatedBy": "Srimani"
+}
+
+Product put request
+{
+    "productID": 3,
+    "productName": "Nike Men's Dri-FIT Running Shirt",
+    "productImage": "D:\\MyDocumentaries\\Images\\ProductImage\\Apparel\\Nike Men's Dri-FIT Running Shirt.jpeg",
+    "stockCount": 150,
+    "price": 888,
+    "categoryID": 2,
+	"createdUpdatedBy": "Admin"
+}
+
+Cart post request
+{
+  "cartID": 0,
+  "belongsTo": "sri@gmail.com",
+  "createdUpdatedBy": "sri@gmail.com"
+}
+Cart put request
+{
+  "cartID": 2,
+  "belongsTo": "sri@gmail.com",
+  "createdUpdatedBy": "Admin"
+}
+CartItem post request
+{
+  "cartItemID": 0,
+  "cartID": 7,
+  "productID": 3,
+  "quantity": 4,
+  "createdUpdatedBy": "sri@gmail.com"
+}
+CartItem put request
+{
+  "cartItemID": 0,
+  "cartID": 7,
+  "productID": 3,
+  "quantity": 4,
+  "createdUpdatedBy": "sri@gmail.com"
+}
+
+Shipping post request
+{
+  "shippingID": 0,
+  "address": "Marakadai",
+  "city": "Chennai",
+  "country": "China",
+  "zipCode": "651231",
+  "landmark": "A2 Police station",
+  "belongsTo": "sri@gmail.com",
+  "createdUpdatedBy": "sri@gmail.com"
+}
+Shipping put request
+{
+  "shippingID": 3,
+  "address": "Marakadai",
+  "city": "Chennai",
+  "country": "China",
+  "zipCode": "651231",
+  "landmark": "A2 Police station",
+  "belongsTo": "sri@gmail.com",
+  "createdUpdatedBy": "Admin"
+}
+Payment post request
+{
+  "paymentID": 0,
+  "paymentType": "Internet Banking",
+  "createdUpdatedBy": "sri@gmail.com"
+}
+Payment put request
+{
+  "paymentID": 2,
+  "paymentType": "Internet Banking",
+  "createdUpdatedBy": "Admin"
+}
+Order post request 
+
+Direct purchase
+{
+  "orderID": "string",
+  "customerID": "sri@gmail.com",
+  "orderDate": "2023-09-07T14:18:09.017Z",
+  "status": "string",
+  "totalAmount": 0,
+  "paymentID": 2,
+  "shippingID": 3,
+  "productID": 3,
+  "quantity": 140,
+  "cartID": 0,
+  "createdUpdatedBy": "sri@gmail.com"
+}
+Cart mode purchase
+{
+  "orderID": "string",
+  "customerID": "sri@gmail.com",
+  "orderDate": "2023-09-08T06:52:15.324Z",
+  "status": "string",
+  "totalAmount": 0,
+  "paymentID": 1,
+  "shippingID": 3,
+  "productID": 0,
+  "quantity": 0,
+  "cartID": 8,
+  "createdUpdatedBy": "sri@gmail.com"
+}
+Order put request
+{
+   "orderID": "SPRTZN-20230908122444-088c-0006",
+    "customerID": "sri@gmail.com",
+    "orderDate": "2023-09-08T12:24:57.027",
+    "status": "Cancelled",
+    "totalAmount": 4688,
+    "paymentID": 1,
+    "shippingID": 3,
+	"productID": 0,
+	"quantity": 0,
+    "cartID": 8,
+	"createdUpdatedBy":"Admin"
+}
+
+No need to explicitly Post & put orderItem
+it will be done in the Place Order itself
+
+

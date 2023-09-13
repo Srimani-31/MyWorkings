@@ -1,28 +1,26 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Models;
-
 namespace SportsZoneWebAPI.Repositories
 {
-    public class OrderItemRepository
+    public class OrderItemRepository : IOrderItemRepository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        private readonly CartItemRepository _cartItemRepository;
-        private readonly OrderRepository _orderRepository;
-        private readonly ProductRepository _productRepository;        
-        public OrderItemRepository(SportsZoneDbContext sportsZoneDbContext
-            , CartItemRepository cartItemRepository
-            , OrderRepository orderRepository
-            ,ProductRepository productRepository)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        private readonly ICartItemRepository _cartItemRepository;
+        private readonly IUtil _util;
+        public OrderItemRepository(ISportsZoneDbContext sportsZoneDbContext
+            , ICartItemRepository cartItemRepository
+            , IUtil util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
             _cartItemRepository = cartItemRepository;
-            _orderRepository = orderRepository;
-            _productRepository = productRepository;
+            _util = util;
         }
         public async Task<IEnumerable<OrderItem>> GetAllOrderedItems()
         {
@@ -136,11 +134,11 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task InsertOrderItemsFromCartItems(string orderID,int cartID)
+        public async Task InsertOrderItemsFromCartItems(string orderID, int cartID)
         {
             try
             {
-                Order order = await _orderRepository.GetOrderByOrderID(orderID);
+                Order order = await _sportsZoneDbContext.Orders.FindAsync(orderID);
 
                 IEnumerable<CartItem> cartItems = await _cartItemRepository.GetAllCartItemsByCartID(cartID);
 
@@ -171,9 +169,9 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                Order order = await _orderRepository.GetOrderByOrderID(orderID);
+                Order order = await _sportsZoneDbContext.Orders.FindAsync(orderID);
 
-                decimal totalPrice = _productRepository.CalculateTotalAmountByQuantity(productID,quantity);
+                decimal totalPrice = _util.CalculateTotalAmountByQuantity(productID, quantity);
 
                 OrderItem orderItem = new OrderItem()
                 {

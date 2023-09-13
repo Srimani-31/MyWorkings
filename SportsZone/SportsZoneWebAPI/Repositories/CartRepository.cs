@@ -1,23 +1,23 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Models;
-
 namespace SportsZoneWebAPI.Repositories
 {
-    public class CartRepository
+    public class CartRepository : ICartRepository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        private readonly CartItemRepository _cartItemRepository;
-        public CartRepository(SportsZoneDbContext sportsZoneDbContext,CartItemRepository cartItemRepository)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        private readonly ICartItemRepository _cartItemRepository;
+        public CartRepository(ISportsZoneDbContext sportsZoneDbContext, ICartItemRepository cartItemRepository)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
             _cartItemRepository = cartItemRepository;
         }
-
         public async Task<IEnumerable<Cart>> GetAllCarts()
         {
             try
@@ -223,8 +223,8 @@ namespace SportsZoneWebAPI.Repositories
             {
 
                 Cart cart = _sportsZoneDbContext.Carts
-                    .SingleOrDefault(cart => 
-                        cart.BelongsTo == email && cart.IsEnabled == true ) ;
+                    .SingleOrDefault(cart =>
+                        cart.BelongsTo == email && cart.IsEnabled == true);
                 if (cart != null)
                 {
                     await _cartItemRepository.DeleteAllCartItemsByCartID(cart.CartID);
@@ -235,6 +235,20 @@ namespace SportsZoneWebAPI.Repositories
                 {
                     throw new KeyNotFoundException("cart not found");
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task DeleteCartByCartID(int cartID)
+        {
+            try
+            {
+                Cart cart = await GetCartByCartID(cartID);
+                await _cartItemRepository.DeleteAllCartItemsByCartID(cart.CartID);
+                _sportsZoneDbContext.Carts.Remove(cart);
+                await _sportsZoneDbContext.SaveChangesAsync();
             }
             catch (Exception)
             {

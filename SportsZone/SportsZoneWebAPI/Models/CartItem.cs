@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-
 #nullable disable
 
 namespace SportsZoneWebAPI.Models
 {
     public partial class CartItem
     {
+
         public int CartItemID { get; set; }
         public int CartID { get; set; }
         public int ProductID { get; set; }
@@ -16,7 +15,6 @@ namespace SportsZoneWebAPI.Models
         public DateTime CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
-
         public virtual Cart Cart { get; set; }
         public virtual Product Product { get; set; }
     }

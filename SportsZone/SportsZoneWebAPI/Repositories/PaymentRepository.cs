@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
 using SportsZoneWebAPI.Models;
-
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace SportsZoneWebAPI.Repositories
 {
-    public class PaymentRepository
+    public class PaymentRepository : IPaymentRepository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        public PaymentRepository(SportsZoneDbContext sportsZoneDbContext)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        public PaymentRepository(ISportsZoneDbContext sportsZoneDbContext)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
         }
 
-        public async Task<IEnumerable<Payment>> GetAllPaymentModes()
+        public async Task<IEnumerable<Payment>> GetAllPaymentMethods()
         {
             try
             {
@@ -27,7 +26,7 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task<Payment> GetPaymentModeByPaymentID(int paymentID)
+        public async Task<Payment> GetPaymentMethodByPaymentID(int paymentID)
         {
             try
             {
@@ -39,7 +38,7 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task AddNewPaymentMode(Payment payment)
+        public async Task AddNewPaymentMethod(Payment payment)
         {
             try
             {
@@ -65,7 +64,7 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task DeletePaymentModeByPaymentID(int paymentID)
+        public async Task DeletePaymentMethodByPaymentID(int paymentID)
         {
             try
             {
@@ -79,18 +78,18 @@ namespace SportsZoneWebAPI.Repositories
                 else
                 {
                     throw new KeyNotFoundException("Payment mode not found");
-                } 
+                }
             }
             catch (Exception)
             {
                 throw;
             }
         }
-        public async Task DeleteAllPaymentModes()
+        public async Task DeleteAllPaymentMethods()
         {
             try
             {
-                IEnumerable<Payment> payments = await GetAllPaymentModes();
+                IEnumerable<Payment> payments = await GetAllPaymentMethods();
 
                 foreach (Payment payment in payments)
                 {

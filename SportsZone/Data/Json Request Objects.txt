@@ -1,0 +1,125 @@
+CUSTOMER ENTITY
+{
+  "email": "string",
+  "firstName": "string",
+  "lastName": "string",
+  "contactNumber": "string",
+  "address": "string",
+  "city": "string",
+  "country": "string",
+  "zipCode": "string",
+  "profilePhoto": "string",
+  "createdBy": "string",
+  "createdDate": "2023-09-04T07:50:41.664Z",
+  "updatedBy": "string",
+  "updatedDate": "2023-09-04T07:50:41.664Z",
+  "isEnabled": true
+}
+
+SECURITY ENTITY
+{
+  "email": "string",
+  "password": "string",
+  "securityQuestion": "string",
+  "answer": "string",
+  "createdBy": "string",
+  "createdDate": "2023-09-04T07:51:54.632Z",
+  "updatedBy": "string",
+  "updatedDate": "2023-09-04T07:51:54.632Z"
+}
+
+CATEGORY ENTITY
+{
+  "categoryID": 0,
+  "categoryName": "string",
+  "Description": "string",
+  "createdBy": "string",
+  "createdDate": "2023-09-04T07:51:54.632Z",
+  "updatedBy": "string",
+  "updatedDate": "2023-09-04T07:51:54.632Z"
+}
+PRODUCT ENTITY
+{
+  "productID": 0,
+  "productName": "string",
+  "productImage": "string",
+  "stockCount": 0,
+  "price":0,
+  "categoryID": 0,
+  "createdBy": "string",
+  "createdDate": "2023-09-04T07:51:54.632Z",
+  "updatedBy": "string",
+  "updatedDate": "2023-09-04T07:51:54.632Z"
+}
+CART ENTITY
+{
+	"cartID": 0,
+	"belongsTo": "string",
+    "isEnabled": true,
+    "createdBy": "string",
+    "createdDate": "2023-09-05T11:09:14.705Z",
+    "updatedBy": "string",
+    "updatedDate": "2023-09-05T11:09:14.705Z"
+}
+CART ITEM ENTITY
+{
+          "cartItemID": 0,
+          "cartID":0,
+          "productID": 0,
+          "quantity": 0,
+          "totalPrice": 0,
+          "createdBy": "string",
+          "createdDate": "2023-09-05T11:53:35.724Z",
+          "updatedBy": "string",
+          "updatedDate": "2023-09-05T11:53:35.724Z"
+}
+SHIPPING ENTITY
+  {
+      "shippingID": 0,
+      "address": "string",
+      "city": "string",
+      "country": "string",
+      "zipCode": "string",
+      "landmark": "string",
+      "belongsTo": "string",
+      "createdBy": "string",
+      "createdDate": "2023-09-05T11:09:14.705Z",
+      "updatedBy": "string",
+      "updatedDate": "2023-09-05T11:09:14.705Z"
+}
+PAYMENT ENTITY
+{
+  "paymentID": 0,
+  "paymentType": "string",
+  "createdBy": "string",
+  "createdDate": "2023-09-04T07:51:54.632Z",
+  "updatedBy": "string",
+  "updatedDate": "2023-09-04T07:51:54.632Z"
+}
+ORDER ENTITY
+{
+      "orderID": "string",
+      "customerID": "string",
+      "orderDate": "2023-09-05T11:09:14.705Z",
+      "status": "string",
+      "totalAmount": 0,
+      "paymentID": 0,
+      "shippingID": 0,
+      "cartID": 0,
+      "createdBy": "string",
+      "createdDate": "2023-09-05T11:09:14.705Z",
+      "updatedBy": "string",
+      "updatedDate": "2023-09-05T11:09:14.705Z"
+}
+ORDER ITEM ENTITY
+{
+          "orderItemID": 0,
+          "orderID": "string",
+          "productID": 0,
+          "quantity": 0,
+          "totalPrice": 0,
+          "createdBy": "string",
+          "createdDate": "2023-09-05T11:53:35.724Z",
+          "updatedBy": "string",
+          "updatedDate": "2023-09-05T11:53:35.724Z"
+}

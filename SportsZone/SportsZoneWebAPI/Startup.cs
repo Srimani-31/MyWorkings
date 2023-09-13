@@ -1,19 +1,21 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Mappings.MappingProfiles;
 using SportsZoneWebAPI.Models;
-using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Repositories;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using SportsZoneWebAPI.Services;
+using SportsZoneWebAPI.Services.Interfaces;
+using System.Text;
 
 namespace SportsZoneWebAPI
 {
@@ -30,24 +32,105 @@ namespace SportsZoneWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //adding connection globally
-            services.AddDbContext<SportsZoneDbContext>(options => {
+            services.AddDbContext<SportsZoneDbContext>(options =>
+            {
                 options.UseSqlServer(Configuration.GetConnectionString("SportsZoneDB"));
                 options.EnableSensitiveDataLogging();
             });
-            //configuring the dependency injection
-            //services.AddTransient<IUserRepository, UserRepository>();//map the interface to their implementation
-            services.AddSingleton<SportsZoneDbContext>();
-            //services.AddTransient<IUserService, UserService>();
-            //automapper configuration
-            //var mappingConfig = new MapperConfiguration(
-              //   mc => mc.AddProfile(new UserProfile()));
-            //IMapper mapper = mappingConfig.CreateMapper();
-            //services.AddSingleton(mapper);
 
-            services.AddControllers();
+            //configuring the dependency injection
+            services.AddScoped<ISportsZoneDbContext, SportsZoneDbContext>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ICustomerRespository, CustomerRepository>();
+            services.AddScoped<ISecurityService, SecurityService>();
+            services.AddScoped<ISecurityRepository, SecurityRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryRespository, CategoryRepository>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<ICartItemService, CartItemService>();
+            services.AddScoped<ICartItemRepository, CartItemRepository>();
+            services.AddScoped<IShippingService, ShippingService>();
+            services.AddScoped<IShippingRepository, ShippingRepository>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderItemService, OrderItemService>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IUtil, Util>();
+
+            //automapper configuration
+            services.AddAutoMapper(typeof(SecurityMapping));
+            var mappingConfig = new MapperConfiguration(
+               mc =>
+               {
+                   mc.AddProfile(new SecurityMapping());
+                   mc.AddProfile(new CustomerMapping());
+                   mc.AddProfile(new CategoryMapping());
+                   mc.AddProfile(new ProductMapping());
+                   mc.AddProfile(new CartMapping());
+                   mc.AddProfile(new CartItemMapping());
+                   mc.AddProfile(new ShippingMapping());
+                   mc.AddProfile(new PaymentMapping());
+                   mc.AddProfile(new OrderMapping());
+                   mc.AddProfile(new OrderItemMapping());
+               });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            //JWT config
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SportsZoneWebAPI", Version = "v1" });
+
+                //JWT config
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Jwt Authorization",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[]{ }
+                    }
+                });
+            });
+
+            //JWT config
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:key"]))
+                };
             });
         }
 
@@ -65,6 +148,8 @@ namespace SportsZoneWebAPI
 
             app.UseRouting();
 
+            //config JWT authentication
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

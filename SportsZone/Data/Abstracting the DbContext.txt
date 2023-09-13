@@ -1,0 +1,76 @@
+When you abstract your `DbContext` and try to use it through an interface (such as `IDbContext`), you may encounter issues when certain methods like `SaveChanges()` are not directly accessible. However, these issues can be resolved with some adjustments in your code.
+
+Here's how you can solve this problem and continue using your abstracted `DbContext`:
+
+1. **Define the Required Methods in the Interface**:
+
+   In your `IDbContext` interface, define any methods that you need to access from the `DbContext`. For example:
+
+   ```csharp
+   public interface IDbContext
+   {
+       DbSet<TEntity> Set<TEntity>() where TEntity : class;
+       int SaveChanges();
+       Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+   }
+   ```
+
+   By defining these methods in the interface, you make them part of the contract that any concrete implementation of the `IDbContext` interface must adhere to.
+
+2. **Implement the Methods in the Concrete DbContext**:
+
+   In your concrete `DbContext` class (e.g., `MyDbContext`), implement the methods defined in the `IDbContext` interface:
+
+   ```csharp
+   public class MyDbContext : DbContext, IDbContext
+   {
+       public DbSet<MyEntity> MyEntities { get; set; }
+
+       public new int SaveChanges()
+       {
+           // Implement the SaveChanges method here
+           return base.SaveChanges();
+       }
+
+       public new Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+       {
+           // Implement the SaveChangesAsync method here
+           return base.SaveChangesAsync(cancellationToken);
+       }
+   }
+   ```
+
+   Note that we use the `new` keyword to explicitly hide the base `SaveChanges()` and `SaveChangesAsync()` methods from `DbContext` and provide our own implementations.
+
+3. **Register the Concrete DbContext**:
+
+   In your `Startup.cs` or wherever you configure your dependency injection, register the concrete `DbContext` class (`MyDbContext`) along with the interface (`IDbContext`):
+
+   ```csharp
+   services.AddScoped<IDbContext, MyDbContext>();
+   ```
+
+4. **Inject the Abstracted DbContext**:
+
+   Now, you can inject the `IDbContext` abstraction into your services and controllers and use the `SaveChanges()` and other methods as needed:
+
+   ```csharp
+   public class MyService
+   {
+       private readonly IDbContext _context;
+
+       public MyService(IDbContext context)
+       {
+           _context = context;
+       }
+
+       public void SomeMethod()
+       {
+           // Use the abstracted DbContext's methods
+           int result = _context.SaveChanges();
+           // Other operations...
+       }
+   }
+   ```
+
+By following these steps, you can successfully abstract your `DbContext` and continue using its methods through the interface while providing custom implementations for those methods in your concrete `DbContext` class. This approach maintains abstraction while retaining access to the essential database operations.

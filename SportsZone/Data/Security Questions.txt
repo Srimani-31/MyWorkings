@@ -1,0 +1,48 @@
+Security questions are commonly used to verify a user's identity in various online platforms. When creating security questions, it's important to choose questions and answers that are not easily guessable by others but are memorable for you. Here are some sample security questions:
+
+1. **What is your mother's maiden name?**
+   - Answer: Smith
+
+2. **What is the name of your first pet?**
+   - Answer: Fluffy
+
+3. **In which city were you born?**
+   - Answer: New York
+
+4. **What is your favorite movie?**
+   - Answer: The Shawshank Redemption
+
+5. **What is the name of your first school?**
+   - Answer: Maple Elementary
+
+6. **What is your favorite book?**
+   - Answer: To Kill a Mockingbird
+
+7. **What is your favorite color?**
+   - Answer: Blue
+
+8. **What is the model of your first car?**
+   - Answer: Civic
+
+9. **What is your favorite vacation spot?**
+   - Answer: Hawaii
+
+10. **What is your favorite food?**
+    - Answer: Pizza
+
+When choosing or creating security questions, remember the following tips:
+
+- Select questions and answers that are not publicly available information.
+- Ensure that the answers are easy for you to remember but difficult for others to guess.
+- Avoid using information that can be easily found on your social media profiles.
+- Be consistent in your answers, so you can recall them when needed.
+- Keep your answers private and do not share them with others.
+
+Additionally, it's important to use strong and unique passwords in combination with security questions to enhance the security of your online accounts.
+
+
+City: Kolkata
+Address: 123, Main Street, Landmark Apartment, Flat 4B, South Block
+State: West Bengal
+Country: India
+Postal (PIN) Code: 700001

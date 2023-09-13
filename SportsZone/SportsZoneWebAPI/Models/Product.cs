@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 #nullable disable
 
 namespace SportsZoneWebAPI.Models
@@ -23,7 +22,6 @@ namespace SportsZoneWebAPI.Models
         public DateTime CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
-
         public virtual Category Category { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }

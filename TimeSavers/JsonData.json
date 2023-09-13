@@ -1,0 +1,26 @@
+﻿{
+  "email": "string",
+  "firstName": "string",
+  "lastName": "string",
+  "contactNumber": "string",
+  "address": "string",
+  "city": "string",
+  "country": "string",
+  "zipCode": "string",
+  "profilePhoto": "string",
+  "createdBy": "string",
+  "createdDate": "2023-09-04T07:50:41.664Z",
+  "updatedBy": "string",
+  "updatedDate": "2023-09-04T07:50:41.664Z",
+  "isEnabled": true,
+  "security": {
+    "email": "string",
+    "password": "string",
+    "securityQuestion": "string",
+    "answer": "string",
+    "createdBy": "string",
+    "createdDate": "2023-09-04T07:51:54.632Z",
+    "updatedBy": "string",
+    "updatedDate": "2023-09-04T07:51:54.632Z"
+  }
+}

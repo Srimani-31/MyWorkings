@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Models;
-
 namespace SportsZoneWebAPI.Repositories
 {
-    public class CartItemRepository
+    public class CartItemRepository : ICartItemRepository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        private readonly ProductRepository _productRepository;
-        public CartItemRepository(SportsZoneDbContext sportsZoneDbContext, ProductRepository productRepository)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        private readonly IUtil _util;
+        public CartItemRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
-            _productRepository = productRepository;
+            _util = util;
         }
 
         public async Task<IEnumerable<CartItem>> GetAllCartItems()
@@ -64,10 +65,13 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task UpdateCart(CartItem cartItem)
+        public async Task UpdateCartItem(CartItem cartItem)
         {
             try
             {
+                decimal totalPrice = _util.CalculateTotalAmountByQuantity(cartItem.ProductID, cartItem.Quantity);
+                cartItem.TotalPrice = totalPrice;
+
                 _sportsZoneDbContext.CartItems.Update(cartItem);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
@@ -126,27 +130,13 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task<decimal> EvaluateCartTotal(int cartID)
-        {
-            try
-            {
-                decimal cartTotal =await _sportsZoneDbContext.CartItems
-                    .Where(cartItem => cartItem.CartID == cartID)
-                    .Select(cartItem => cartItem.TotalPrice)
-                    .SumAsync();
-                return cartTotal;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+
         public async Task InsertCartItem(int cartID, int productID, int quantity, string createdBy)
         {
             try
             {
                 // Get the product price by quantity
-                decimal totalPrice = _productRepository.CalculateTotalAmountByQuantity(productID, quantity);
+                decimal totalPrice = _util.CalculateTotalAmountByQuantity(productID, quantity);
 
                 //create cart item
                 var cartItem = new CartItem()

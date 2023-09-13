@@ -1,19 +1,15 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
 #nullable disable
 
 namespace SportsZoneWebAPI.Models
 {
-    public partial class SportsZoneDbContext : DbContext
+    public partial class SportsZoneDbContext : DbContext, ISportsZoneDbContext
     {
-
         public SportsZoneDbContext(DbContextOptions<SportsZoneDbContext> options)
             : base(options)
         {
         }
-
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<CartItem> CartItems { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
@@ -24,16 +20,6 @@ namespace SportsZoneWebAPI.Models
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Security> Securities { get; set; }
         public virtual DbSet<Shipping> Shippings { get; set; }
-
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("Data Source=ZSCHN01LP0042;Initial Catalog=SportsZoneDB;User ID=sa;Password=Password@123");
-//            }
-//        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
@@ -42,7 +28,7 @@ namespace SportsZoneWebAPI.Models
             {
                 entity.ToTable("Cart");
 
-                entity.Property(e => e.CartId).HasColumnName("CartID");
+                entity.Property(e => e.CartID).HasColumnName("CartID");
 
                 entity.Property(e => e.BelongsTo)
                     .IsRequired()
@@ -82,9 +68,9 @@ namespace SportsZoneWebAPI.Models
             {
                 entity.ToTable("CartItem");
 
-                entity.Property(e => e.CartItemId).HasColumnName("CartItemID");
+                entity.Property(e => e.CartItemID).HasColumnName("CartItemID");
 
-                entity.Property(e => e.CartId).HasColumnName("CartID");
+                entity.Property(e => e.CartID).HasColumnName("CartID");
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
@@ -95,7 +81,7 @@ namespace SportsZoneWebAPI.Models
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
+                entity.Property(e => e.ProductID).HasColumnName("ProductID");
 
                 entity.Property(e => e.TotalPrice).HasColumnType("decimal(10, 2)");
 
@@ -110,13 +96,13 @@ namespace SportsZoneWebAPI.Models
 
                 entity.HasOne(d => d.Cart)
                     .WithMany(p => p.CartItems)
-                    .HasForeignKey(d => d.CartId)
+                    .HasForeignKey(d => d.CartID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__CartItem__CartID__5070F446");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.CartItems)
-                    .HasForeignKey(d => d.ProductId)
+                    .HasForeignKey(d => d.ProductID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__CartItem__Produc__5165187F");
             });
@@ -125,7 +111,7 @@ namespace SportsZoneWebAPI.Models
             {
                 entity.ToTable("Category");
 
-                entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+                entity.Property(e => e.CategoryID).HasColumnName("CategoryID");
 
                 entity.Property(e => e.CategoryName)
                     .IsRequired()
@@ -223,12 +209,12 @@ namespace SportsZoneWebAPI.Models
             {
                 entity.ToTable("Order");
 
-                entity.Property(e => e.OrderId)
+                entity.Property(e => e.OrderID)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("OrderID");
 
-                entity.Property(e => e.CartId).HasColumnName("CartID");
+                entity.Property(e => e.CartID).HasColumnName("CartID");
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
@@ -239,7 +225,7 @@ namespace SportsZoneWebAPI.Models
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.CustomerId)
+                entity.Property(e => e.CustomerID)
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
@@ -247,9 +233,9 @@ namespace SportsZoneWebAPI.Models
 
                 entity.Property(e => e.OrderDate).HasColumnType("datetime");
 
-                entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
+                entity.Property(e => e.PaymentID).HasColumnName("PaymentID");
 
-                entity.Property(e => e.ShippingId).HasColumnName("ShippingID");
+                entity.Property(e => e.ShippingID).HasColumnName("ShippingID");
 
                 entity.Property(e => e.Status)
                     .IsRequired()
@@ -270,24 +256,24 @@ namespace SportsZoneWebAPI.Models
 
                 entity.HasOne(d => d.Cart)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.CartId)
+                    .HasForeignKey(d => d.CartID)
                     .HasConstraintName("FK__Order__CartID__628FA481");
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.CustomerId)
+                    .HasForeignKey(d => d.CustomerID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Order__CustomerI__5FB337D6");
 
                 entity.HasOne(d => d.Payment)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.PaymentId)
+                    .HasForeignKey(d => d.PaymentID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Order__PaymentID__619B8048");
 
                 entity.HasOne(d => d.Shipping)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.ShippingId)
+                    .HasForeignKey(d => d.ShippingID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Order__ShippingI__60A75C0F");
             });
@@ -296,7 +282,7 @@ namespace SportsZoneWebAPI.Models
             {
                 entity.ToTable("OrderItem");
 
-                entity.Property(e => e.OrderItemId).HasColumnName("OrderITemID");
+                entity.Property(e => e.OrderItemID).HasColumnName("OrderITemID");
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
@@ -307,13 +293,13 @@ namespace SportsZoneWebAPI.Models
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.OrderId)
+                entity.Property(e => e.OrderID)
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("OrderID");
 
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
+                entity.Property(e => e.ProductID).HasColumnName("ProductID");
 
                 entity.Property(e => e.TotalPrice).HasColumnType("decimal(10, 2)");
 
@@ -328,13 +314,13 @@ namespace SportsZoneWebAPI.Models
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderItems)
-                    .HasForeignKey(d => d.OrderId)
+                    .HasForeignKey(d => d.OrderID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__OrderItem__Order__6754599E");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderItems)
-                    .HasForeignKey(d => d.ProductId)
+                    .HasForeignKey(d => d.ProductID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__OrderItem__Produ__68487DD7");
             });
@@ -343,7 +329,7 @@ namespace SportsZoneWebAPI.Models
             {
                 entity.ToTable("Payment");
 
-                entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
+                entity.Property(e => e.PaymentID).HasColumnName("PaymentID");
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
@@ -373,9 +359,9 @@ namespace SportsZoneWebAPI.Models
             {
                 entity.ToTable("Product");
 
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
+                entity.Property(e => e.ProductID).HasColumnName("ProductID");
 
-                entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+                entity.Property(e => e.CategoryID).HasColumnName("CategoryID");
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
@@ -407,7 +393,7 @@ namespace SportsZoneWebAPI.Models
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.CategoryId)
+                    .HasForeignKey(d => d.CategoryID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Product__Categor__45F365D3");
             });
@@ -460,7 +446,7 @@ namespace SportsZoneWebAPI.Models
             {
                 entity.ToTable("Shipping");
 
-                entity.Property(e => e.ShippingId).HasColumnName("ShippingID");
+                entity.Property(e => e.ShippingID).HasColumnName("ShippingID");
 
                 entity.Property(e => e.Address)
                     .IsRequired()

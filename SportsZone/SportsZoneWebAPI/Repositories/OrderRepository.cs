@@ -1,31 +1,34 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Models;
-
 namespace SportsZoneWebAPI.Repositories
 {
-    public class OrderRepository
+    public class OrderRepository : IOrderRepository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        private readonly OrderItemRepository _orderItemRepository;
-        private readonly CartRepository _cartRepository;
-        private readonly CartItemRepository _cartItemRepository;
-        private readonly ProductRepository _productRepository;
-        public OrderRepository(SportsZoneDbContext sportsZoneDbContext, 
-            OrderItemRepository orderItemRepository,
-            CartRepository cartRepository,
-            CartItemRepository cartItemRepository,
-            ProductRepository productRepository)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        private readonly IOrderItemRepository _orderItemRepository;
+        private readonly ICartRepository _cartRepository;
+        private readonly ICartItemRepository _cartItemRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IUtil _util;
+        public OrderRepository(ISportsZoneDbContext sportsZoneDbContext,
+            IOrderItemRepository orderItemRepository,
+            ICartRepository cartRepository,
+            ICartItemRepository cartItemRepository,
+            IProductRepository productRepository,
+            IUtil util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
             _orderItemRepository = orderItemRepository;
             _cartRepository = cartRepository;
             _cartItemRepository = cartItemRepository;
             _productRepository = productRepository;
+            _util = util;
         }
 
         public async Task<IEnumerable<Order>> GetAllOrders()
@@ -58,7 +61,79 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.CartID == null)
+                    .Where(order => order.CartID != null)
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllPlacedOrders()
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == "Placed")
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllDeliveredOrders()
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == "Delivered")
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllCancelledOrders()
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == "Cancelled")
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllDeliveredOrdersByCustomerID(string email)
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == "Delivered")
+                    .Where(order => order.CustomerID == email)
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllCancelledOrdersByCustomerID(string email)
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == "Cancelled")
+                    .Where(order => order.CustomerID == email)
                     .ToListAsync();
                 return orders;
             }
@@ -72,7 +147,7 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.CartID == null)
+                    .Where(order => order.CartID != null)
                     .Where(order => order.CustomerID == email)
                     .ToListAsync();
                 return orders;
@@ -87,7 +162,7 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.CartID != null)
+                    .Where(order => order.CartID == null)
                     .ToListAsync();
                 return orders;
             }
@@ -96,12 +171,12 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task<IEnumerable<Order>> GetAllOrdersViaImmediatePurchaseByCustomerID(string email)
+        public async Task<IEnumerable<Order>> GetAllOrdersViaDirectPurchaseByCustomerID(string email)
         {
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.CartID != null)
+                    .Where(order => order.CartID == null)
                     .Where(order => order.CustomerID == email)
                     .ToListAsync();
                 return orders;
@@ -115,7 +190,8 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                return await _sportsZoneDbContext.Orders.FindAsync(orderID);
+                var res = await _sportsZoneDbContext.Orders.FindAsync(orderID);
+                return res;
             }
             catch (Exception)
             {
@@ -147,7 +223,7 @@ namespace SportsZoneWebAPI.Repositories
                 }
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -189,56 +265,6 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        
-        public string GenerateOrderID()
-        {
-            try
-            {
-                //get timestamp
-                DateTime currentDateTime = DateTime.Now;
-                string formattedDateTime = currentDateTime.ToString("yyyyMMddHHmmss");
-
-                //generate guid of 4 chars
-                string guidPrefix = Guid.NewGuid().ToString("N").Substring(0, 4);
-
-                //get last orderserailnumber and increament it
-                string increament = GetOrderSerialNumber(_sportsZoneDbContext.Orders).ToString();
-
-                string orderID = "SPRTZN-" + formattedDateTime + "-" + guidPrefix + "-" + increament;
-
-                return orderID;
-            }
-            catch(Exception)
-            {
-                throw;
-            }
-        }
-        public int GetOrderSerialNumber(DbSet<Order> orders)
-        {
-            try
-            {
-                // Retrieve the last four digits of OrderID from the database
-                IEnumerable<string> lastFourDigits = orders
-                    .Select(order => order.OrderID.Substring(order.OrderID.Length - 4))
-                    .ToList();
-
-                // Parse the last four digits to integers
-                IEnumerable<int> lastFourDigitsInt = lastFourDigits
-                    .Select(str => int.TryParse(str, out int value) ? value : 0)
-                    .ToList();
-
-                // Calculate the maximum of the parsed integers
-                int maxIncrement = lastFourDigitsInt.DefaultIfEmpty().Max();
-
-                int increment = maxIncrement + 1;
-                return increment;
-            }
-            catch(Exception)
-            {
-                throw;
-            }
-        }
-
         public async Task AddNewOrder(Order order)
         {
             try
@@ -246,23 +272,35 @@ namespace SportsZoneWebAPI.Repositories
                 _sportsZoneDbContext.Orders.Add(order);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
         }
-        public async Task  PlaceOrderViaCartMode(int cartID,string email,int paymentID,int shippingID)
+        public async Task UpdateOrder(Order order)
         {
             try
             {
-                string orderID = GenerateOrderID();
-                decimal totalAmount = await _cartItemRepository.EvaluateCartTotal(cartID);
+                _sportsZoneDbContext.Orders.Update(order);
+                await _sportsZoneDbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task PlaceOrderViaCartMode(string email, int? cartID, int paymentID, int shippingID)
+        {
+            try
+            {
+                string orderID = _util.GenerateOrderID();
+                decimal totalAmount = _util.EvaluateCartTotal((int)cartID);
                 Order order = new Order()
                 {
                     OrderID = orderID,
                     OrderDate = DateTime.Now,
                     CustomerID = email,
-                    Status = "Placed",
+                    Status = OrderStatus.Placed,
                     TotalAmount = totalAmount,
                     PaymentID = paymentID,
                     ShippingID = shippingID,
@@ -275,17 +313,17 @@ namespace SportsZoneWebAPI.Repositories
 
                 await AddNewOrder(order);
 
-                await _orderItemRepository.InsertOrderItemsFromCartItems(orderID, cartID);
+                await _orderItemRepository.InsertOrderItemsFromCartItems(orderID, (int)cartID);
 
                 //update stock count in the product table
-                IEnumerable<CartItem> cartItems = await _cartItemRepository.GetAllCartItemsByCartID(cartID);
-                foreach(CartItem cartItem in cartItems)
+                IEnumerable<CartItem> cartItems = await _cartItemRepository.GetAllCartItemsByCartID((int)cartID);
+                foreach (CartItem cartItem in cartItems)
                 {
                     await _productRepository.UpdateStockCount(cartItem.ProductID, cartItem.Quantity);
                 }
 
                 //Disable the cart to the customer
-                Cart cart = await _cartRepository.GetCartByCartID(cartID);
+                Cart cart = await _cartRepository.GetCartByCartID((int)cartID);
                 cart.IsEnabled = false;
                 await _cartRepository.UpdateCart(cart);
             }
@@ -294,18 +332,18 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task PlaceOrderViaDirectPurchase(string email, int productID,int quantity,int paymentID, int shippingID)
+        public async Task PlaceOrderViaDirectPurchase(string email, int productID, int quantity, int paymentID, int shippingID)
         {
             try
             {
-                string orderID = GenerateOrderID();
-                decimal totalAmount = _productRepository.CalculateTotalAmountByQuantity(productID, quantity);
+                string orderID = _util.GenerateOrderID();
+                decimal totalAmount = _util.CalculateTotalAmountByQuantity(productID, quantity);
                 Order order = new Order()
                 {
                     OrderID = orderID,
                     OrderDate = DateTime.Now,
                     CustomerID = email,
-                    Status = "Placed",
+                    Status = OrderStatus.Placed,
                     TotalAmount = totalAmount,
                     PaymentID = paymentID,
                     ShippingID = shippingID,
@@ -318,7 +356,7 @@ namespace SportsZoneWebAPI.Repositories
 
                 await AddNewOrder(order);
 
-                await _orderItemRepository.InsertOrderItem(orderID,productID,quantity);
+                await _orderItemRepository.InsertOrderItem(orderID, productID, quantity);
 
                 //update the product stock cout
                 await _productRepository.UpdateStockCount(productID, quantity);
@@ -332,6 +370,48 @@ namespace SportsZoneWebAPI.Repositories
             {
                 throw;
             }
+        }
+        public async Task CancelOrder(string orderID)
+        {
+            try
+            {
+                Order order = await GetOrderByOrderID(orderID);
+                order.Status = OrderStatus.Cancelled;
+                await UpdateOrder(order);
+                IEnumerable<OrderItem> orderItems = _sportsZoneDbContext.OrderItems.Where(x => x.OrderID == orderID);
+
+                foreach(OrderItem orderItem in orderItems)
+                {
+                    await _productRepository.UpdateStockCount(orderItem.ProductID, orderItem.Quantity, true);
+                }
+                await _sportsZoneDbContext.SaveChangesAsync();
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+            
+        }
+        public async Task ReturnOrder(string orderID)
+        {
+            try
+            {
+                Order order = await GetOrderByOrderID(orderID);
+                order.Status = OrderStatus.Returned;
+                await UpdateOrder(order);
+                IEnumerable<OrderItem> orderItems = _sportsZoneDbContext.OrderItems.Where(x => x.OrderID == orderID);
+
+                foreach (OrderItem orderItem in orderItems)
+                {
+                    await _productRepository.UpdateStockCount(orderItem.ProductID, orderItem.Quantity, true);
+                }
+                await _sportsZoneDbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

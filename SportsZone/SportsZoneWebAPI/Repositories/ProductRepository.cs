@@ -1,21 +1,20 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Models;
-
 namespace SportsZoneWebAPI.Repositories
 {
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
-        private readonly SportsZoneDbContext _sportsZoneDbContext;
-        private readonly CategoryRepository _categoryRepository;
-        public ProductRepository(SportsZoneDbContext sportsZoneDbContext, CategoryRepository categoryRepository)
+        private readonly ISportsZoneDbContext _sportsZoneDbContext;
+        public ProductRepository(ISportsZoneDbContext sportsZoneDbContext)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
-            _categoryRepository = categoryRepository;
         }
 
         public async Task<IEnumerable<Product>> GetAllProducts()
@@ -24,7 +23,7 @@ namespace SportsZoneWebAPI.Repositories
             {
                 return await _sportsZoneDbContext.Products.ToListAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -47,7 +46,7 @@ namespace SportsZoneWebAPI.Repositories
             {
                 return await _sportsZoneDbContext.Products.FindAsync(productID);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -60,7 +59,7 @@ namespace SportsZoneWebAPI.Repositories
                 _sportsZoneDbContext.Products.Add(product);
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -78,7 +77,7 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        
+
         public async Task DeleteProductByProductID(int productID)
         {
             try
@@ -120,7 +119,7 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                await _categoryRepository.DeleteAllCategories();
+                //await _categoryRepository.DeleteAllCategories();
                 await _sportsZoneDbContext.SaveChangesAsync();
 
             }
@@ -129,30 +128,19 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public decimal CalculateTotalAmountByQuantity(int productID, int quantity)
-        {
-            try
-            {
-                decimal totalAmount = _sportsZoneDbContext.Products
-                    .SingleOrDefault(product => product.ProductID == productID)
-                    .Price * quantity;
-                return totalAmount;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
 
-        public async Task UpdateStockCount(int productID,int quantityPurchased)
+        public async Task UpdateStockCount(int productID, int quantityPurchased,bool IsReturn=false)
         {
             try
             {
                 Product product = await GetProductByProductID(productID);
-                product.StockCount = product.StockCount - quantityPurchased;
+                if (!IsReturn)
+                    product.StockCount = product.StockCount - quantityPurchased;
+                else
+                    product.StockCount = product.StockCount + quantityPurchased;
                 await UpdateProduct(product);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }

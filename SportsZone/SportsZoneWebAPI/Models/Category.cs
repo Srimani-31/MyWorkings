@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 #nullable disable
 
 namespace SportsZoneWebAPI.Models
@@ -11,7 +10,6 @@ namespace SportsZoneWebAPI.Models
         {
             Products = new HashSet<Product>();
         }
-
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
         public string Description { get; set; }
@@ -19,7 +17,6 @@ namespace SportsZoneWebAPI.Models
         public DateTime CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
-
         public virtual ICollection<Product> Products { get; set; }
     }
 }
