@@ -95,6 +95,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpDelete, Route("DeleteCategoryByCategoryID/{categoryID}")]
         public async Task<ActionResult> DeleteCategoryByCategoryID(int categoryID)
         {

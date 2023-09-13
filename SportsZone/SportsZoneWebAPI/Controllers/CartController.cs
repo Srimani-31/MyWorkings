@@ -118,6 +118,8 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        #region For Report Generation
         [HttpGet, Route("GetAllCarts")]
         public async Task<ActionResult<IEnumerable<CartResponseDTO>>> GetAllCarts()
         {
@@ -192,8 +194,8 @@ namespace SportsZoneWebAPI.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-        }
-
+        } 
+        #endregion
 
         #region Rare Use Case
         //[HttpDelete, Route("DeleteAllCartsByCustomerID/{customerID}")]
