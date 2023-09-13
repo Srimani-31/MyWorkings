@@ -6,6 +6,7 @@ namespace SportsZoneWebAPI.Repositories.Interfaces
 {
     public interface ISecurityRepository
     {
+        public Task<bool> IsAvail(string email);
         public Task<IEnumerable<Security>> GetAllSecurityDetails();
         public Task<Security> GetSecurityDetailsByCustomerID(string email);
         public Task AddSecurityDetails(Security security);

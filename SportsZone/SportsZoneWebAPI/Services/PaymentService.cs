@@ -18,6 +18,17 @@ namespace SportsZoneWebAPI.Services
             _paymentRepository = paymentRepository;
             _mapper = mapper;
         }
+        public async Task<bool> IsAvail(int paymentID)
+        {
+            try
+            {
+                return await _paymentRepository.IsAvail(paymentID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<PaymentResponseDTO>> GetAllPaymentMethods()
         {
             try

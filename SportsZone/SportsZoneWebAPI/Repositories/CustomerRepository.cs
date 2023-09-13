@@ -11,11 +11,24 @@ namespace SportsZoneWebAPI.Repositories
     public class CustomerRepository : ICustomerRespository
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
-        public CustomerRepository(ISportsZoneDbContext sportsZoneDbContext)
+        private readonly IUtil _util;
+        public CustomerRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
+            _util = util;
         }
 
+        public async Task<bool> IsAvail(string email)
+        {
+            try
+            {
+                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Customers,stringID: email);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<Customer>> GetAllCustomers()
         {
             try

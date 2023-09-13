@@ -13,10 +13,23 @@ namespace SportsZoneWebAPI.Repositories
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
         private readonly ICartItemRepository _cartItemRepository;
-        public CartRepository(ISportsZoneDbContext sportsZoneDbContext, ICartItemRepository cartItemRepository)
+        private readonly IUtil _util;
+        public CartRepository(ISportsZoneDbContext sportsZoneDbContext, ICartItemRepository cartItemRepository, IUtil util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
             _cartItemRepository = cartItemRepository;
+            _util = util;
+        }
+        public async Task<bool> IsAvail(int cartID)
+        {
+            try
+            {
+                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Carts, intID: cartID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public async Task<IEnumerable<Cart>> GetAllCarts()
         {

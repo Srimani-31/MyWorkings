@@ -6,6 +6,7 @@ namespace SportsZoneWebAPI.Services.Interfaces
 {
     public interface IPaymentService
     {
+        public Task<bool> IsAvail(int paymentID);
         public Task<IEnumerable<PaymentResponseDTO>> GetAllPaymentMethods();
         public Task<PaymentResponseDTO> GetPaymentMethodByPaymentID(int paymentID);
         public Task AddNewPaymentMethod(PaymentRequestDTO paymentRequestDTO);

@@ -5,6 +5,7 @@ namespace SportsZoneWebAPI.Services.Interfaces
 {
     public interface ICustomerService
     {
+        public Task<bool> IsAvail(string email);
         public Task<IEnumerable<CustomerResponseDTO>> GetAllCustomers();
         public Task<CustomerResponseDTO> GetCustomerByCustomerID(string email);
         public Task CreateCustomer(CustomerRequestDTO customerRequestDTO);

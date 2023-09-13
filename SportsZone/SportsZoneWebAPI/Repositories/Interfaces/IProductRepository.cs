@@ -6,6 +6,7 @@ namespace SportsZoneWebAPI.Repositories.Interfaces
 {
     public interface IProductRepository
     {
+        public Task<bool> IsAvail(int productID);
         public Task<IEnumerable<Product>> GetAllProducts();
         public Task<IEnumerable<Product>> GetAllProductsByCategoryID(int categoryID);
         public Task<Product> GetProductByProductID(int productID);

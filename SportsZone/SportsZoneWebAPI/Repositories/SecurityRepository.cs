@@ -13,11 +13,23 @@ namespace SportsZoneWebAPI.Repositories
     public class SecurityRepository : ISecurityRepository
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
-        public SecurityRepository(ISportsZoneDbContext sportsZoneDbContext)
+        private readonly IUtil _util;
+        public SecurityRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
+            _util = util;
         }
-
+        public async Task<bool> IsAvail(string email)
+        {
+            try
+            {
+                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Securities, stringID: email);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<Security>> GetAllSecurityDetails()
         {
             try

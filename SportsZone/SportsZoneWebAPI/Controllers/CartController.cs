@@ -16,6 +16,108 @@ namespace SportsZoneWebAPI.Controllers
         {
             _cartService = cartService;
         }
+        [HttpGet, Route("GetActiveCartByCustomerID/{email}")]
+        public async Task<ActionResult<CartResponseDTO>> GetActiveCartByCustomerID(string email)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(email))
+                {
+                    return BadRequest();
+                }
+                CartResponseDTO cartResponseDTO = await _cartService.GetActiveCartByCustomerID(email);
+                return Ok(cartResponseDTO);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpGet, Route("GetCartByCartID/{cartID}")]
+        public async Task<ActionResult<CartResponseDTO>> GetCartByCartID(int cartID)
+        {
+            try
+            {
+                if (cartID == 0)
+                {
+                    return BadRequest();
+                }
+                if (!await _cartService.IsAvail(cartID))
+                {
+                    return NotFound();
+                }
+                CartResponseDTO cartResponseDTO = await _cartService.GetCartByCartID(cartID);
+                return Ok(cartResponseDTO);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpPost, Route("AddNewCart")]
+        public async Task<ActionResult<CartRequestDTO>> AddNewCart([FromBody] CartRequestDTO cartRequestDTO)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (await _cartService.IsAvail(cartRequestDTO.CartID))
+                {
+                    return Conflict();
+                }
+                await _cartService.AddNewCart(cartRequestDTO);
+                return Ok(cartRequestDTO);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpPut, Route("UpdateCart")]
+        public async Task<ActionResult<CartRequestDTO>> UpdateCart([FromBody] CartRequestDTO cartRequestDTO)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (!await _cartService.IsAvail(cartRequestDTO.CartID))
+                {
+                    return NotFound();
+                }
+                await _cartService.UpdateCart(cartRequestDTO);
+                return Ok(cartRequestDTO);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpDelete, Route("DeleteCartByCartID/{cartID}")]
+        public async Task<ActionResult> DeleteCartByCartID(int cartID)
+        {
+            try
+            {
+                if (cartID == 0)
+                {
+                    return BadRequest("Input parameter 'cartID' is required and cannot be empty.");
+                }
+                if (!await _cartService.IsAvail(cartID))
+                {
+                    return NotFound();
+                }
+                await _cartService.DeleteCartByCartID(cartID);
+                return Ok($"Cart with ID : {cartID} deleted succesfully");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
         [HttpGet, Route("GetAllCarts")]
         public async Task<ActionResult<IEnumerable<CartResponseDTO>>> GetAllCarts()
         {
@@ -26,7 +128,24 @@ namespace SportsZoneWebAPI.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpGet, Route("GetAllCartsByCustomerID/{email}")]
+        public async Task<ActionResult<IEnumerable<CartResponseDTO>>> GetAllCartsByCustomerID(string email)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(email))
+                {
+                    return BadRequest();
+                }
+                IEnumerable<CartResponseDTO> cartResponseDTOs = await _cartService.GetAllCartsByCustomerID(email);
+                return Ok(cartResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
             }
         }
         [HttpGet, Route("GetAllActiveCarts")]
@@ -39,22 +158,10 @@ namespace SportsZoneWebAPI.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
-        [HttpGet, Route("GetActiveCartByCustomerID/{email}")]
-        public async Task<ActionResult<CartResponseDTO>> GetActiveCartByCustomerID(string email)
-        {
-            try
-            {
-                CartResponseDTO cartResponseDTO = await _cartService.GetActiveCartByCustomerID(email);
-                return Ok(cartResponseDTO);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+
         [HttpGet, Route("GetAllOrderedCarts")]
         public async Task<ActionResult<IEnumerable<CartResponseDTO>>> GetAllOrderedCarts()
         {
@@ -65,105 +172,44 @@ namespace SportsZoneWebAPI.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
+
         [HttpGet, Route("GetAllOrderedCartsByCustomerID/{email}")]
         public async Task<ActionResult<IEnumerable<CartResponseDTO>>> GetAllOrderedCartsByCustomerID(string email)
         {
             try
             {
+                if (string.IsNullOrEmpty(email))
+                {
+                    return BadRequest();
+                }
                 IEnumerable<CartResponseDTO> cartResponseDTOs = await _cartService.GetAllOrderedCartsByCustomerID(email);
                 return Ok(cartResponseDTOs);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet, Route("GetAllCartsByCustomerID/{email}")]
-        public async Task<ActionResult<IEnumerable<CartResponseDTO>>> GetAllCartsByCustomerID(string email)
-        {
-            try
-            {
-                IEnumerable<CartResponseDTO> cartResponseDTOs = await _cartService.GetAllCartsByCustomerID(email);
-                return Ok(cartResponseDTOs);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
 
 
-        [HttpGet, Route("GetCartByCartID/{cartID}")]
-        public async Task<ActionResult<CartResponseDTO>> GetCartByCartID(int cartID)
-        {
-            try
-            {
-                CartResponseDTO cartResponseDTO = await _cartService.GetCartByCartID(cartID);
-                return Ok(cartResponseDTO);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpPost, Route("AddNewCart")]
-        public async Task<ActionResult<CartRequestDTO>> AddNewCart([FromBody] CartRequestDTO cartRequestDTO)
-        {
-            try
-            {
-                await _cartService.AddNewCart(cartRequestDTO);
-                return Ok(cartRequestDTO);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.InnerException);
-            }
-        }
-
-        [HttpPut, Route("UpdateCart")]
-        public async Task<ActionResult<CartRequestDTO>> UpdateCart([FromBody] CartRequestDTO cartRequestDTO)
-        {
-            try
-            {
-                await _cartService.UpdateCart(cartRequestDTO);
-                return Ok(cartRequestDTO);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.InnerException);
-            }
-        }
-        [HttpDelete, Route("DeleteCartByCartID/{cartID}")]
-        public async Task<ActionResult> DeleteCartByCartID(int cartID)
-        {
-            try
-            {
-                await _cartService.DeleteCartByCartID(cartID);
-                return Ok($"Cart with ID : {cartID} deleted succesfully");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpDelete, Route("DeleteAllCartsByCustomerID/{customerID}")]
-        public async Task<ActionResult> DeleteAllCartsByCustomerID(string customerID)
-        {
-            try
-            {
-                await _cartService.DeleteAllCartsByCustomerID(customerID);
-                return Ok($"Carts with customerID : {customerID} deleted succesfully");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        #region Rare Use Case
+        //[HttpDelete, Route("DeleteAllCartsByCustomerID/{customerID}")]
+        //public async Task<ActionResult> DeleteAllCartsByCustomerID(string customerID)
+        //{
+        //    try
+        //    {
+        //        await _cartService.DeleteAllCartsByCustomerID(customerID);
+        //        return Ok($"Carts with customerID : {customerID} deleted succesfully");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, e.Message);
+        //    }
+        //} 
+        #endregion
 
     }
 }

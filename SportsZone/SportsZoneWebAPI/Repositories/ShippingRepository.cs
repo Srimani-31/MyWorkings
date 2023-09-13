@@ -11,11 +11,23 @@ namespace SportsZoneWebAPI.Repositories
     public class ShippingRepository : IShippingRepository
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
-        public ShippingRepository(ISportsZoneDbContext sportsZoneDbContext)
+        private readonly IUtil _util;
+        public ShippingRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
+            _util = util;
         }
-
+        public async Task<bool> IsAvail(int shippingID)
+        {
+            try
+            {
+                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Shippings, intID: shippingID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<Shipping>> GetAllShippingAddresses()
         {
             try

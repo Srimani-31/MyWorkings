@@ -30,7 +30,17 @@ namespace SportsZoneWebAPI.Repositories
             _productRepository = productRepository;
             _util = util;
         }
-
+        public async Task<bool> IsAvail(string orderID)
+        {
+            try
+            {
+                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Orders, stringID: orderID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<Order>> GetAllOrders()
         {
             try
@@ -56,26 +66,12 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task<IEnumerable<Order>> GetAllOrdersViaCartMode()
-        {
-            try
-            {
-                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.CartID != null)
-                    .ToListAsync();
-                return orders;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
         public async Task<IEnumerable<Order>> GetAllPlacedOrders()
         {
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.Status == "Placed")
+                    .Where(order => order.Status == OrderStatus.Placed)
                     .ToListAsync();
                 return orders;
             }
@@ -84,12 +80,13 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        public async Task<IEnumerable<Order>> GetAllDeliveredOrders()
+        public async Task<IEnumerable<Order>> GetAllPlacedOrdersByCustomerID(string email)
         {
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.Status == "Delivered")
+                    .Where(order => order.Status == OrderStatus.Placed)
+                    .Where(order => order.CustomerID == email)
                     .ToListAsync();
                 return orders;
             }
@@ -103,22 +100,7 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.Status == "Cancelled")
-                    .ToListAsync();
-                return orders;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        public async Task<IEnumerable<Order>> GetAllDeliveredOrdersByCustomerID(string email)
-        {
-            try
-            {
-                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.Status == "Delivered")
-                    .Where(order => order.CustomerID == email)
+                    .Where(order => order.Status == OrderStatus.Cancelled)
                     .ToListAsync();
                 return orders;
             }
@@ -132,8 +114,80 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
-                    .Where(order => order.Status == "Cancelled")
+                    .Where(order => order.Status == OrderStatus.Cancelled)
                     .Where(order => order.CustomerID == email)
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllDeliveredOrders()
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == OrderStatus.Delivered)
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllDeliveredOrdersByCustomerID(string email)
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == OrderStatus.Delivered)
+                    .Where(order => order.CustomerID == email)
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllReturnedOrders()
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == OrderStatus.Returned)
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllReturnedOrdersByCustomerID(string email)
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.Status == OrderStatus.Returned)
+                    .Where(order => order.CustomerID == email)
+                    .ToListAsync();
+                return orders;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Order>> GetAllOrdersViaCartMode()
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _sportsZoneDbContext.Orders
+                    .Where(order => order.CartID != null)
                     .ToListAsync();
                 return orders;
             }
@@ -380,17 +434,17 @@ namespace SportsZoneWebAPI.Repositories
                 await UpdateOrder(order);
                 IEnumerable<OrderItem> orderItems = _sportsZoneDbContext.OrderItems.Where(x => x.OrderID == orderID);
 
-                foreach(OrderItem orderItem in orderItems)
+                foreach (OrderItem orderItem in orderItems)
                 {
                     await _productRepository.UpdateStockCount(orderItem.ProductID, orderItem.Quantity, true);
                 }
                 await _sportsZoneDbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
-            
+
         }
         public async Task ReturnOrder(string orderID)
         {

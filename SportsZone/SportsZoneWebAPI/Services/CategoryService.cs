@@ -18,6 +18,17 @@ namespace SportsZoneWebAPI.Services
             _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
+        public async Task<bool> IsAvail(int categoryID)
+        {
+            try
+            {
+                return await _categoryRepository.IsAvail(categoryID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<CategoryResponseDTO>> GetAllCategories()
         {
             try

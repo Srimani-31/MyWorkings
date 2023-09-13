@@ -5,6 +5,7 @@ namespace SportsZoneWebAPI.Services.Interfaces
 {
     public interface IShippingService
     {
+        public Task<bool> IsAvail(int shippingID);
         public Task<IEnumerable<ShippingResponseDTO>> GetAllShippingAddresses();
         public Task<IEnumerable<ShippingResponseDTO>> GetAllShippingAddressesByCustomerID(string email);
         public Task<ShippingResponseDTO> GetShippingAddressByShippingID(int shippingID);

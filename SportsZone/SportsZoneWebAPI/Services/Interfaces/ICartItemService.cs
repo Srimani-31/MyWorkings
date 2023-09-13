@@ -6,6 +6,7 @@ namespace SportsZoneWebAPI.Services.Interfaces
 {
     public interface ICartItemService
     {
+        public Task<bool> IsAvail(int cartItemID);
         public Task<IEnumerable<CartItemResponseDTO>> GetAllCartItems();
         public Task<IEnumerable<CartItemResponseDTO>> GetAllCartItemsByCartID(int cartID);
         public Task<CartItemResponseDTO> GetCartItemByCartItemID(int cartItemID);

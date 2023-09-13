@@ -18,6 +18,17 @@ namespace SportsZoneWebAPI.Services
             _carItemRepository = cartItemRepository;
             _mapper = mapper;
         }
+        public async Task<bool> IsAvail(int cartItemID)
+        {
+            try
+            {
+                return await _carItemRepository.IsAvail(cartItemID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<CartItemResponseDTO>> GetAllCartItems()
         {
             try

@@ -27,7 +27,7 @@ namespace SportsZoneWebAPI.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
         [HttpGet, Route("GetCategoryByCategoryID/{categoryID}")]
@@ -35,12 +35,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (categoryID == 0)
+                {
+                    return BadRequest();
+                }
+                if (!await _categoryService.IsAvail(categoryID))
+                {
+                    return NotFound();
+                }
                 CategoryResponseDTO categoryResponseDTO = await _categoryService.GetCategoryByCategoryID(categoryID);
                 return Ok(categoryResponseDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -49,12 +57,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (await _categoryService.IsAvail(categoryRequestDTO.CategoryID))
+                {
+                    return Conflict();
+                }
                 await _categoryService.AddNewCategory(categoryRequestDTO);
                 return Ok(categoryRequestDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -63,27 +79,43 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (!await _categoryService.IsAvail(categoryRequestDTO.CategoryID))
+                {
+                    return NotFound();
+                }
                 await _categoryService.UpdateCategory(categoryRequestDTO);
                 return Ok(categoryRequestDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
-
         [HttpDelete, Route("DeleteCategoryByCategoryID/{categoryID}")]
         public async Task<ActionResult> DeleteCategoryByCategoryID(int categoryID)
         {
             try
             {
+                if (categoryID == 0)
+                {
+                    return BadRequest("Input parameter 'categoryID' is required and cannot be empty.");
+                }
+                if (!await _categoryService.IsAvail(categoryID))
+                {
+                    return NotFound();
+                }
                 await _categoryService.DeleteCategoryByCategoryID(categoryID);
                 return Ok($"Category with ID : {categoryID} deleted succesfully");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
-        }
+        } 
+      
     }
 }

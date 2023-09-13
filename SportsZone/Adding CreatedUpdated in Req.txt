@@ -1,0 +1,76 @@
+I see, you want to include the "Created By" and "Updated By" fields when making API requests for create and update functionality, even though you don't want to display them in the UI. To achieve this, you can manually include these fields in the request body when making API calls.
+
+Here's how you can modify the API request code in your React component to include the "Created By" and "Updated By" fields when creating and updating products:
+
+```jsx
+const handleCreateProduct = async () => {
+  try {
+    // Create a new product with createdBy and updatedBy set to the logged-in user
+    const newProduct = {
+      name: newProduct.name,
+      price: newProduct.price,
+      categoryId: newProduct.categoryId,
+      createdBy: currentUser.id, // Include the logged-in user's ID
+      updatedBy: currentUser.id, // Include the logged-in user's ID
+    };
+
+    const response = await fetch('/api/products', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newProduct),
+    });
+
+    if (response.ok) {
+      const createdProduct = await response.json();
+      setProducts([...products, createdProduct]);
+      setNewProduct({ name: '', price: '', categoryId: '' });
+    } else {
+      console.error('Error creating product');
+    }
+  } catch (error) {
+    console.error('Error creating product: ', error);
+  }
+};
+
+const handleEditProduct = async () => {
+  if (!editingProduct) return;
+
+  try {
+    // Update the product with updatedBy set to the logged-in user
+    const updatedProduct = {
+      name: editingProduct.name,
+      price: editingProduct.price,
+      categoryId: editingProduct.categoryId,
+      createdBy: editingProduct.createdBy, // Preserve createdBy value
+      updatedBy: currentUser.id, // Include the logged-in user's ID
+    };
+
+    const response = await fetch(`/api/products/${editingProduct.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedProduct),
+    });
+
+    if (response.ok) {
+      const updatedProduct = await response.json();
+      const updatedProducts = products.map((product) =>
+        product.id === updatedProduct.id ? updatedProduct : product
+      );
+      setProducts(updatedProducts);
+      setEditingProduct(null);
+    } else {
+      console.error('Error updating product');
+    }
+  } catch (error) {
+    console.error('Error updating product: ', error);
+  }
+};
+```
+
+In the code above, when creating a new product or updating an existing product, we explicitly include the "Created By" and "Updated By" fields in the request body with the value of `currentUser.id`, assuming that `currentUser` contains information about the logged-in user. These fields will be sent to the API along with the other product data.
+
+Please ensure that your backend API can handle these fields and store them in your database when processing the create and update requests.

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Models;
+using SportsZoneWebAPI.Services;
 using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,73 +30,7 @@ namespace SportsZoneWebAPI.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
-            }
-        }
-       
-        [HttpGet, Route("GetAllPlacedOrders")]
-        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllPlacedOrders()
-        {
-            try
-            {
-                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllPlacedOrders();
-                return Ok(orderResponseDTOs);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet, Route("GetAllDeliveredOrders")]
-        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllDeliveredOrders()
-        {
-            try
-            {
-                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllDeliveredOrders();
-                return Ok(orderResponseDTOs);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet, Route("GetAllDeliveredOrdersByCustomerID/{email}")]
-        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllDeliveredOrdersByCustomerID(string email)
-        {
-            try
-            {
-                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllDeliveredOrdersByCustomerID(email);
-                return Ok(orderResponseDTOs);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet, Route("GetAllCancelledOrders")]
-        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllCancelledOrders()
-        {
-            try
-            {
-                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllCancelledOrders();
-                return Ok(orderResponseDTOs);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet, Route("GetAllCancelledOrdersByCustomerID/{email}")]
-        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllCancelledOrdersByCustomerID(string email)
-        {
-            try
-            {
-                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllCancelledOrdersByCustomerID(email);
-                return Ok(orderResponseDTOs);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
         [HttpGet, Route("GetAllOrdersByCustomerID/{email}")]
@@ -102,65 +38,16 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    return BadRequest();
+                }
                 IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllOrdersByCustomerID(email);
                 return Ok(orderResponseDTOs);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet, Route("GetAllOrdersViaCartMode")]
-        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllOrdersViaCartMode()
-        {
-            try
-            {
-                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllOrdersViaCartMode();
-                return Ok(orderResponseDTOs);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet, Route("GetAllOrdersViaCartModeByCustomerID/{email}")]
-        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllOrdersViaCartModeByCustomerID(string email)
-        {
-            try
-            {
-                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllOrdersViaCartModeByCustomerID(email);
-                return Ok(orderResponseDTOs);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpGet, Route("GetAllOrdersViaDirectPurchase")]
-        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllOrdersViaDirectPurchase()
-        {
-            try
-            {
-                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllOrdersViaDirectPurchase();
-                return Ok(orderResponseDTOs);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet, Route("GetAllOrdersViaDirectPurchaseByCustomerID/{email}")]
-        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllOrdersViaDirectPurchaseByCustomerID(string email)
-        {
-            try
-            {
-                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllOrdersViaDirectPurchaseByCustomerID(email);
-                return Ok(orderResponseDTOs);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
         [HttpGet, Route("GetOrderByOrderID/{orderID}")]
@@ -168,12 +55,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(orderID))
+                {
+                    return BadRequest();
+                }
+                if (!await _orderService.IsAvail(orderID))
+                {
+                    return NotFound();
+                }
                 OrderResponseDTO orderResponseDTO = await _orderService.GetOrderByOrderID(orderID);
                 return Ok(orderResponseDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -182,12 +77,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (await _orderService.IsAvail(orderRequestDTO.OrderID))
+                {
+                    return Conflict();
+                }
                 await _orderService.PlaceOrderViaDirectPurchase(orderRequestDTO);
                 return Ok($"Ordered placed successfully");
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
         [HttpPost, Route("PlaceOrderViaCartMode")]
@@ -195,25 +98,41 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (await _orderService.IsAvail(orderRequestDTO.OrderID))
+                {
+                    return Conflict();
+                }
                 await _orderService.PlaceOrderViaCartMode(orderRequestDTO);
                 return Ok($"Ordered placed successfully");
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
-        [HttpPut,Route("CancelOrder/{orderID}")]
+        [HttpPut, Route("CancelOrder/{orderID}")]
         public async Task<ActionResult> CancelOrder(string orderID)
         {
             try
             {
+                if (string.IsNullOrEmpty(orderID))
+                {
+                    return BadRequest();
+                }
+                if (!await _orderService.IsAvail(orderID))
+                {
+                    return NotFound();
+                }
                 await _orderService.CancelOrder(orderID);
                 return Ok($"Order with ID: {orderID} cancelled successfully");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return BadRequest(e.ToString());
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -222,12 +141,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(orderID))
+                {
+                    return BadRequest();
+                }
+                if (!await _orderService.IsAvail(orderID))
+                {
+                    return NotFound();
+                }
                 await _orderService.ReturnOrder(orderID);
                 return Ok($"Order with ID: {orderID} returned successfully");
             }
             catch (Exception e)
             {
-                return BadRequest(e.ToString());
+                return StatusCode(500, e.Message);
             }
         }
         [HttpPut, Route("UpdateOrder")]
@@ -235,6 +162,14 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (!await _orderService.IsAvail(orderRequestDTO.OrderID))
+                {
+                    return NotFound();
+                }
                 await _orderService.UpdateOrder(orderRequestDTO);
                 return Ok(orderRequestDTO);
             }
@@ -248,40 +183,244 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(orderID))
+                {
+                    return BadRequest("Input parameter 'orderID' is required and cannot be empty.");
+                }
+                if (!await _orderService.IsAvail(orderID))
+                {
+                    return NotFound();
+                }
                 await _orderService.DeleteOrderByOrderID(orderID);
                 return Ok($"Order with ID : {orderID} deleted succesfully");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpDelete, Route("DeleteOrdersByCustomerID/{email}")]
-        public async Task<ActionResult> DeleteOrdersByCustomerID(string email)
-        {
-            try
-            {
-                await _orderService.DeleteOrdersByCustomerID(email);
-                return Ok($"Order belongs to {email} deleted succesfully");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
 
-        [HttpDelete, Route("DeleteAllOrders")]
-        public async Task<ActionResult> DeleteAllOrders()
+        #region For Report Generation
+
+        [HttpGet, Route("GetAllPlacedOrders")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllPlacedOrders()
         {
             try
             {
-                await _orderService.DeleteAllOrders();
-                return Ok($"Orders deleted succesfully");
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllPlacedOrders();
+                return Ok(orderResponseDTOs);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
+        [HttpGet, Route("GetAllPlacedOrdersByCustomerID/{email}")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllPlacedOrdersByCustomerID(string email)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    return BadRequest();
+                }
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllPlacedOrdersByCustomerID(email);
+                return Ok(orderResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpGet, Route("GetAllCancelledOrders")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllCancelledOrders()
+        {
+            try
+            {
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllCancelledOrders();
+                return Ok(orderResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet, Route("GetAllCancelledOrdersByCustomerID/{email}")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllCancelledOrdersByCustomerID(string email)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    return BadRequest();
+                }
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllCancelledOrdersByCustomerID(email);
+                return Ok(orderResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpGet, Route("GetAllDeliveredOrders")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllDeliveredOrders()
+        {
+            try
+            {
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllDeliveredOrders();
+                return Ok(orderResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpGet, Route("GetAllDeliveredOrdersByCustomerID/{email}")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllDeliveredOrdersByCustomerID(string email)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    return BadRequest();
+                }
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllDeliveredOrdersByCustomerID(email);
+                return Ok(orderResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpGet, Route("GetAllReturnedOrders")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllReturnedOrders()
+        {
+            try
+            {
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllReturnedOrders();
+                return Ok(orderResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpGet, Route("GetAllReturnedOrdersByCustomerID/{email}")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllReturnedOrdersByCustomerID(string email)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    return BadRequest();
+                }
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllReturnedOrdersByCustomerID(email);
+                return Ok(orderResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet, Route("GetAllOrdersViaCartMode")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllOrdersViaCartMode()
+        {
+            try
+            {
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllOrdersViaCartMode();
+                return Ok(orderResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpGet, Route("GetAllOrdersViaCartModeByCustomerID/{email}")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllOrdersViaCartModeByCustomerID(string email)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    return BadRequest();
+                }
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllOrdersViaCartModeByCustomerID(email);
+                return Ok(orderResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet, Route("GetAllOrdersViaDirectPurchase")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllOrdersViaDirectPurchase()
+        {
+            try
+            {
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllOrdersViaDirectPurchase();
+                return Ok(orderResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpGet, Route("GetAllOrdersViaDirectPurchaseByCustomerID/{email}")]
+        public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllOrdersViaDirectPurchaseByCustomerID(string email)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    return BadRequest();
+                }
+                IEnumerable<OrderResponseDTO> orderResponseDTOs = await _orderService.GetAllOrdersViaDirectPurchaseByCustomerID(email);
+                return Ok(orderResponseDTOs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        } 
+        #endregion
+
+        #region Rare use case
+
+        //[HttpDelete, Route("DeleteOrdersByCustomerID/{email}")]
+        //public async Task<ActionResult> DeleteOrdersByCustomerID(string email)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(email))
+        //        {
+        //            return BadRequest("Input parameter 'email' is required and cannot be empty.");
+        //        }
+
+        //        await _orderService.DeleteOrdersByCustomerID(email);
+        //        return Ok($"Order belongs to {email} deleted succesfully");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, e.Message);
+        //    }
+        //}
+
+        //[HttpDelete, Route("DeleteAllOrders")]
+        //public async Task<ActionResult> DeleteAllOrders()
+        //{
+        //    try
+        //    {
+        //        await _orderService.DeleteAllOrders();
+        //        return Ok($"Orders deleted succesfully");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, e.Message);
+        //    }
+        //} 
+        #endregion
     }
 }

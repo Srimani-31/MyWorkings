@@ -20,6 +20,17 @@ namespace SportsZoneWebAPI.Services
             _mapper = mapper;
 
         }
+        public async Task<bool> IsAvail(string email)
+        {
+            try
+            {
+                return await _securityRepository.IsAvail(email);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<SecurityResponseDTO>> GetAllSecurityDetails()
         {
             try
