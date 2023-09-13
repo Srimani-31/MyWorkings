@@ -9,6 +9,7 @@ namespace SportsZoneWebAPI.Services.Interfaces
 {
     public interface ISecurityService
     {
+        public Task<bool> IsAvail(string email);
         public Task<IEnumerable<SecurityResponseDTO>> GetAllSecurityDetails();
         public Task<SecurityResponseDTO> GetSecurityDetailsByCustomerID(string email);
         public Task AddSecurityDetails(SecurityRequestDTO securityRequestDTO);

@@ -5,6 +5,7 @@ namespace SportsZoneWebAPI.Services.Interfaces
 {
     public interface ICategoryService
     {
+        public Task<bool> IsAvail(int catergoryID);
         public Task<IEnumerable<CategoryResponseDTO>> GetAllCategories();
         public Task<CategoryResponseDTO> GetCategoryByCategoryID(int categoryID);
         public Task AddNewCategory(CategoryRequestDTO categoryRequestDTO);

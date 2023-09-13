@@ -26,7 +26,7 @@ namespace SportsZoneWebAPI.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
         [HttpGet, Route("GetAllProductByCategoryID/{categoryID}")]
@@ -34,12 +34,16 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (categoryID == 0)
+                {
+                    return BadRequest();
+                }
                 IEnumerable<ProductResponseDTO> productResponseDTOs = await _productService.GetAllProductsByCategoryID(categoryID);
                 return Ok(productResponseDTOs);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
         [HttpGet, Route("GetProductByproductID/{productID}")]
@@ -47,12 +51,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (productID == 0)
+                {
+                    return BadRequest();
+                }
+                if (!await _productService.IsAvail(productID))
+                {
+                    return NotFound();
+                }
                 ProductResponseDTO productResponseDTO = await _productService.GetProductByproductID(productID);
                 return Ok(productResponseDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -61,12 +73,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (await _productService.IsAvail(productRequestDTO.ProductID))
+                {
+                    return Conflict();
+                }
                 await _productService.AddNewProduct(productRequestDTO);
                 return Ok(productRequestDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -75,12 +95,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (!await _productService.IsAvail(productRequestDTO.ProductID))
+                {
+                    return NotFound();
+                }
                 await _productService.UpdateProduct(productRequestDTO);
                 return Ok(productRequestDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
         [HttpDelete, Route("DeleteProductByProductID/{productID}")]
@@ -88,40 +116,54 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (productID == 0)
+                {
+                    return BadRequest("Input parameter 'productID' is required and cannot be empty.");
+                }
+                if (!await _productService.IsAvail(productID))
+                {
+                    return NotFound();
+                }
                 await _productService.DeleteProductByProductID(productID);
                 return Ok($"Products with ID : {productID} deleted succesfully");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
 
-        [HttpDelete, Route("DeleteAllProductsByCategoryID/{categoryID}")]
-        public async Task<ActionResult> DeleteAllProductsByCategoryID(int categoryID)
-        {
-            try
-            {
-                await _productService.DeleteAllProductsByCategoryID(categoryID);
-                return Ok($"Products with categoryID : {categoryID} deleted succesfully");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpDelete, Route("DeleteAllProducts")]
-        public async Task<ActionResult> DeleteAllProducts()
-        {
-            try
-            {
-                await _productService.DeleteAllProducts();
-                return Ok($"Products deleted succesfully");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        #region Rare use case
+        //[HttpDelete, Route("DeleteAllProductsByCategoryID/{categoryID}")]
+        //public async Task<ActionResult> DeleteAllProductsByCategoryID(int categoryID)
+        //{
+        //    try
+        //    {
+        //        if (categoryID == 0)
+        //        {
+        //            return BadRequest("Input parameter 'categoryID' is required and cannot be empty.");
+        //        }
+        //        await _productService.DeleteAllProductsByCategoryID(categoryID);
+        //        return Ok($"Products with categoryID : {categoryID} deleted succesfully");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, e.Message);
+        //    }
+        //}
+        //[HttpDelete, Route("DeleteAllProducts")]
+        //public async Task<ActionResult> DeleteAllProducts()
+        //{
+        //    try
+        //    {
+        //        await _productService.DeleteAllProducts();
+        //        return Ok($"Products deleted succesfully");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, e.Message);
+        //    }
+        //} 
+        #endregion
     }
 }

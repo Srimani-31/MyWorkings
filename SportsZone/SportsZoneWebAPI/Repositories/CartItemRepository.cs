@@ -18,7 +18,17 @@ namespace SportsZoneWebAPI.Repositories
             _sportsZoneDbContext = sportsZoneDbContext;
             _util = util;
         }
-
+        public async Task<bool> IsAvail(int cartItemID)
+        {
+            try
+            {
+                return await _util.IsAvail(dbSet: _sportsZoneDbContext.CartItems, intID: cartItemID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<CartItem>> GetAllCartItems()
         {
             try

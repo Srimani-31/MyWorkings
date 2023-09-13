@@ -6,6 +6,7 @@ namespace SportsZoneWebAPI.Repositories.Interfaces
 {
     public interface ICategoryRespository
     {
+        public Task<bool> IsAvail(int catergoryID);
         public Task<IEnumerable<Category>> GetAllCategories();
         public Task<Category> GetCategoryByCategoryID(int categoryID);
         public Task AddNewCategory(Category category);

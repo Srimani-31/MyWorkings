@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SportsZoneWebAPI.DTOs;
-using SportsZoneWebAPI.Services;
 using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,7 +27,7 @@ namespace SportsZoneWebAPI.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -37,12 +36,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    return BadRequest();
+                }
+                if (!await _securityService.IsAvail(email))
+                {
+                    return NotFound();
+                }
                 SecurityResponseDTO securityResponseDto = await _securityService.GetSecurityDetailsByCustomerID(email);
                 return Ok(securityResponseDto);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -51,12 +58,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (await _securityService.IsAvail(securityRequestDto.Email))
+                {
+                    return Conflict();
+                }
                 await _securityService.AddSecurityDetails(securityRequestDto);
                 return Ok(securityRequestDto);
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -65,12 +80,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (!await _securityService.IsAvail(securityRequestDTO.Email))
+                {
+                    return NotFound();
+                }
                 await _securityService.UpdateSecurityDetails(securityRequestDTO);
                 return Ok(securityRequestDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -79,12 +102,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(email))
+                {
+                    return BadRequest("Input parameter 'email' is required and cannot be empty.");
+                }
+                if (!await _securityService.IsAvail(email))
+                {
+                    return NotFound();
+                }
                 await _securityService.DeleteSecurityDetailsByCustomerID(email);
                 return Ok($"Security details with ID : {email} deleted succesfully");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
     }

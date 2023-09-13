@@ -18,7 +18,17 @@ namespace SportsZoneWebAPI.Services
             _customerRepository = customerRepository;
             _mapper = mapper;
         }
-
+        public async Task<bool> IsAvail(string email)
+        {
+            try
+            {
+                return await _customerRepository.IsAvail(email);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<CustomerResponseDTO>> GetAllCustomers()
         {
             try

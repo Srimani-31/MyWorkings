@@ -26,7 +26,7 @@ namespace SportsZoneWebAPI.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
         [HttpGet, Route("GetAllShippingAddressesByCustomerID/{email}")]
@@ -34,12 +34,16 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    return BadRequest();
+                }
                 IEnumerable<ShippingResponseDTO> shippingResponseDTOs = await _shippingService.GetAllShippingAddressesByCustomerID(email);
                 return Ok(shippingResponseDTOs);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
         [HttpGet, Route("GetShippingAddressByShippingID/{shippingID}")]
@@ -47,12 +51,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (shippingID == 0)
+                {
+                    return BadRequest();
+                }
+                if (!await _shippingService.IsAvail(shippingID))
+                {
+                    return NotFound();
+                }
                 ShippingResponseDTO shippingResponseDTO = await _shippingService.GetShippingAddressByShippingID(shippingID);
                 return Ok(shippingResponseDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -61,12 +73,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (await _shippingService.IsAvail(shippingRequestDTO.ShippingID))
+                {
+                    return Conflict();
+                }
                 await _shippingService.AddNewShippingAddress(shippingRequestDTO);
                 return Ok(shippingRequestDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -75,12 +95,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (!await _shippingService.IsAvail(shippingRequestDTO.ShippingID))
+                {
+                    return NotFound();
+                }
                 await _shippingService.UpdateShippingAddress(shippingRequestDTO);
                 return Ok(shippingRequestDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -89,12 +117,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (shippingID == 0)
+                {
+                    return BadRequest("Input parameter 'shippingID' is required and cannot be empty.");
+                }
+                if (!await _shippingService.IsAvail(shippingID))
+                {
+                    return NotFound();
+                }
                 await _shippingService.DeleteShippingAddressByShippingID(shippingID);
                 return Ok($"Shipping address with ID : {shippingID} deleted succesfully");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
     }
