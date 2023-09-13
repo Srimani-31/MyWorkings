@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Repositories
 {
@@ -26,6 +27,22 @@ namespace SportsZoneWebAPI.Repositories
         public static string HashItem(string item)
         {
             return BCrypt.Net.BCrypt.HashPassword(item);
+        }
+
+        public async Task<bool> IsAvail<TEntity>(DbSet<TEntity> dbSet,string stringID = null, int intID = 0) where TEntity : class
+        {
+            bool isAvail = false;
+            if (!string.IsNullOrWhiteSpace(stringID))
+            {
+                if (await dbSet.FindAsync(stringID) != null)
+                    isAvail = true;
+            }
+            else
+            {
+                if (await dbSet.FindAsync(intID) != null)
+                    isAvail = true;
+            }
+            return isAvail;
         }
 
         public decimal CalculateTotalAmountByQuantity(int productID, int quantity)

@@ -18,6 +18,17 @@ namespace SportsZoneWebAPI.Services
             _productRepository = productRepository;
             _mapper = mapper;
         }
+        public async Task<bool> IsAvail(int productID)
+        {
+            try
+            {
+                return await _productRepository.IsAvail(productID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<ProductResponseDTO>> GetAllProducts()
         {
             try

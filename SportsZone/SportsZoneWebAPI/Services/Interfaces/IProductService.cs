@@ -6,6 +6,7 @@ namespace SportsZoneWebAPI.Services.Interfaces
 {
     public interface IProductService
     {
+        public Task<bool> IsAvail(int productID);
         public Task<IEnumerable<ProductResponseDTO>> GetAllProducts();
         public Task<IEnumerable<ProductResponseDTO>> GetAllProductsByCategoryID(int categoryID);
         public Task<ProductResponseDTO> GetProductByproductID(int productID);

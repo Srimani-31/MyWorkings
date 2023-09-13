@@ -26,7 +26,7 @@ namespace SportsZoneWebAPI.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
         [HttpGet, Route("GetPaymentMethod/{paymentID}")]
@@ -34,12 +34,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (paymentID == 0)
+                {
+                    return BadRequest();
+                }
+                if (!await _paymentService.IsAvail(paymentID))
+                {
+                    return NotFound();
+                }
                 PaymentResponseDTO paymentResponseDTO = await _paymentService.GetPaymentMethodByPaymentID(paymentID);
                 return Ok(paymentResponseDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -48,12 +56,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (await _paymentService.IsAvail(paymentRequestDTO.PaymentID))
+                {
+                    return Conflict();
+                }
                 await _paymentService.AddNewPaymentMethod(paymentRequestDTO);
                 return Ok(paymentRequestDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -62,12 +78,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (!await _paymentService.IsAvail(paymentRequestDTO.PaymentID))
+                {
+                    return NotFound();
+                }
                 await _paymentService.UpdatePayment(paymentRequestDTO);
                 return Ok(paymentRequestDTO);
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -76,12 +100,20 @@ namespace SportsZoneWebAPI.Controllers
         {
             try
             {
+                if (paymentID == 0)
+                {
+                    return BadRequest("Input parameter 'paymentID' is required and cannot be empty.");
+                }
+                if (!await _paymentService.IsAvail(paymentID))
+                {
+                    return NotFound();
+                }
                 await _paymentService.DeletePaymentByPaymentID(paymentID);
                 return Ok($"Payment method with ID : {paymentID} deleted succesfully");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
     }

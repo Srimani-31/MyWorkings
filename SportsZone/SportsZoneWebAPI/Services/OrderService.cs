@@ -18,11 +18,40 @@ namespace SportsZoneWebAPI.Services
             _orderRepository = orderRepository;
             _mapper = mapper;
         }
+        public async Task<bool> IsAvail(string orderID)
+        {
+            try
+            {
+                return await _orderRepository.IsAvail(orderID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<OrderResponseDTO>> GetAllOrders()
         {
             try
             {
                 IEnumerable<Order> orders = await _orderRepository.GetAllOrders();
+                IList<OrderResponseDTO> orderResponseDTOs = new List<OrderResponseDTO>();
+                foreach (Order order in orders)
+                {
+                    OrderResponseDTO orderResponseDTO = _mapper.Map<OrderResponseDTO>(order);
+                    orderResponseDTOs.Add(orderResponseDTO);
+                }
+                return orderResponseDTOs;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<OrderResponseDTO>> GetAllOrdersByCustomerID(string email)
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _orderRepository.GetAllOrdersByCustomerID(email);
                 IList<OrderResponseDTO> orderResponseDTOs = new List<OrderResponseDTO>();
                 foreach (Order order in orders)
                 {
@@ -54,29 +83,11 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
-        public async Task<IEnumerable<OrderResponseDTO>> GetAllDeliveredOrders()
+        public async Task<IEnumerable<OrderResponseDTO>> GetAllPlacedOrdersByCustomerID(string email)
         {
             try
             {
-                IEnumerable<Order> orders = await _orderRepository.GetAllDeliveredOrders();
-                IList<OrderResponseDTO> orderResponseDTOs = new List<OrderResponseDTO>();
-                foreach (Order order in orders)
-                {
-                    OrderResponseDTO orderResponseDTO = _mapper.Map<OrderResponseDTO>(order);
-                    orderResponseDTOs.Add(orderResponseDTO);
-                }
-                return orderResponseDTOs;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        public async Task<IEnumerable<OrderResponseDTO>> GetAllDeliveredOrdersByCustomerID(string email)
-        {
-            try
-            {
-                IEnumerable<Order> orders = await _orderRepository.GetAllDeliveredOrdersByCustomerID(email);
+                IEnumerable<Order> orders = await _orderRepository.GetAllPlacedOrdersByCustomerID(email);
                 IList<OrderResponseDTO> orderResponseDTOs = new List<OrderResponseDTO>();
                 foreach (Order order in orders)
                 {
@@ -126,11 +137,65 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
-        public async Task<IEnumerable<OrderResponseDTO>> GetAllOrdersByCustomerID(string email)
+        public async Task<IEnumerable<OrderResponseDTO>> GetAllDeliveredOrders()
         {
             try
             {
-                IEnumerable<Order> orders = await _orderRepository.GetAllOrdersByCustomerID(email);
+                IEnumerable<Order> orders = await _orderRepository.GetAllDeliveredOrders();
+                IList<OrderResponseDTO> orderResponseDTOs = new List<OrderResponseDTO>();
+                foreach (Order order in orders)
+                {
+                    OrderResponseDTO orderResponseDTO = _mapper.Map<OrderResponseDTO>(order);
+                    orderResponseDTOs.Add(orderResponseDTO);
+                }
+                return orderResponseDTOs;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<OrderResponseDTO>> GetAllDeliveredOrdersByCustomerID(string email)
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _orderRepository.GetAllDeliveredOrdersByCustomerID(email);
+                IList<OrderResponseDTO> orderResponseDTOs = new List<OrderResponseDTO>();
+                foreach (Order order in orders)
+                {
+                    OrderResponseDTO orderResponseDTO = _mapper.Map<OrderResponseDTO>(order);
+                    orderResponseDTOs.Add(orderResponseDTO);
+                }
+                return orderResponseDTOs;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<OrderResponseDTO>> GetAllReturnedOrders()
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _orderRepository.GetAllReturnedOrders();
+                IList<OrderResponseDTO> orderResponseDTOs = new List<OrderResponseDTO>();
+                foreach (Order order in orders)
+                {
+                    OrderResponseDTO orderResponseDTO = _mapper.Map<OrderResponseDTO>(order);
+                    orderResponseDTOs.Add(orderResponseDTO);
+                }
+                return orderResponseDTOs;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<OrderResponseDTO>> GetAllReturnedOrdersByCustomerID(string email)
+        {
+            try
+            {
+                IEnumerable<Order> orders = await _orderRepository.GetAllReturnedOrdersByCustomerID(email);
                 IList<OrderResponseDTO> orderResponseDTOs = new List<OrderResponseDTO>();
                 foreach (Order order in orders)
                 {
@@ -258,7 +323,6 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
-
         public async Task CancelOrder(string orderID)
         {
             try
@@ -317,7 +381,6 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
-
         public async Task DeleteAllOrders()
         {
             try

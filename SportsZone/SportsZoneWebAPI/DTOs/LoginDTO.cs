@@ -1,8 +1,12 @@
-﻿namespace SportsZoneWebAPI.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SportsZoneWebAPI.DTOs
 {
     public class LoginDTO
     {
+        [Required]
         public string Email { get; set; }
+        [Required]
         public string Password { get; set; }
     }
 }

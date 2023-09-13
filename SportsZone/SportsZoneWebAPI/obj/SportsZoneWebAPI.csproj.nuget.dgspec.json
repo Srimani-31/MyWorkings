@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Revision\\SportsZone\\SportsZoneWebAPI\\SportsZoneWebAPI.csproj": {}
+    "D:\\Upskilling\\SportsZone\\SportsZoneWebAPI\\SportsZoneWebAPI.csproj": {}
   },
   "projects": {
-    "D:\\Revision\\SportsZone\\SportsZoneWebAPI\\SportsZoneWebAPI.csproj": {
+    "D:\\Upskilling\\SportsZone\\SportsZoneWebAPI\\SportsZoneWebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Revision\\SportsZone\\SportsZoneWebAPI\\SportsZoneWebAPI.csproj",
+        "projectUniqueName": "D:\\Upskilling\\SportsZone\\SportsZoneWebAPI\\SportsZoneWebAPI.csproj",
         "projectName": "SportsZoneWebAPI",
-        "projectPath": "D:\\Revision\\SportsZone\\SportsZoneWebAPI\\SportsZoneWebAPI.csproj",
+        "projectPath": "D:\\Upskilling\\SportsZone\\SportsZoneWebAPI\\SportsZoneWebAPI.csproj",
         "packagesPath": "C:\\Users\\srimani.ravikumar\\.nuget\\packages\\",
-        "outputPath": "D:\\Revision\\SportsZone\\SportsZoneWebAPI\\obj\\",
+        "outputPath": "D:\\Upskilling\\SportsZone\\SportsZoneWebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"

@@ -18,6 +18,17 @@ namespace SportsZoneWebAPI.Services
             _shippingRepository = shippingRepository;
             _mapper = mapper;
         }
+        public async Task<bool> IsAvail(int shippingID)
+        {
+            try
+            {
+                return await _shippingRepository.IsAvail(shippingID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<ShippingResponseDTO>> GetAllShippingAddresses()
         {
             try

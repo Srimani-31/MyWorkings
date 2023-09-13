@@ -12,11 +12,23 @@ namespace SportsZoneWebAPI.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
-        public ProductRepository(ISportsZoneDbContext sportsZoneDbContext)
+        private readonly IUtil _util;
+        public ProductRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
+            _util = util;
         }
-
+        public async Task<bool> IsAvail(int productID)
+        {
+            try
+            {
+                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Products, intID: productID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<Product>> GetAllProducts()
         {
             try
@@ -129,7 +141,7 @@ namespace SportsZoneWebAPI.Repositories
             }
         }
 
-        public async Task UpdateStockCount(int productID, int quantityPurchased,bool IsReturn=false)
+        public async Task UpdateStockCount(int productID, int quantityPurchased, bool IsReturn = false)
         {
             try
             {

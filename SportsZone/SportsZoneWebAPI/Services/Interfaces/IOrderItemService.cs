@@ -5,6 +5,7 @@ namespace SportsZoneWebAPI.Services.Interfaces
 {
     public interface IOrderItemService
     {
+        public Task<bool> IsAvail(int orderItemID);
         public Task<IEnumerable<OrderItemResponseDTO>> GetAllOrderedItems();
         public Task<IEnumerable<OrderItemResponseDTO>> GetAllOrderedItemsByOrderID(string orderID);
         public Task<OrderItemResponseDTO> GetOrderItemByOrderItemID(int orderItemID);

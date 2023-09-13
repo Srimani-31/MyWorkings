@@ -1,0 +1,200 @@
+**ProductManagement.js (Product Management Dashboard with CRUD):**
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function ProductManagement() {
+  const [products, setProducts] = useState([]);
+  const [newProduct, setNewProduct] = useState({ name: '', price: '', categoryId: '' });
+  const [editingProduct, setEditingProduct] = useState(null);
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Fetch products and categories from your API when the component mounts
+    fetchProducts();
+    fetchCategories();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('/api/products'); // Replace with your API endpoint
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error('Error fetching products: ', error);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('/api/categories'); // Replace with your API endpoint
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories: ', error);
+    }
+  };
+
+  const handleCreateProduct = async () => {
+    try {
+      const response = await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProduct),
+      });
+      if (response.ok) {
+        const createdProduct = await response.json();
+        setProducts([...products, createdProduct]);
+        setNewProduct({ name: '', price: '', categoryId: '' });
+      } else {
+        console.error('Error creating product');
+      }
+    } catch (error) {
+      console.error('Error creating product: ', error);
+    }
+  };
+
+  const handleEditProduct = async () => {
+    if (!editingProduct) return;
+
+    try {
+      const response = await fetch(`/api/products/${editingProduct.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editingProduct),
+      });
+      if (response.ok) {
+        const updatedProduct = await response.json();
+        const updatedProducts = products.map((product) =>
+          product.id === updatedProduct.id ? updatedProduct : product
+        );
+        setProducts(updatedProducts);
+        setEditingProduct(null);
+      } else {
+        console.error('Error updating product');
+      }
+    } catch (error) {
+      console.error('Error updating product: ', error);
+    }
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    try {
+      const response = await fetch(`/api/products/${productId}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        const updatedProducts = products.filter((product) => product.id !== productId);
+        setProducts(updatedProducts);
+      } else {
+        console.error('Error deleting product');
+      }
+    } catch (error) {
+      console.error('Error deleting product: ', error);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Product Management Dashboard</h1>
+      <div>
+        <h2>Create Product</h2>
+        <input
+          type="text"
+          placeholder
+
+="Product Name"
+          value={newProduct.name}
+          onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Price"
+          value={newProduct.price}
+          onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+        />
+        <select
+          value={newProduct.categoryId}
+          onChange={(e) => setNewProduct({ ...newProduct, categoryId: e.target.value })}
+        >
+          <option value="">Select Category</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+        <button onClick={handleCreateProduct}>Create</button>
+      </div>
+      <div>
+        <h2>Products</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.id}</td>
+                <td>
+                  {editingProduct?.id === product.id ? (
+                    <input
+                      type="text"
+                      value={editingProduct.name}
+                      onChange={(e) =>
+                        setEditingProduct({ ...editingProduct, name: e.target.value })
+                      }
+                    />
+                  ) : (
+                    product.name
+                  )}
+                </td>
+                <td>
+                  {editingProduct?.id === product.id ? (
+                    <input
+                      type="number"
+                      value={editingProduct.price}
+                      onChange={(e) =>
+                        setEditingProduct({ ...editingProduct, price: e.target.value })
+                      }
+                    />
+                  ) : (
+                    product.price
+                  )}
+                </td>
+                <td>{product.categoryName}</td>
+                <td>
+                  {editingProduct?.id === product.id ? (
+                    <>
+                      <button onClick={handleEditProduct}>Save</button>
+                      <button onClick={() => setEditingProduct(null)}>Cancel</button>
+                    </>
+                  ) : (
+                    <>
+                      <button onClick={() => setEditingProduct(product)}>Edit</button>
+                      <button onClick={() => handleDeleteProduct(product.id)}>Delete</button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+export default ProductManagement;
+```

@@ -6,6 +6,7 @@ namespace SportsZoneWebAPI.Repositories.Interfaces
 {
     public interface ICustomerRespository
     {
+        public Task<bool> IsAvail(string email);
         public Task<IEnumerable<Customer>> GetAllCustomers();
         public Task<Customer> GetCustomerByCustomerID(string email);
         public Task CreateCustomer(Customer customer);
