@@ -210,7 +210,7 @@ To do List:
 
 12-09-2023
 To do List:
-* Structure the API response as per the best practices
+* Structure the API response as per the best practices =>  done
 * Implement role based authorisation 
 
 13-09-2023
@@ -239,7 +239,13 @@ Web API procedure
 * Created Auth Controller with necessary repo & service layer
 
 
+Bugs:
+=====================================
+api/Cart/GetAllCartsByCustomerID(email) 
+* need to validate the customer id before getting the carts
 
+
+======================================
 
 
 

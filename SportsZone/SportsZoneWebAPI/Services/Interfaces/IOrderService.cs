@@ -25,6 +25,7 @@ namespace SportsZoneWebAPI.Services.Interfaces
         public Task PlaceOrderViaDirectPurchase(OrderRequestDTO orderRequestDTO);
         public Task PlaceOrderViaCartMode(OrderRequestDTO orderRequestDTO);
         public Task CancelOrder(string orderID);
+        public Task OrderDelivered(string orderID);
         public Task ReturnOrder(string orderID);
         public Task UpdateOrder(OrderRequestDTO orderRequestDTO);
         public Task DeleteOrderByOrderID(string orderID);

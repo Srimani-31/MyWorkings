@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SportsZoneWebAPI.DTOs;
-using SportsZoneWebAPI.Models;
-using SportsZoneWebAPI.Services;
 using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -135,7 +133,27 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
-
+        [HttpPut, Route("OrderDelivered/{orderID}")]
+        public async Task<ActionResult> OrderDelivered(string orderID)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(orderID))
+                {
+                    return BadRequest();
+                }
+                if (!await _orderService.IsAvail(orderID))
+                {
+                    return NotFound();
+                }
+                await _orderService.OrderDelivered(orderID);
+                return Ok($"Order with ID: {orderID} delivered successfully");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
         [HttpPut, Route("ReturnOrder/{orderID}")]
         public async Task<ActionResult> ReturnOrder(string orderID)
         {
@@ -384,7 +402,7 @@ namespace SportsZoneWebAPI.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-        } 
+        }
         #endregion
 
         #region Rare use case

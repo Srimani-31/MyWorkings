@@ -334,6 +334,17 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
+        public async Task OrderDelivered(string orderID)
+        {
+            try
+            {
+                await _orderRepository.OrderDelivered(orderID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task ReturnOrder(string orderID)
         {
             try

@@ -84,30 +84,30 @@ Product put request
 Cart post request
 {
   "cartID": 0,
-  "belongsTo": "sri@gmail.com",
-  "createdUpdatedBy": "sri@gmail.com"
+  "belongsTo": "cristiano@gmail.com",
+  "createdUpdatedBy": "cristiano@gmail.com"
 }
 Cart put request
 {
-  "cartID": 2,
-  "belongsTo": "sri@gmail.com",
+  "cartID": 1,
+  "belongsTo": "cristiano@gmail.com",
   "createdUpdatedBy": "Admin"
 }
 CartItem post request
 {
   "cartItemID": 0,
-  "cartID": 7,
-  "productID": 3,
+  "cartID": 1,
+  "productID": 1,
   "quantity": 4,
-  "createdUpdatedBy": "sri@gmail.com"
+  "createdUpdatedBy": "cristiano@gmail.com"
 }
 CartItem put request
 {
-  "cartItemID": 0,
-  "cartID": 7,
-  "productID": 3,
-  "quantity": 4,
-  "createdUpdatedBy": "sri@gmail.com"
+  "cartItemID": 1,
+  "cartID": 1,
+  "productID": 1,
+  "quantity": 7,
+  "createdUpdatedBy": "Admin"
 }
 
 Shipping post request
