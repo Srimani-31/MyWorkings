@@ -11,6 +11,7 @@
         public string Country { get; set; }
         public string ZipCode { get; set; }
         public string ProfilePhoto { get; set; }
-        public bool? IsEnabled { get; set; }
+        public bool IsEnabled { get; set; }
+        public bool IsActive { get; set; }
     }
 }

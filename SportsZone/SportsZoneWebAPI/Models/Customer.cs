@@ -11,6 +11,8 @@ namespace SportsZoneWebAPI.Models
             Carts = new HashSet<Cart>();
             Orders = new HashSet<Order>();
             Shippings = new HashSet<Shipping>();
+            IsActive = Repositories.AccountStatus.InActive;
+            IsEnabled = Repositories.AccountStatus.Enabled;
         }
 
         public string Email { get; set; }
@@ -26,7 +28,8 @@ namespace SportsZoneWebAPI.Models
         public DateTime CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
-        public bool? IsEnabled { get; set; }
+        public bool IsEnabled { get; set; }
+        public bool IsActive { get; set; } 
         public virtual Security Security { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

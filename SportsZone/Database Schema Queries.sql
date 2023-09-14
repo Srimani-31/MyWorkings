@@ -9,6 +9,7 @@ CREATE TABLE [Customer] (
   [ZipCode] VARCHAR(255),
   [ProfilePhoto] VARCHAR(MAX),
   [IsEnabled] BIT NOT NULL DEFAULT (1),
+  [IsActive] BIT NOT NULL DEFAULT (0),
   [CreatedBy] VARCHAR(255) NOT NULL,
   [CreatedDate] DATETIME NOT NULL DEFAULT (GETDATE()),
   [UpdatedBy] VARCHAR(255) NOT NULL,

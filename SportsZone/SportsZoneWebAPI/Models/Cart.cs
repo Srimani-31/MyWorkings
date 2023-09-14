@@ -10,7 +10,7 @@ namespace SportsZoneWebAPI.Models
         {
             CartItems = new HashSet<CartItem>();
             Orders = new HashSet<Order>();
-            IsEnabled = true;
+            IsEnabled = Repositories.CartStatus.Enabled;
         }
 
         public int CartID { get; set; }

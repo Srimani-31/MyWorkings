@@ -184,6 +184,10 @@ namespace SportsZoneWebAPI.Models
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
 
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.LastName)
                     .IsRequired()
                     .HasMaxLength(255)

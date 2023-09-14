@@ -349,7 +349,7 @@ namespace SportsZoneWebAPI.Repositories
             {
                 string orderID = _util.GenerateOrderID();
                 decimal totalAmount = _util.EvaluateCartTotal((int)cartID);
-                Order order = new Order()
+                Order order = new()
                 {
                     OrderID = orderID,
                     OrderDate = DateTime.Now,
@@ -378,7 +378,7 @@ namespace SportsZoneWebAPI.Repositories
 
                 //Disable the cart to the customer
                 Cart cart = await _cartRepository.GetCartByCartID((int)cartID);
-                cart.IsEnabled = false;
+                cart.IsEnabled = CartStatus.Disabled;
                 await _cartRepository.UpdateCart(cart);
             }
             catch (Exception)
@@ -392,7 +392,7 @@ namespace SportsZoneWebAPI.Repositories
             {
                 string orderID = _util.GenerateOrderID();
                 decimal totalAmount = _util.CalculateTotalAmountByQuantity(productID, quantity);
-                Order order = new Order()
+                Order order = new()
                 {
                     OrderID = orderID,
                     OrderDate = DateTime.Now,
@@ -417,7 +417,7 @@ namespace SportsZoneWebAPI.Repositories
 
                 //Disable the cart to the customer
                 Cart cart = await _cartRepository.GetActiveCartByCustomerID(email);
-                cart.IsEnabled = false;
+                cart.IsEnabled = CartStatus.Disabled;
                 await _cartRepository.UpdateCart(cart);
             }
             catch (Exception)
