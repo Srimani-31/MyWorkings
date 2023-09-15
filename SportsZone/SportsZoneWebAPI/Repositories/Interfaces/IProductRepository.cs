@@ -1,4 +1,5 @@
-﻿using SportsZoneWebAPI.Models;
+﻿using Microsoft.AspNetCore.Http;
+using SportsZoneWebAPI.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace SportsZoneWebAPI.Repositories.Interfaces
         public Task<IEnumerable<Product>> GetAllProducts();
         public Task<IEnumerable<Product>> GetAllProductsByCategoryID(int categoryID);
         public Task<Product> GetProductByProductID(int productID);
+        public Task AddMultipleProducts(IFormFile file, string createdUpdatedBy);
         public Task AddNewProduct(Product product);
         public Task UpdateProduct(Product product);
         public Task DeleteProductByProductID(int productID);

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SportsZoneWebAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace SportsZoneWebAPI.Services
 {
@@ -78,7 +79,17 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
-
+        public async Task AddMultipleProducts(IFormFile file, string createdUpdatedBy)
+        {
+            try
+            {
+                await _productRepository.AddMultipleProducts(file, createdUpdateBy);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
         public async Task AddNewProduct(ProductRequestDTO productRequestDTO)
         {
             try
@@ -94,7 +105,6 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
-
         public async Task UpdateProduct(ProductRequestDTO productRequestDTO)
         {
             try
@@ -120,7 +130,6 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
-
         public async Task DeleteAllProductsByCategoryID(int categoryID)
         {
             try

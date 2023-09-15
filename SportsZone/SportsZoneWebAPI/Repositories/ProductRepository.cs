@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using SportsZoneWebAPI.Data.Interfaces;
 using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Repositories.Interfaces;
@@ -63,7 +66,50 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
+        public async Task AddMultipleProducts(IFormFile file, string createdUpdatedBy)
+        {
+            try
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
 
+                        if (worksheet == null)
+                        {
+                            throw new BadRequestException("Excel file is empty or invalid.");
+                        }
+
+                        int rowCount = worksheet.Dimension.Rows;
+
+                        var products = new List<Product>();
+
+                        for (int row = 2; row <= rowCount; row++) // Assuming the first row is the header
+                        {
+                            Product product = new()
+                            {
+                                ProductName = worksheet.Cells[row, 1].Value?.ToString(),
+                                ProductImage = worksheet.Cells[row, 2].Value?.ToString(),
+                                StockCount = int.Parse(worksheet.Cells[row, 3].Value?.ToString() ?? "0"),
+                                Price = decimal.Parse(worksheet.Cells[row, 4].Value?.ToString() ?? "0.00"),
+                                CategoryID = int.Parse(worksheet.Cells[row, 4].Value?.ToString() ?? "0"),
+                                CreatedBy = createdUpdatedBy,
+                                CreatedDate = DateTime.Now,
+                                UpdatedBy = createdUpdatedBy,
+                                UpdatedDate = DateTime.Now
+                            };
+
+                            await AddNewProduct(product);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task AddNewProduct(Product product)
         {
             try
@@ -76,7 +122,6 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-
         public async Task UpdateProduct(Product product)
         {
             try
@@ -89,7 +134,6 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-
         public async Task DeleteProductByProductID(int productID)
         {
             try
@@ -126,7 +170,6 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-
         public async Task DeleteAllProducts()
         {
             try
@@ -140,7 +183,6 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-
         public async Task UpdateStockCount(int productID, int quantityPurchased, bool IsReturn = false)
         {
             try

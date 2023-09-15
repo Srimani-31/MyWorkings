@@ -1,4 +1,5 @@
-﻿using SportsZoneWebAPI.DTOs;
+﻿using Microsoft.AspNetCore.Http;
+using SportsZoneWebAPI.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace SportsZoneWebAPI.Services.Interfaces
         public Task<IEnumerable<ProductResponseDTO>> GetAllProducts();
         public Task<IEnumerable<ProductResponseDTO>> GetAllProductsByCategoryID(int categoryID);
         public Task<ProductResponseDTO> GetProductByproductID(int productID);
+        public Task AddMultipleProducts(IFormFile file, string createdUpdatedBy);
         public Task AddNewProduct(ProductRequestDTO productRequestDTO);
         public Task UpdateProduct(ProductRequestDTO productRequestDTO);
         public Task DeleteProductByProductID(int productID);

@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Controllers
@@ -133,37 +137,59 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
 
-        #region Rare use case
-        //[HttpDelete, Route("DeleteAllProductsByCategoryID/{categoryID}")]
-        //public async Task<ActionResult> DeleteAllProductsByCategoryID(int categoryID)
-        //{
-        //    try
-        //    {
-        //        if (categoryID == 0)
-        //        {
-        //            return BadRequest("Input parameter 'categoryID' is required and cannot be empty.");
-        //        }
-        //        await _productService.DeleteAllProductsByCategoryID(categoryID);
-        //        return Ok($"Products with categoryID : {categoryID} deleted succesfully");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(500, e.Message);
-        //    }
-        //}
-        //[HttpDelete, Route("DeleteAllProducts")]
-        //public async Task<ActionResult> DeleteAllProducts()
-        //{
-        //    try
-        //    {
-        //        await _productService.DeleteAllProducts();
-        //        return Ok($"Products deleted succesfully");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(500, e.Message);
-        //    }
-        //} 
-        #endregion
+
+        [HttpPost("add-multiple")]
+        public async Task<ActionResult> AddMultipleProducts(IFormFile file,string createdUpdatedBy)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file provided.");
+            }
+
+            // Process the Excel file and add products to the database
+            try
+            {
+                await _productService.AddMultipleProducts(file, createdUpdatedBy);
+                return Ok("Products added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error processing the Excel file: {ex.Message}");
+            }
+        }
     }
+
+    #region Rare use case
+    //[HttpDelete, Route("DeleteAllProductsByCategoryID/{categoryID}")]
+    //public async Task<ActionResult> DeleteAllProductsByCategoryID(int categoryID)
+    //{
+    //    try
+    //    {
+    //        if (categoryID == 0)
+    //        {
+    //            return BadRequest("Input parameter 'categoryID' is required and cannot be empty.");
+    //        }
+    //        await _productService.DeleteAllProductsByCategoryID(categoryID);
+    //        return Ok($"Products with categoryID : {categoryID} deleted succesfully");
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        return StatusCode(500, e.Message);
+    //    }
+    //}
+    //[HttpDelete, Route("DeleteAllProducts")]
+    //public async Task<ActionResult> DeleteAllProducts()
+    //{
+    //    try
+    //    {
+    //        await _productService.DeleteAllProducts();
+    //        return Ok($"Products deleted succesfully");
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        return StatusCode(500, e.Message);
+    //    }
+    //} 
+    #endregion
 }
+

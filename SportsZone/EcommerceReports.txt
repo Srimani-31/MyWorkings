@@ -224,7 +224,7 @@ Web API procedure
 * Create a asp.net core web api project
 * Import Nuget package 
 	Microsoft.EntityframeworkCore.Sqlserver
-	Microsoft.EntityFramewrokCore.Tools
+	Microsoft.EntityFrameworkCore.Tools
 	Microsoft.EntityFrameworkCore.Desing
 * Execute the Scaffold cmd in PMC
 * Configure the connections string globally
@@ -237,12 +237,15 @@ Web API procedure
 * Resolved the Circular dependency
 * Implemented the Hashing mechanism with Bcrypt Nuget package
 * Created Auth Controller with necessary repo & service layer
+* Splitted hardcoded strings into constant files
+* Created the Util class for all common computations
 
 
 Bugs:
 =====================================
 api/Cart/GetAllCartsByCustomerID(email) 
 * need to validate the customer id before getting the carts
+* same type of bug will arise for all similar non-primary key entity tracking
 
 
 ======================================
