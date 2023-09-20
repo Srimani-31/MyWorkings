@@ -54,7 +54,6 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-
         public async Task<Product> GetProductByProductID(int productID)
         {
             try

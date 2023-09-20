@@ -83,7 +83,7 @@ namespace SportsZoneWebAPI.Services
         {
             try
             {
-                await _productRepository.AddMultipleProducts(file, createdUpdateBy);
+                await _productRepository.AddMultipleProducts(file, createdUpdatedBy);
             }
             catch(Exception)
             {

@@ -4,6 +4,7 @@ using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace SportsZoneWebAPI.Repositories
         {
             _sportsZoneDbContext = sportsZoneDbContext;
         }
+
         // convert string to byte[] with hashed 
         public static byte[] HashItemToBytes(string password)
         {
@@ -28,7 +30,6 @@ namespace SportsZoneWebAPI.Repositories
         {
             return BCrypt.Net.BCrypt.HashPassword(item);
         }
-
         public async Task<bool> IsAvail<TEntity>(DbSet<TEntity> dbSet,string stringID = null, int intID = 0) where TEntity : class
         {
             bool isAvail = false;
@@ -44,7 +45,6 @@ namespace SportsZoneWebAPI.Repositories
             }
             return isAvail;
         }
-
         public decimal CalculateTotalAmountByQuantity(int productID, int quantity)
         {
             try
@@ -135,6 +135,22 @@ namespace SportsZoneWebAPI.Repositories
             bool isPasswordMatch = BCrypt.Net.BCrypt.Verify(enteredPassword, hashedPasswordString);
 
             return isPasswordMatch;
+        }
+        public static string GetCustomerImagesDirectory()
+        {
+            var webRootPath = Directory.GetCurrentDirectory();
+            var uploadDirectory = Path.Combine(webRootPath, "AppData", "CustomerImages");
+            Directory.CreateDirectory(uploadDirectory);
+
+            return uploadDirectory;
+        }
+        public static string GetProductImagesDirectory()
+        {
+            var webRootPath = Directory.GetCurrentDirectory();
+            var uploadDirectory = Path.Combine(webRootPath, "AppData", "ProductImages");
+            Directory.CreateDirectory(uploadDirectory);
+
+            return uploadDirectory;
         }
     }
 }

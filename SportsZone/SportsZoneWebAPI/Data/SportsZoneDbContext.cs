@@ -509,7 +509,6 @@ namespace SportsZoneWebAPI.Models
 
             OnModelCreatingPartial(modelBuilder);
         }
-
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

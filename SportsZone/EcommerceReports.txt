@@ -215,7 +215,7 @@ To do List:
 
 13-09-2023
 To do List:
-* Extract data from the excel to database to add products and category 
+* Extract data from the excel to database to add products and category => done
 
 
  

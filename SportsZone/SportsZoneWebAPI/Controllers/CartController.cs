@@ -16,6 +16,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             _cartService = cartService;
         }
+
         [HttpGet, Route("GetActiveCartByCustomerID/{email}")]
         public async Task<ActionResult<CartResponseDTO>> GetActiveCartByCustomerID(string email)
         {
@@ -33,6 +34,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpGet, Route("GetCartByCartID/{cartID}")]
         public async Task<ActionResult<CartResponseDTO>> GetCartByCartID(int cartID)
         {
@@ -54,6 +56,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpPost, Route("AddNewCart")]
         public async Task<ActionResult<CartRequestDTO>> AddNewCart([FromBody] CartRequestDTO cartRequestDTO)
         {
@@ -97,6 +100,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpDelete, Route("DeleteCartByCartID/{cartID}")]
         public async Task<ActionResult> DeleteCartByCartID(int cartID)
         {

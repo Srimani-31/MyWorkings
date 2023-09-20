@@ -18,6 +18,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             _orderService = orderService;
         }
+
         [HttpGet, Route("GetAllOrders")]
         public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllOrders()
         {
@@ -31,6 +32,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpGet, Route("GetAllOrdersByCustomerID/{email}")]
         public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetAllOrdersByCustomerID(string email)
         {
@@ -48,6 +50,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpGet, Route("GetOrderByOrderID/{orderID}")]
         public async Task<ActionResult<OrderResponseDTO>> GetOrderByOrderID(string orderID)
         {
@@ -91,6 +94,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpPost, Route("PlaceOrderViaCartMode")]
         public async Task<ActionResult<OrderRequestDTO>> PlaceOrderViaCartMode([FromBody] OrderRequestDTO orderRequestDTO)
         {
@@ -112,6 +116,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpPut, Route("CancelOrder/{orderID}")]
         public async Task<ActionResult> CancelOrder(string orderID)
         {
@@ -133,6 +138,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpPut, Route("OrderDelivered/{orderID}")]
         public async Task<ActionResult> OrderDelivered(string orderID)
         {
@@ -154,6 +160,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpPut, Route("ReturnOrder/{orderID}")]
         public async Task<ActionResult> ReturnOrder(string orderID)
         {
@@ -175,6 +182,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpPut, Route("UpdateOrder")]
         public async Task<ActionResult<OrderRequestDTO>> UpdateOrder([FromBody] OrderRequestDTO orderRequestDTO)
         {
@@ -196,6 +204,7 @@ namespace SportsZoneWebAPI.Controllers
                 return BadRequest(e.InnerException);
             }
         }
+
         [HttpDelete, Route("DeleteOrderByOrderID/{orderID}")]
         public async Task<ActionResult> DeleteOrderByOrderID(string orderID)
         {

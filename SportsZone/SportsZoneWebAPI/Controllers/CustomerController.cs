@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SportsZoneWebAPI.DTOs;
 using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Controllers
@@ -17,7 +19,7 @@ namespace SportsZoneWebAPI.Controllers
             _customerService = customerService;
         }
 
-        [HttpGet, Route("GetAllCustomers")]
+        [HttpPost, Route("GetAllCustomers")]
         public async Task<ActionResult<IEnumerable<CustomerResponseDTO>>> GetAllCustomers()
         {
             try
@@ -30,8 +32,9 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpGet, Route("GetCustomerByCustomerID/{email}")]
-        public async Task<ActionResult<CustomerResponseDTO>> GetCustomerByCustomerID(string email)
+        public async Task<ActionResult> GetCustomerByCustomerID(string email)
         {
             try
             {
@@ -54,7 +57,7 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPost, Route("CreateCustomer")]
-        public async Task<ActionResult<CustomerRequestDTO>> CreateCustomer([FromBody] CustomerRequestDTO customerRequestDTO)
+        public async Task<ActionResult<CustomerRequestDTO>> CreateCustomer([FromForm] CustomerRequestDTO customerRequestDTO)
         {
             try
             {
@@ -67,7 +70,7 @@ namespace SportsZoneWebAPI.Controllers
                 {
                     return Conflict();
                 }
-                await _customerService.CreateCustomer(customerRequestDTO);
+                await _customerService.CreateCustomer(customerRequestDTO, customerRequestDTO.ProfilePhoto);
                 return Ok(customerRequestDTO);
             }
             catch (Exception e)
@@ -99,6 +102,83 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
 
+        [HttpPost, Route("Upload image")]
+        public async Task<ActionResult> UploadImage(IFormFile image, string email)
+        {
+            try
+            {
+                if (image != null && image.Length > 0)
+                {
+                    //Ensure the file has a valid image file extension (e.g., .jpg, .png)
+                    string fileExtension = Path.GetExtension(image.FileName).ToLower();
+                    if (IsImageFileExtensionValid(fileExtension))
+                    {
+                        //Handle the image file as needed
+                        //you can save it, proces it, or return a response
+                        var webRootPath = Directory.GetCurrentDirectory();
+                        var uploadDirectory = Path.Combine(webRootPath, "AppData", "CustomerImages");
+                        var imageFileName = email + Guid.NewGuid().ToString().Substring(0, 4) + ".jpg";
+                        Directory.CreateDirectory(uploadDirectory);
+
+                        //Example: Saving the image to a file
+                        var filePath = Path.Combine(uploadDirectory, imageFileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await image.CopyToAsync(stream);
+                        }
+                        CustomerResponseDTO customerResponseDTO = await _customerService.GetCustomerByCustomerID(email);
+                        customerResponseDTO.ProfilePhoto = filePath;
+                        
+
+                        return Ok("Image uploaded successfully");
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid file format. Support formats: .jpg, .png");
+                    }
+                }
+                else
+                {
+                    return BadRequest("No file uploaded");
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet, Route("Get image")]
+        public ActionResult DownloadFile(string filePath)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    return BadRequest();
+                }
+                if (System.IO.File.Exists(filePath))
+                {
+                    var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                    return File(fileStream, "application/octet-stream", Path.GetFileName(filePath));
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        private bool IsImageFileExtensionValid(string fileExtension)
+        {
+            // Add valid image file extensions as needed
+            return fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png";
+        }
 
         [HttpDelete, Route("DeleteCustomerByCustomerID/{email}")]
         public async Task<ActionResult> DeleteCustomerByCustomerID(string email)

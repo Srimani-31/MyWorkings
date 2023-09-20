@@ -30,6 +30,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpGet, Route("GetCategoryByCategoryID/{categoryID}")]
         public async Task<ActionResult<CategoryResponseDTO>> GetCategoryByCategoryID(int categoryID)
         {

@@ -16,6 +16,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             _shippingService = shippingService;
         }
+
         [HttpGet, Route("GetAllShippingAddresses")]
         public async Task<ActionResult<IEnumerable<ShippingResponseDTO>>> GetAllShippingAddresses()
         {
@@ -29,6 +30,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpGet, Route("GetAllShippingAddressesByCustomerID/{email}")]
         public async Task<ActionResult<IEnumerable<ShippingResponseDTO>>> GetAllShippingAddressesByCustomerID(string email)
         {
@@ -46,6 +48,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpGet, Route("GetShippingAddressByShippingID/{shippingID}")]
         public async Task<ActionResult<ShippingResponseDTO>> GetShippingAddressByShippingID(int shippingID)
         {

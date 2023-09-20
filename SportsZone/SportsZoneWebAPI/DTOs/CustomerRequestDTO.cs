@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace SportsZoneWebAPI.DTOs
 {
@@ -16,7 +17,7 @@ namespace SportsZoneWebAPI.DTOs
         public string City { get; set; }
         public string Country { get; set; }
         public string ZipCode { get; set; }
-        public string ProfilePhoto { get; set; }
+        public IFormFile ProfilePhoto { get; set; }
         [Required]
         public string CreatedUpdatedBy { get; set; }
     }

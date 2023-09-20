@@ -1,0 +1,161 @@
+In the controller, you need to handle the image upload using the `IFormFile` interface provided by ASP.NET Core. Here's how you can implement the controller code to handle image uploads in C#:
+
+Assuming you have an endpoint `/upload-image`, your controller code might look like this:
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Threading.Tasks;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ImageController : ControllerBase
+{
+    [HttpPost("upload-image")]
+    public async Task<IActionResult> UploadImage(IFormFile image)
+    {
+        try
+        {
+            if (image != null && image.Length > 0)
+            {
+                // Ensure the file has a valid image file extension (e.g., .jpg, .png)
+                string fileExtension = Path.GetExtension(image.FileName).ToLower();
+                if (IsImageFileExtensionValid(fileExtension))
+                {
+                    // Handle the image file as needed
+                    // You can save it, process it, or return a response
+
+                    // Example: Saving the image to a file
+                    var filePath = Path.Combine("your-image-directory", image.FileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                    }
+
+                    return Ok("Image uploaded successfully");
+                }
+                else
+                {
+                    return BadRequest("Invalid file format. Supported formats: .jpg, .png");
+                }
+            }
+            else
+            {
+                return BadRequest("No file uploaded.");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions if needed
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
+    private bool IsImageFileExtensionValid(string fileExtension)
+    {
+        // Add valid image file extensions as needed
+        return fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png";
+    }
+}
+```
+
+In this code:
+
+- The `UploadImage` action method accepts an `IFormFile` parameter named `image`, which represents the uploaded image file.
+- It checks whether an image file was uploaded and whether the file extension is valid (e.g., .jpg, .jpeg, .png). You can extend the `IsImageFileExtensionValid` method to support additional image formats.
+- If the image is valid, it can be processed or saved to the desired location. In this example, the code saves the image to a specified directory.
+- The controller returns appropriate HTTP responses, such as `200 OK` for a successful upload, `400 Bad Request` for invalid requests, and `500 Internal Server Error` for internal server errors.
+
+Please replace `"your-image-directory"` with the actual directory path where you want to save the uploaded images. Additionally, customize the code to suit your specific requirements for handling the uploaded images.
+
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
+
+[ApiController]
+[Route("api/[controller]")]
+public class FileController : ControllerBase
+{
+    [HttpGet("download-file")]
+    public IActionResult DownloadFile()
+    {
+        // Define the path to the file you want to serve
+        var filePath = "path-to-your-file.jpg"; // Replace with the actual file path
+
+        // Check if the file exists
+        if (System.IO.File.Exists(filePath))
+        {
+            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            return File(fileStream, "application/octet-stream", Path.GetFileName(filePath));
+        }
+        else
+        {
+            return NotFound("File not found");
+        }
+    }
+}
+D:\Upskilling\SportsZone\SportsZoneWebAPI\AppData\CustomerImages\cristiano@gmail.com3c72.jpg
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
+using System;
+using System.IO;
+
+[ApiController]
+[Route("api/[controller]")]
+public class FileController : ControllerBase
+{
+    [HttpPost("upload-file")]
+    public IActionResult UploadFile(IFormFile file)
+    {
+        try
+        {
+            if (file != null && file.Length > 0)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    // Read the uploaded file into a memory stream
+                    file.CopyTo(stream);
+
+                    // Reset the stream position for reading
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    // Load the image from the stream
+                    using (var image = Image.Load(stream))
+                    {
+                        // Create a new memory stream for the converted image
+                        using (var outputStream = new MemoryStream())
+                        {
+                            // Save the image as JPEG
+                            image.Save(outputStream, new JpegEncoder());
+
+                            // Reset the stream position for reading
+                            outputStream.Seek(0, SeekOrigin.Begin);
+
+                            // You can save the converted image to a file or return it as a response
+                            // For example, to save it to a file:
+                            // var outputPath = "path-to-your-output.jpg";
+                            // using (var fileStream = new FileStream(outputPath, FileMode.Create))
+                            // {
+                            //     outputStream.CopyTo(fileStream);
+                            // }
+
+                            // To return the converted image as a response:
+                            return File(outputStream, "image/jpeg");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return BadRequest("No file uploaded.");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions if needed
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+}

@@ -16,6 +16,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             _cartItemService = cartItemService;
         }
+
         [HttpGet, Route("GetAllCartItemsByCartID/{cartID}")]
         public async Task<ActionResult<IEnumerable<CartItemResponseDTO>>> GetAllCartItemsByCartID(int cartID)
         {
@@ -91,6 +92,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpDelete, Route("DeleteAllCartItemsByCartID/{cartID}")]
         public async Task<ActionResult> DeleteAllCartItemsByCartID(int cartID)
         {

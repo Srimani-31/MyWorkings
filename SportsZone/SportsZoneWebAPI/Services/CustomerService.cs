@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SportsZoneWebAPI.Services.Interfaces;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace SportsZoneWebAPI.Services
 {
@@ -60,15 +62,15 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
-        public async Task CreateCustomer(CustomerRequestDTO customerRequestDTO)
+        public async Task CreateCustomer(CustomerRequestDTO customerRequestDTO,IFormFile image)
         {
             try
             {
                 Customer customer = _mapper.Map<Customer>(customerRequestDTO);
                 customer.CreatedBy = customerRequestDTO.CreatedUpdatedBy;
                 customer.CreatedDate = DateTime.Now;
-
-                await _customerRepository.CreateCustomer(customer);
+               
+                await _customerRepository.CreateCustomer(customer,image);
             }
             catch (Exception)
             {
@@ -106,6 +108,18 @@ namespace SportsZoneWebAPI.Services
                 await _customerRepository.DeleteCustomerByCustomerID(email);
             }
             catch (Exception)
+            {
+                throw;
+            }
+        }
+        public FileStream GetImage(string imagePath)
+        {
+
+            try
+            {
+                return _customerRepository.GetImage(imagePath);
+            }
+            catch(Exception)
             {
                 throw;
             }

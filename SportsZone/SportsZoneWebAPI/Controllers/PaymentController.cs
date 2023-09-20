@@ -16,6 +16,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             _paymentService = paymentService;
         }
+
         [HttpGet, Route("GetAllPaymentMethods")]
         public async Task<ActionResult<IEnumerable<PaymentResponseDTO>>> GetAllPaymentMethods()
         {
@@ -29,6 +30,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpGet, Route("GetPaymentMethod/{paymentID}")]
         public async Task<ActionResult<PaymentResponseDTO>> GetPaymentMethodByPaymentID(int paymentID)
         {

@@ -20,6 +20,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             _productService = productService;
         }
+
         [HttpGet, Route("GetAllProducts")]
         public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAllProducts()
         {
@@ -33,6 +34,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpGet, Route("GetAllProductByCategoryID/{categoryID}")]
         public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAllProductsByCategoryID(int categoryID)
         {
@@ -50,6 +52,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpGet, Route("GetProductByproductID/{productID}")]
         public async Task<ActionResult<ProductResponseDTO>> GetProductByproductID(int productID)
         {
@@ -115,6 +118,7 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
         [HttpDelete, Route("DeleteProductByProductID/{productID}")]
         public async Task<ActionResult> DeleteProductByProductID(int productID)
         {
@@ -136,7 +140,6 @@ namespace SportsZoneWebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
-
 
         [HttpPost("add-multiple")]
         public async Task<ActionResult> AddMultipleProducts(IFormFile file,string createdUpdatedBy)
