@@ -3,15 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import ForgotPasswordForm from './ForgetPassword/ForgetPasswordForm';
-import ForgotApp from './ForgetPassword/forgotApp';
-
+// import HelloWorld from './HelloWorld';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App /> 
-    <ForgotApp />
+    <App />
+    {/* <HelloWorld /> */}
   </React.StrictMode>
 );
 
