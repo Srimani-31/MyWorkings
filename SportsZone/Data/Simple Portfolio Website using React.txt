@@ -1,0 +1,171 @@
+Creating a simple website with components like Header, Side Nav, Main Content, and Footer in React.js with Bootstrap CSS involves several steps. I'll guide you through the process step by step and provide code examples along the way.
+
+**Step 1: Set Up Your React Project**
+
+If you haven't already, you'll need to set up a React project. You can use tools like Create React App to quickly bootstrap a new React application.
+
+```bash
+npx create-react-app simple-website
+cd simple-website
+npm start
+```
+
+This will create a new React project and start the development server.
+
+**Step 2: Install Bootstrap**
+
+To use Bootstrap in your React project, you can install it using npm:
+
+```bash
+npm install bootstrap
+```
+
+**Step 3: Create the Components**
+
+Create the following components: Header, SideNav, MainContent, and Footer. You can use the `components` directory to organize your components.
+
+```jsx
+// src/components/Header.js
+import React from 'react';
+
+const Header = () => {
+  return (
+    <header>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container">
+          <a className="navbar-brand" href="/">Simple Website</a>
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+export default Header;
+```
+
+```jsx
+// src/components/SideNav.js
+import React from 'react';
+
+const SideNav = () => {
+  return (
+    <aside className="sidebar">
+      <ul className="nav flex-column">
+        <li className="nav-item">
+          <a className="nav-link" href="/">Home</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="/about">About</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="/contact">Contact</a>
+        </li>
+      </ul>
+    </aside>
+  );
+};
+
+export default SideNav;
+```
+
+```jsx
+// src/components/MainContent.js
+import React from 'react';
+
+const MainContent = () => {
+  return (
+    <main className="content">
+      <div className="container">
+        <h1>Welcome to Simple Website</h1>
+        <p>This is the main content of our website.</p>
+      </div>
+    </main>
+  );
+};
+
+export default MainContent;
+```
+
+```jsx
+// src/components/Footer.js
+import React from 'react';
+
+const Footer = () => {
+  return (
+    <footer className="footer mt-auto py-3">
+      <div className="container">
+        <span className="text-muted">© 2023 Simple Website</span>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
+```
+
+**Step 4: Create the App Component**
+
+Now, create the `App.js` component that will assemble all these components into a webpage.
+
+```jsx
+// src/App.js
+import React from 'react';
+import './App.css';
+import Header from './components/Header';
+import SideNav from './components/SideNav';
+import MainContent from './components/MainContent';
+import Footer from './components/Footer';
+
+function App() {
+  return (
+    <div className="App">
+      <Header />
+      <div className="container-fluid">
+        <div className="row">
+          <nav className="col-md-2 d-none d-md-block bg-light sidebar">
+            <SideNav />
+          </nav>
+          <MainContent />
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
+```
+
+**Step 5: Add Bootstrap CSS**
+
+Import the Bootstrap CSS in your `index.js` file.
+
+```jsx
+// src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Add this line
+import App from './App';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+**Step 6: Styling**
+
+You can create an `App.css` file and add custom CSS to style your components as needed.
+
+**Step 7: Start the Development Server**
+
+Run the development server to see your website:
+
+```bash
+npm start
+```
+
+Your simple website with components like Header, Side Nav, Main Content, and Footer should now be up and running. You can customize each component and add more pages and functionality as needed.
