@@ -15,5 +15,6 @@ namespace RiddleWebAPI.Service
         public Task UpdateUserAsync(UserDto userDto);
         public Task DeleteUserAsync(string username);
         public Task<bool> AuthenticateUser(LoginDto loginDto);
+        public Task<bool> IsAvail(string username);
     }
 }

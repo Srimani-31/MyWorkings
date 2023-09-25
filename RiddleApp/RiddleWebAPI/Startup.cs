@@ -50,6 +50,18 @@ namespace RiddleWebAPI
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
+            //configuration for the UI react
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -66,6 +78,9 @@ namespace RiddleWebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RiddleWebAPI v1"));
             }
+
+            //Appy CORS policy
+            app.UseCors("AllowAnyOrigin"); 
 
             app.UseHttpsRedirection();
 

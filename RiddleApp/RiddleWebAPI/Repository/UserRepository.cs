@@ -12,14 +12,33 @@ namespace RiddleWebAPI.Repository
         {
             _dbContext = dbContext;
         }
-        
+        public async Task<bool> IsAvail(string username)
+        {
+            try
+            {
+                var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Username == username);
+                if (user != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<User>> GetAllUserAsync()
         {
             try
             {
                 return await _dbContext.Users.ToListAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -31,11 +50,11 @@ namespace RiddleWebAPI.Repository
             {
                 return await _dbContext.Users.FindAsync(username);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw new Exception("An error occured while retrieving the data");
             }
-            
+
         }
         public async Task AddUserAsync(User user)
         {
@@ -45,7 +64,7 @@ namespace RiddleWebAPI.Repository
                 _dbContext.Users.Add(user);
                 await _dbContext.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -55,34 +74,25 @@ namespace RiddleWebAPI.Repository
         {
             try
             {
-                //User _user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Username == user.Username);
-                //if (_user == null)
-                //    throw new Exception();
-                //else
-                //{
-                    _dbContext.Entry(user).State = EntityState.Modified;//updating via property
-                    //_dbContext.Users.Update(user); //updating via method
-                    await _dbContext.SaveChangesAsync();
-                //}
-               
+                var existingUser = await GetUserByUsernameAsync(user.Username);
+                _dbContext.Entry(existingUser).State = EntityState.Detached;
+                user.Password = HashPassword(user.Password);
+
+                //existingUser.Username = user.Username;
+                //existingUser.FullName = user.FullName;
+                //existingUser.Email = user.Email;
+                //existingUser.Password = HashPassword(user.Password);
+
+                //_dbContext.Entry(existingUser).State = EntityState.Modified;
+
+                _dbContext.Users.Update(user);
+                await _dbContext.SaveChangesAsync();
+
             }
-            //catch(DbUpdateConcurrencyException)
-            //{
-            //    throw new DbUpdateConcurrencyException("Concurrency conflit");
-            //}
-            //catch (NullReferenceException)
-            //{
-            //    throw new NullReferenceException("Object reference not set to an instance of an object");
-            //}
-            //catch (KeyNotFoundException)
-            //{
-            //    throw;
-            //}
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
-
         }
         public async Task DeleteUserAsync(string username)
         {
@@ -101,7 +111,7 @@ namespace RiddleWebAPI.Repository
                 }
 
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 throw;
             }
@@ -109,7 +119,7 @@ namespace RiddleWebAPI.Repository
             {
                 throw;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw new Exception("An error occured while retrieving the data");
             }
@@ -128,10 +138,10 @@ namespace RiddleWebAPI.Repository
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
-        public bool IsValidPassword(string password,string hashedPassword)
+        public bool IsValidPassword(string password, string hashedPassword)
         {
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
-           
+
         }
 
 

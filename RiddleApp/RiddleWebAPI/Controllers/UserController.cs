@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using RiddleWebAPI.Dtos;
+using RiddleWebAPI.Models;
+using RiddleWebAPI.Service;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using RiddleWebAPI.Service;
-using RiddleWebAPI.Models;
-using Microsoft.EntityFrameworkCore;
-using RiddleWebAPI.Dtos;
 
 namespace RiddleWebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("users")]
     [ApiController]
     public class UserController : Controller
     {
@@ -22,110 +19,106 @@ namespace RiddleWebAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet,Route("GetAllUsers")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             try
             {
+
                 var users = await _userService.GetAllUserAsync();
-                return StatusCode(200, users);
-                //return Ok(users);
+                return Ok(users);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(404, ex.Message);
+                return StatusCode(501, ex.Message);
             }
-           
+
         }
-        [HttpGet,Route("GetUserByName/{username}")]
+        [HttpGet, Route("{username}")]
         public async Task<ActionResult<User>> GetUserByUsername(string username)
         {
             try
-            {   
-                var user = await _userService.GetUserByUsernameAsync(username);
-                if (user == null)
-                {
-                    return StatusCode(404,"User not found");
-                }
-                return Ok(user);
-            }
-            catch(Exception ex)
             {
-                return StatusCode(404, ex.Message);
+                var user = await _userService.GetUserByUsernameAsync(username);
+                if (user != null)
+                {
+                    return Ok(user);
+                }
+                return NotFound("User not found");
             }
-           
+            catch (Exception ex)
+            {
+                return StatusCode(501, ex.Message);
+            }
+
         }
-        [HttpPost,Route("AddUser")]
-        public async Task<ActionResult<User>> AddUser(UserDto userDto)
+        [HttpPost]
+        public async Task<ActionResult<User>> AddUser([FromBody] UserDto userDto)
         {
             try
             {
                 await _userService.AddUserAsync(userDto);
-                return StatusCode(201,"New User created successfully");
+                return StatusCode(201, "New User created successfully");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(501, ex.InnerException);
             }
-            
+
         }
 
-        [HttpPut,Route("UpdateUser")]
-        public async Task<IActionResult> UpdateUser(UserDto userDto)
+        [HttpPut, Route("{username}")]
+        public async Task<IActionResult> UpdateUser([FromRoute] string username, [FromBody] UserDto userDto)
         {
             try
             {
-                await _userService.UpdateUserAsync(userDto);
-                return StatusCode(200,"User updated successfully");
+                if (await _userService.IsAvail(username))
+                {
+                    await _userService.UpdateUserAsync(userDto);
+                    return Ok(userDto);
+                }
+                return NotFound("User not found");
             }
-            //catch(InvalidOperationException ex)
-            //{
-            //    return StatusCode(400, ex.TargetSite);
-            //}
-            //catch(NullReferenceException ex)
-            //{
-            //    return StatusCode(404, ex.Message);
-            //}
-            //catch(KeyNotFoundException ex)
-            //{
-            //    return StatusCode(404, ex.Message);
-            //}
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(501, ex.Message);
             }
-           
+
         }
-        [HttpDelete,Route("DeleteUser/{username}")]
-        public async Task<IActionResult> DeleteUser(string username)
+        [HttpDelete, Route("{username}")]
+        public async Task<IActionResult> DeleteUser([FromRoute] string username)
         {
             try
             {
-                await _userService.DeleteUserAsync(username);
-                return StatusCode(200,"User removed successfully.");
+                if (await _userService.IsAvail(username))
+                {
+                    await _userService.DeleteUserAsync(username);
+                    return Ok();
+                }
+                return NotFound("User not found");
             }
-            catch(KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
                 return StatusCode(404, ex.Message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(400, ex.Message);
             }
-            
+
         }
-        [HttpPost,Route("AuthenticateUser")]
-        public async Task<IActionResult> AuthenticateUser(LoginDto loginDto)
+        [HttpPost, Route("AuthenticateUser")]
+        public async Task<IActionResult> AuthenticateUser([FromBody] LoginDto loginDto)
         {
             try
             {
-                if(await _userService.AuthenticateUser(loginDto))
+                if (await _userService.AuthenticateUser(loginDto))
                 {
                     return StatusCode(200, "User authenticated successfully");
                 }
                 return StatusCode(201, "Unauthenticated user.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(404, ex.Message);
             }
