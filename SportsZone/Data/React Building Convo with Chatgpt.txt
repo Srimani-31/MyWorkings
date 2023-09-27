@@ -1,0 +1,79 @@
+Hey I decided to UI using React for my asp.net core web api which has JWT authentication and 10 controllers will tell if needed 
+This convo is mainly for seeking the help for building page layout and template using JSX
+my version of react is @testing-library/react@13.4.0
+│ └── react@18.2.0 deduped
+├─┬ react-dom@18.2.0
+│ └── react@18.2.0 deduped
+├─┬ react-scripts@5.0.1
+│ └── react@18.2.0 deduped
+└── react@18.2.0
+
+I will be asking component one by one
+
+points to remember:
+
+1. Entire component jsx forms should be very professional as per ecommerce layout
+2. Design should be inlcuded using bootstrap
+3. Page looks like stunning with your bootsrtap 
+
+
+Shall i start asking component?
+
+Name of the applicaiton is SportsZone
+Login component:
+Requirement:
+1. should contain two input fields namely email and password
+2. should contain button named sign in
+3. stunning placeholder design form instead using lables (avoid lables)
+4. should forget password navigation empty for now
+5. should contain new user navigate to sign up page empty for now
+6. div should centered with stunning bootstrap layout
+7. You should maintain a background light theme color for this entire project
+8. later this component will be integrating with api show just comment out those callings
+
+Hey i will be hanling in jsx format
+SignUp component
+Requirement
+1. input fields email, firstname, lastname,contact number, address, city, country, zipcode, profile photo
+2. should contain button submit and reset 
+3. stunning placeholder design form instead using lables (avoid lables)
+4. should contain new user navigate to sign in page empty for now
+5. You should maintain a background light theme color for this entire project
+6. later this component will be integrating with api show just comment out those callings
+7. form should be centered with stunning ecommerce layout desing real time
+
+
+Home Component.jsx
+Requirement:
+1. I need to show my prodcuts as a card 
+2. it will be like grid layout 
+3. May contains max three in a row
+4. A card should contain Product image, Product Name, Price 
+5. You can Insert empty image for now
+6. All items should be centered
+7. I can click any where on the layout to navigate to the product view component
+8. Product view componet navigation link can be empty for now
+9. Should maintain stunning bootsrtap styling like real ecommerce layout
+10.Should get details from .net core web api
+11. Response contains product id,name,image, price,stockcount
+
+12. Based on the stock count the product can disabled   (Enhancement)
+Hey 
+https://localhost:44382/api/Product/GetAllProducts
+use this above link to get all products contains
+ProductID, ProductName, ProductImage, StockCount, Price, Category ID
+In which ProductImage carries the relative path of the image 
+
+Alter the axios fetch with above url
+then navigate to ProductView component empty for now using useNavigate
+
+ProductView Component jsx (functional component)
+Requirement:
+1. It is like bigger card layout
+2. should contains details like product ID, product Name, product image, Stock count, price, category ID
+3. user can be able to choose the quantity upto 10
+4. two buttons namely Buy now, and Add to Cart
+5. Buttons are cenetered space evenly
+6. Form should be like professional bootsrtap ecommerce layout
+7. uniformity in color and neat ness and stunning bootsrtap design with card layout
+8. Runtime data fetch by id https://localhost:44382/api/Product/GetProductByproductID/{id}

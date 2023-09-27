@@ -132,6 +132,18 @@ namespace SportsZoneWebAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:key"]))
                 };
             });
+
+            //configuration for the UI react
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -143,6 +155,9 @@ namespace SportsZoneWebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SportsZoneWebAPI v1"));
             }
+
+            //Appy CORS policy
+            app.UseCors("AllowAnyOrigin");
 
             app.UseHttpsRedirection();
 
