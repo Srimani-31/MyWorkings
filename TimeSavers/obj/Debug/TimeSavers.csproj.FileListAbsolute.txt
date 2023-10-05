@@ -4,3 +4,9 @@ D:\Revision\TimeSavers\obj\Debug\TimeSavers.csproj.AssemblyReference.cache
 D:\Revision\TimeSavers\obj\Debug\TimeSavers.csproj.CoreCompileInputs.cache
 D:\Revision\TimeSavers\obj\Debug\TimeSavers.dll
 D:\Revision\TimeSavers\obj\Debug\TimeSavers.pdb
+D:\Upskilling\TimeSavers\bin\Debug\TimeSavers.dll
+D:\Upskilling\TimeSavers\bin\Debug\TimeSavers.pdb
+D:\Upskilling\TimeSavers\obj\Debug\TimeSavers.csproj.AssemblyReference.cache
+D:\Upskilling\TimeSavers\obj\Debug\TimeSavers.csproj.CoreCompileInputs.cache
+D:\Upskilling\TimeSavers\obj\Debug\TimeSavers.dll
+D:\Upskilling\TimeSavers\obj\Debug\TimeSavers.pdb
