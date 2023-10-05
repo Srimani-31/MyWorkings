@@ -29,7 +29,7 @@ namespace SportsZoneWebAPI.Models
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
         public bool IsEnabled { get; set; }
-        public bool IsActive { get; set; } 
+        public bool IsActive { get; set; }
         public virtual Security Security { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

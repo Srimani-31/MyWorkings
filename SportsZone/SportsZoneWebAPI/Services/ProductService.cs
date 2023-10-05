@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SportsZoneWebAPI.DTOs;
 using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Repositories.Interfaces;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SportsZoneWebAPI.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 
 namespace SportsZoneWebAPI.Services
 {
@@ -85,7 +85,7 @@ namespace SportsZoneWebAPI.Services
             {
                 await _productRepository.AddMultipleProducts(file, createdUpdatedBy);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }

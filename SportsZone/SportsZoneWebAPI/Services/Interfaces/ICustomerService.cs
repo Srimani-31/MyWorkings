@@ -1,8 +1,8 @@
-﻿using SportsZoneWebAPI.DTOs;
+﻿using Microsoft.AspNetCore.Http;
+using SportsZoneWebAPI.DTOs;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace SportsZoneWebAPI.Services.Interfaces
 {

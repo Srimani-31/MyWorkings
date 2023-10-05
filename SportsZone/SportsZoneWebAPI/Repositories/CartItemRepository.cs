@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Data.Interfaces;
+using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;

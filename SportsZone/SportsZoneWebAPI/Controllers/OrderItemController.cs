@@ -16,7 +16,7 @@ namespace SportsZoneWebAPI.Controllers
         {
             _orderItemService = orderItemService;
         }
-   
+
         [HttpGet, Route("GetAllOrderedItemsByOrderID/{orderID}")]
         public async Task<ActionResult<IEnumerable<OrderItemResponseDTO>>> GetAllOrderedItemsByOrderID(string orderID)
         {
@@ -114,7 +114,7 @@ namespace SportsZoneWebAPI.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-        } 
+        }
         #endregion
 
         #region Rare use case

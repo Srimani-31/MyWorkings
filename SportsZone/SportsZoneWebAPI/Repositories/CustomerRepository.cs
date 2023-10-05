@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using SportsZoneWebAPI.Data.Interfaces;
 using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Pipes;
 using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Repositories

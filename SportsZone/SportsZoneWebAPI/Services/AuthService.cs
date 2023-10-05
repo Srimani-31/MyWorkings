@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SportsZoneWebAPI.Services.Interfaces;
+﻿using SportsZoneWebAPI.DTOs;
 using SportsZoneWebAPI.Repositories.Interfaces;
-using SportsZoneWebAPI.DTOs;
+using SportsZoneWebAPI.Services.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Services
 {

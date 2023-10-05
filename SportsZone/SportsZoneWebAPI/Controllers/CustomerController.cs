@@ -129,7 +129,7 @@ namespace SportsZoneWebAPI.Controllers
                         }
                         CustomerResponseDTO customerResponseDTO = await _customerService.GetCustomerByCustomerID(email);
                         customerResponseDTO.ProfilePhoto = filePath;
-                        
+
 
                         return Ok("Image uploaded successfully");
                     }

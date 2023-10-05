@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SportsZoneWebAPI.Data.Interfaces;
 using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Repositories.Interfaces;

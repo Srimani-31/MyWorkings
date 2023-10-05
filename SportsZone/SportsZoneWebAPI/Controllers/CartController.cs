@@ -198,7 +198,7 @@ namespace SportsZoneWebAPI.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-        } 
+        }
         #endregion
 
         #region Rare Use Case

@@ -30,7 +30,7 @@ namespace SportsZoneWebAPI.Repositories
         {
             return BCrypt.Net.BCrypt.HashPassword(item);
         }
-        public async Task<bool> IsAvail<TEntity>(DbSet<TEntity> dbSet,string stringID = null, int intID = 0) where TEntity : class
+        public async Task<bool> IsAvail<TEntity>(DbSet<TEntity> dbSet, string stringID = null, int intID = 0) where TEntity : class
         {
             bool isAvail = false;
             if (!string.IsNullOrWhiteSpace(stringID))

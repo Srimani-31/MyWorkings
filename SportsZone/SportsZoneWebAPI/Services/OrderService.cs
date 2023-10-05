@@ -2,10 +2,10 @@
 using SportsZoneWebAPI.DTOs;
 using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Repositories.Interfaces;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SportsZoneWebAPI.Services.Interfaces;
 
 namespace SportsZoneWebAPI.Services
 {
@@ -329,7 +329,7 @@ namespace SportsZoneWebAPI.Services
             {
                 await _orderRepository.CancelOrder(orderID);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }

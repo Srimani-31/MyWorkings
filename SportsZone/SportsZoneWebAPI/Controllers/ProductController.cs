@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OfficeOpenXml;
 using SportsZoneWebAPI.DTOs;
-using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Controllers
@@ -142,7 +139,7 @@ namespace SportsZoneWebAPI.Controllers
         }
 
         [HttpPost("add-multiple")]
-        public async Task<ActionResult> AddMultipleProducts(IFormFile file,string createdUpdatedBy)
+        public async Task<ActionResult> AddMultipleProducts(IFormFile file, string createdUpdatedBy)
         {
             if (file == null || file.Length == 0)
             {

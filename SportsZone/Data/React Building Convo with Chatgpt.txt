@@ -77,3 +77,81 @@ Requirement:
 6. Form should be like professional bootsrtap ecommerce layout
 7. uniformity in color and neat ness and stunning bootsrtap design with card layout
 8. Runtime data fetch by id https://localhost:44382/api/Product/GetProductByproductID/{id}
+
+ShippingView Component (functional component)
+Requirements:
+
+1. It should show the list of shipping Address customer ID
+2. Add it also has one form to be entered to add new shipping address to the customer ID
+3. Shipping Address table contains details like ShippingID ,Address, City,Country,ZipCode,Landmark,BelongsTo (foreign key) this is for response dto
+4. Shipping Address table contains like ShippingID(identity,pk),Address, City, Country, ZipCode, Landmark,BelongsTo (customerID foreign key) this is for request dto 
+5. all the list address by customer show be show like horizontal card layout with radio button to be checked to select and navigate to the payment page
+6. additional user can also new address at the moment to
+7. it will be like 1st list of address by customer ID to be checked as radio button then the new form 
+8. The entire form should be neat and stunning in bootsrtap designs
+9. api url getallbyID = https://localhost:44382/api/Shipping/GetAllShippingAddressesByCustomerID/{id}
+10 post https://localhost:44382/api/Shipping/AddNewShippingAddress
+
+
+ChoosePaymentMethod Component (functional component)
+Requirements:
+1. It should show the list of payment method
+2. all the list address by customer show be show like horizontal card layout with radio button to be checked to select and navigate to the payment ordersummary page
+3. The entire form should be neat and stunning in bootsrtap designs
+4. list of payment types to be checked as radio button and then button Proceed
+5. api get url  https://localhost:44382/api/Payment/GetAllPaymentMethods
+6. Payment table contain details like PaymentID, PaymentType
+
+Cart Component (functional component)
+Requirements:
+1. It should  show the list of product contained the cart
+2. api get link  https://localhost:44382/api/Cart/GetCartByCustomerId/{id} https://localhost:44382/api/Cart/GetAllProductsByCartID/{id} https://localhost:44382/api/CartItem/GetAllCartItemsByCartID/{id}
+3. Cart table contain item like cartID (pk), BelongsTo(fk), IsEnabled
+4. CartItem table CartItemID, CartID(fk),ProductID(fk),Quantity,TotalPrice
+5. I need to show my products as a card  and all items should be centered
+6. it will be like grid layout 
+7. May contains max three in a row
+8. A card should contain Product image, Product Name, Quantity choosen
+9. Here quantity choose can label and it should two button + and - to increament and decreament
+10. I can be able to edit cartItem quanity 
+11. when i increament or decreament the quanity then a button should to confirm and then i should call put request for the cartitem https://localhost:44382/api/CartItem/UpdateCartItem
+12. then button should vanish
+13. first process getCartBycustomerId with isenabled true
+14. secondly process getAllCartItemsByCartID which cartID will be get from above get request
+15. After getting that GetAllProductsByProductId/{id} which productID will be get from above  request
+16. Show the productImage, Productname,Quantity to be edited as instructed above and that button should call put api edit cartItem table row
+
+MyOrder Component
+Requirements:
+1. horizontal card contains orderId and a button to view the orderItem view component
+2. all orders made by the customer url https://localhost:44382/api/Order/GetAllOrdersByCustomerID/{id}
+3. The entire form should be neat and stunning in bootsrtap designs
+4. Order table contains details like OrderID, CustomerID, Status, TotalAmount, PaymentID, ShippingID, OrderDate
+5. I need to show OrderID, Status, PaymentID,ShippingID, OrderDate 
+6. You should design as it like real ecommerce website layout 
+
+OrderedItem Componet
+Requirements:
+1. The entire form should be neat and stunning in bootsrtap designs
+2. I will be getting all orderedItem by orderId url https://localhost:44382/api/OrderItem/GetAllOrderedItemsByOrderId/{id}
+3. OrderedItem table contains OrderItemID, OrderID, ProductID, Quantity, TotalPrice
+4. After getting that GetProductByProductId/{id} which productID will be get from above request
+5. You should design as it like real ecommerce website layout  SPRTZN-20230914163655-dac6-0003
+
+ViewProfile Component
+Requirements:
+1. This component is used to show the detials of the customer
+2. Customer table contains details like Email(pk), firstname, lastname,contact number, address, city, country, zipcode, profile photo
+3. The layout will be like left side profile photo down below option to edit and delete ,right side all other input fields to be edited after the editing the any fields the update should appear
+4. hey edit means you can new photo just like form input should appear after the edit button but delete for you set the image default one url is D:\Upskilling\React\React Basics\demo-ecommerce-ui\public\assets\CustomerImages\default.png
+5. My business is if there is no image uploaded by customer at first i should store the above default image path otherwise the image choosen
+6. Also I am storing it in react public folder and in db i just storing the path of it so request object will be the path 
+7. The entire form should be neat and stunning in bootsrtap designs
+8. Just by click the update button in the right side the put request should send to api https://localhost:44382/api/Customer/UpdateCustomer
+9. The profile should be rounded as professional website has
+
+
+
+
+
+

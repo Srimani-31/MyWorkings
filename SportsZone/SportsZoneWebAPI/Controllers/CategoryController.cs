@@ -117,7 +117,7 @@ namespace SportsZoneWebAPI.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-        } 
-      
+        }
+
     }
 }
