@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 //adding custom css
 import './SignUp.css'
 
@@ -46,16 +47,17 @@ const SignUp = () => {
               <Form.Control type="file" placeholder="Profile Photo" />
             </Form.Group>
 
+            <Button variant="secondary" type="reset" className="custom-button">
+              Reset
+            </Button>
             <Button variant="primary" type="submit" className="mr-2 custom-button">
               Submit
             </Button>
 
-            <Button variant="secondary" type="reset" className="custom-button">
-              Reset
-            </Button>
-
             <div className="text-center mt-3">
-              <a href="#">New User? Sign In</a>
+              <Link to="/signin">
+                Already have an account? Sign In
+              </Link>
             </div>
           </Form>
         </div>

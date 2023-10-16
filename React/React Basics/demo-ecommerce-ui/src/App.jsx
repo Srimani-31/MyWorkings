@@ -1,3 +1,4 @@
+import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
@@ -9,23 +10,32 @@ import Cart from './components/Cart';
 import MyOrder from './components/MyOrders';
 import OrderedItem from './components/OrderedItem';
 import ViewProfile from './components/ViewProfile';
+import Header from './components/Header';
+import Routers from './components/Router';
+import Footer from './components/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <div>
-      <SignIn />
-      <SignUp />
-      <Home />
-      <ProductView />
-      <ChooseShippingAddress />
-      <ChoosePaymentMethod />
-      <Cart />
-      <MyOrder />
-      <OrderedItem />
-      <ViewProfile />
-    </div>
-
+    <Router>
+      <div>
+        <Header />
+        {/* <SignIn />
+        <SignUp />
+        <Home />
+        <ProductView />
+        <ChooseShippingAddress />
+        <ChoosePaymentMethod />
+        <Cart />
+        <MyOrder />
+        <OrderedItem />
+        <ViewProfile /> */}
+        <div className="container mt-4">
+          <Routers />
+        </div>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
