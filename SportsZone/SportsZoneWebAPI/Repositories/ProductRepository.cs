@@ -14,17 +14,17 @@ namespace SportsZoneWebAPI.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
-        private readonly IUtil _util;
-        public ProductRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
+        private readonly IHelper _helper;
+        public ProductRepository(ISportsZoneDbContext sportsZoneDbContext, IHelper helper)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
-            _util = util;
+            _helper = helper;
         }
         public async Task<bool> IsAvail(int productID)
         {
             try
             {
-                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Products, intID: productID);
+                return await _helper.IsAvail(dbSet: _sportsZoneDbContext.Products, intID: productID);
             }
             catch (Exception)
             {
@@ -158,7 +158,7 @@ namespace SportsZoneWebAPI.Repositories
                 IEnumerable<Product> products = await GetAllProductsByCategoryID(categoryID);
                 foreach (Product product in products)
                 {
-                    _sportsZoneDbContext.Products.Remove(product);
+                    _sportsZoneDbContext.Products.Remove(product);//remove all
                 }
                 await _sportsZoneDbContext.SaveChangesAsync();
 

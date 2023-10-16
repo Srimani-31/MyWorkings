@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Repositories
 {
-    public class Util : IUtil
+    public class Helper : IHelper
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
-        public Util(ISportsZoneDbContext sportsZoneDbContext)
+        public Helper(ISportsZoneDbContext sportsZoneDbContext)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
         }

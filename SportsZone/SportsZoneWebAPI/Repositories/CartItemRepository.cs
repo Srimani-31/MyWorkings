@@ -12,17 +12,17 @@ namespace SportsZoneWebAPI.Repositories
     public class CartItemRepository : ICartItemRepository
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
-        private readonly IUtil _util;
-        public CartItemRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
+        private readonly IHelper _helper;
+        public CartItemRepository(ISportsZoneDbContext sportsZoneDbContext, IHelper helper)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
-            _util = util;
+            _helper = helper;
         }
         public async Task<bool> IsAvail(int cartItemID)
         {
             try
             {
-                return await _util.IsAvail(dbSet: _sportsZoneDbContext.CartItems, intID: cartItemID);
+                return await _helper.IsAvail(dbSet: _sportsZoneDbContext.CartItems, intID: cartItemID);
             }
             catch (Exception)
             {
@@ -79,7 +79,7 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                decimal totalPrice = _util.CalculateTotalAmountByQuantity(cartItem.ProductID, cartItem.Quantity);
+                decimal totalPrice = _helper.CalculateTotalAmountByQuantity(cartItem.ProductID, cartItem.Quantity);
                 cartItem.TotalPrice = totalPrice;
 
                 _sportsZoneDbContext.CartItems.Update(cartItem);
@@ -146,7 +146,7 @@ namespace SportsZoneWebAPI.Repositories
             try
             {
                 // Get the product price by quantity
-                decimal totalPrice = _util.CalculateTotalAmountByQuantity(productID, quantity);
+                decimal totalPrice = _helper.CalculateTotalAmountByQuantity(productID, quantity);
 
                 //create cart item
                 var cartItem = new CartItem()

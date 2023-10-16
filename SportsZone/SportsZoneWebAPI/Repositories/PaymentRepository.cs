@@ -10,17 +10,17 @@ namespace SportsZoneWebAPI.Repositories
     public class PaymentRepository : IPaymentRepository
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
-        private readonly IUtil _util;
-        public PaymentRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
+        private readonly IHelper _helper;
+        public PaymentRepository(ISportsZoneDbContext sportsZoneDbContext, IHelper helper)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
-            _util = util;
+            _helper = helper;
         }
         public async Task<bool> IsAvail(int paymentID)
         {
             try
             {
-                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Payments, intID: paymentID);
+                return await _helper.IsAvail(dbSet: _sportsZoneDbContext.Payments, intID: paymentID);
             }
             catch (Exception)
             {

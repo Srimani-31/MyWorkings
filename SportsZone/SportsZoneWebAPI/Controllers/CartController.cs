@@ -31,7 +31,7 @@ namespace SportsZoneWebAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, e.Message);//internal check has to avoided
             }
         }
 
@@ -79,7 +79,7 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
 
-        [HttpPut, Route("UpdateCart")]
+        [HttpPut, Route("UpdateCart")]//exceed the request limits
         public async Task<ActionResult<CartRequestDTO>> UpdateCart([FromBody] CartRequestDTO cartRequestDTO)
         {
             try

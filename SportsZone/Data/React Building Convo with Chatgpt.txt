@@ -150,6 +150,69 @@ Requirements:
 8. Just by click the update button in the right side the put request should send to api https://localhost:44382/api/Customer/UpdateCustomer
 9. The profile should be rounded as professional website has
 
+Header Component
+Requirements:
+1. This is component act like header of html page
+2. It should contains logo on the left most side and profile photo view on the right most side
+3. If the user is not logged in then it should display login instead that profile photo view
+4. Also other pages like contact us, about us
+5. The entire component should be neat and stunning in bootsrtap designs
+
+Route Component:
+Requirement:
+1. Hey create me a routing component which helps in routing between various component
+Just like this sample route mechansim
+
+import React from 'react';
+import { Route, Routes } from 'react-router-dom'; // Import Routes
+
+import Home from './Home';
+import List from './List';
+import CreateCustomer from './CreateCustomer';
+import AboutUs from './AboutUs';
+import ContactUs from './ContactUs';
+import EditCustomer from './EditCustomer';
+
+const Router = ({ customers, onDelete, onUpdate,onCreate }) => (
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/list" element={<List customers={customers} onDelete={onDelete} />} />
+    <Route path="/create" element={<CreateCustomer  customers={customers} onCreate={onCreate}/>} />
+    <Route path="/about" element={<AboutUs />} />
+    <Route path="/contact" element={<ContactUs />} />
+    <Route
+      path="/edit/:email"
+      element={<EditCustomer customers={customers} onUpdate={onUpdate} />}
+    />
+  </Routes>
+);
+
+export default Router;
+hey these component specific to other project 
+Take this into account
+Do it for my components which so far i asked to you
+
+About Us Component
+Requirements:
+1. A professional About us component jusk like it will be in flipkart, amazon
+2. The entire component should be neat and stunning in bootsrtap designs
+3. Name of my web application "SportsZone"
+4. small description about the company "Report Generation System - eCommerce is a project that deals with the reports of the Online
+Shopping company SportsZone which is providing good quality products like accessories, equipment, clothing, nutrition etc,. related to sports"
+
+Contact us Component
+Requirements:
+1. A professional About us component jusk like it will be in flipkart, amazon
+2. Email sportszone@gmail.com 
+3. a professional phone number 
+4. The entire component should be neat and stunning in bootsrtap designs
+
+Footer Component
+Requirements:
+1. include copyright c sportszone@gmail.com at professional way
+4. The entire component should be neat and stunning in bootsrtap designs
+
+
 
 
 

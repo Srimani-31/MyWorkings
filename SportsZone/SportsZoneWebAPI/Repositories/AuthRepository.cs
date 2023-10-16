@@ -73,7 +73,7 @@ namespace SportsZoneWebAPI.Repositories
             IEnumerable<Security> securities = await _securityRepository.GetAllSecurityDetails();
             foreach (Security security in securities)
             {
-                if (Util.VerifyPassword(security.Password, password))
+                if (Helper.VerifyPassword(security.Password, password))
                     return true;
             }
             return false;

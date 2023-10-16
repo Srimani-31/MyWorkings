@@ -13,18 +13,18 @@ namespace SportsZoneWebAPI.Repositories
     public class CustomerRepository : ICustomerRespository
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
-        private readonly IUtil _util;
-        public CustomerRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
+        private readonly IHelper _helper;
+        public CustomerRepository(ISportsZoneDbContext sportsZoneDbContext, IHelper helper)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
-            _util = util;
+            _helper = helper;
         }
 
         public async Task<bool> IsAvail(string email)
         {
             try
             {
-                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Customers, stringID: email);
+                return await _helper.IsAvail(dbSet: _sportsZoneDbContext.Customers, stringID: email);
             }
             catch (Exception)
             {
@@ -124,7 +124,7 @@ namespace SportsZoneWebAPI.Repositories
         }
         private static async Task<string> StoreImage(IFormFile image, string email)
         {
-            string uploadDirectory = Util.GetCustomerImagesDirectory();
+            string uploadDirectory = Helper.GetCustomerImagesDirectory();
             string filePath;
             if (image != null)
             {

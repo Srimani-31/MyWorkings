@@ -12,17 +12,17 @@ namespace SportsZoneWebAPI.Repositories
     public class SecurityRepository : ISecurityRepository
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
-        private readonly IUtil _util;
-        public SecurityRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
+        private readonly IHelper _helper;
+        public SecurityRepository(ISportsZoneDbContext sportsZoneDbContext, IHelper helper)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
-            _util = util;
+            _helper = helper;
         }
         public async Task<bool> IsAvail(string email)
         {
             try
             {
-                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Securities, stringID: email);
+                return await _helper.IsAvail(dbSet: _sportsZoneDbContext.Securities, stringID: email);
             }
             catch (Exception)
             {
