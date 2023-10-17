@@ -19,7 +19,7 @@ const AboutUs = () => {
             </p>
           </Col>
           <Col md={4}>
-            {/* You can add an image or any other relevant content here */}
+            <img src="/logo2.png" alt="SportsZone" style={{ width: '100%', height: 'auto' }} />
           </Col>
         </Row>
       </Container>

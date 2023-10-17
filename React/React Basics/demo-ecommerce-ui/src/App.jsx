@@ -30,7 +30,7 @@ function App() {
         <MyOrder />
         <OrderedItem />
         <ViewProfile /> */}
-        <div className="container mt-4">
+        <div className="container mt-4 main-content">
           <Routers />
         </div>
         <Footer />
