@@ -44,18 +44,6 @@ const SignUp = ({ onSignUp }) => {
           },
         }
       );
-      // const response = await axios.post('https://localhost:44382/api/Customer/CreateCustomer', {
-      //   email,
-      //   firstName,
-      //   lastName,
-      //   contactNumber,
-      //   address,
-      //   city,
-      //   country,
-      //   zipcode,
-      //   profilePhoto,
-      //   createdUpdatedBy: email
-      // });
 
       if (response.status === 200) {
         // Handle the successful response here if needed.
