@@ -122,20 +122,52 @@ namespace SportsZoneWebAPI.Repositories
                 throw;
             }
         }
-        private static async Task<string> StoreImage(IFormFile image, string email)
+        //private static async Task<string> StoreImage(IFormFile image, string email)
+        //{
+        //    string uploadDirectory = Helper.GetCustomerImagesDirectory();
+        //    string filePath;
+        //    if (image != null)
+        //    {
+        //        string fileExtension = Path.GetExtension(image.FileName).ToLower();
+
+        //        //Ensure the file has a valid image file extension (e.g., .jpg, .png)
+        //        if (IsImageFileExtensionValid(fileExtension))
+        //        {
+        //            string imageFileName = email + Guid.NewGuid().ToString().Substring(0, 4) + fileExtension;
+
+        //            //Example: Saving the image to a file
+        //            filePath = Path.Combine(uploadDirectory, imageFileName);
+        //            using (var stream = new FileStream(filePath, FileMode.Create))
+        //            {
+        //                await image.CopyToAsync(stream);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            throw new BadRequestException("Invalid file format. Supported formats: .jpg, .png");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        string defaultImageFileName = "default.png";
+        //        filePath = Path.Combine(uploadDirectory, defaultImageFileName);
+        //    }
+
+        //    return filePath;
+        //}
+        private async Task<string> StoreImage(IFormFile image, string email)
         {
-            string uploadDirectory = Helper.GetCustomerImagesDirectory();
-            string filePath;
+            string uploadDirectory = "D:\\Upskilling\\React\\React Basics\\demo-ecommerce-ui\\public\\assets\\CustomerImages";
+            string filePath = string.Empty;
+
             if (image != null)
             {
                 string fileExtension = Path.GetExtension(image.FileName).ToLower();
 
-                //Ensure the file has a valid image file extension (e.g., .jpg, .png)
                 if (IsImageFileExtensionValid(fileExtension))
                 {
                     string imageFileName = email + Guid.NewGuid().ToString().Substring(0, 4) + fileExtension;
 
-                    //Example: Saving the image to a file
                     filePath = Path.Combine(uploadDirectory, imageFileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
@@ -144,20 +176,19 @@ namespace SportsZoneWebAPI.Repositories
                 }
                 else
                 {
-                    throw new BadRequestException("Invalid file format. Supported formats: .jpg, .png");
+                    throw new BadRequestException("Invalid file format. Supported formats: .jpg, .jpeg, .png");
                 }
-            }
-            else
-            {
-                string defaultImageFileName = "default.png";
-                filePath = Path.Combine(uploadDirectory, defaultImageFileName);
             }
 
             return filePath;
         }
+        //private static bool IsImageFileExtensionValid(string fileExtension)
+        //{
+        //    // Add valid image file extensions as needed
+        //    return fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png";
+        //}
         private static bool IsImageFileExtensionValid(string fileExtension)
         {
-            // Add valid image file extensions as needed
             return fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png";
         }
         public FileStream GetImage(string imagePath)

@@ -158,6 +158,12 @@ Requirements:
 4. Also other pages like contact us, about us
 5. The entire component should be neat and stunning in bootsrtap designs
 
+Navigation component
+Requirements:
+1.if the user is not logged in then sigin and sign up should appear other wise the profile photo menu should appear
+2.you can refer to the various ecommerce website that they have the profile menu which has sub menu like logout, view profile 
+3.default image path is '/assets/CustomerImages/default.png'
+
 Route Component:
 Requirement:
 1. Hey create me a routing component which helps in routing between various component
@@ -212,6 +218,16 @@ Requirements:
 1. include copyright c sportszone@gmail.com at professional way
 4. The entire component should be neat and stunning in bootsrtap designs
 
+signinn Component connect with backend
+Requirements:
+1. It will be interacting with authcontroller
+2. Request url = https://localhost:44382/api/Auth/Login
+3. Request object email and password 
+4. Response JWT token
+5. Then it should redirect to the home component 
+6. things to consider 
+	6.1. after signin the menu should replace the signup,sigin with profile which is done signin component
+	6.2. token shoud be stored in the router component as it will be passed to the each request via props
 
 
 
