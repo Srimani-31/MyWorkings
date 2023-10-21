@@ -14,8 +14,8 @@ export function transformImagePath(localPath) {
 
   
   
-  // Example usage:
-  const localFilePath = "D:\\Upskilling\\React\\React Basics\\demo-ecommerce-ui\\public\\assets\\ProductImages\\Apparel\\Adidas Men's Dri-FIT Running Track Pants.jpg";
-  const urlPath = transformImagePath(localFilePath);
-  console.log(urlPath); // Output: /assets/ProductImages/Apparel/Adidas Men's Dri-FIT Running Track Pants.jpg
+  // // Example usage:
+  // const localFilePath = "D:\\Upskilling\\React\\React Basics\\demo-ecommerce-ui\\public\\assets\\ProductImages\\Apparel\\Adidas Men's Dri-FIT Running Track Pants.jpg";
+  // const urlPath = transformImagePath(localFilePath);
+  // console.log(urlPath); // Output: /assets/ProductImages/Apparel/Adidas Men's Dri-FIT Running Track Pants.jpg
   

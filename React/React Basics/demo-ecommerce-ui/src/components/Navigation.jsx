@@ -1,13 +1,48 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Image, Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import axios from 'axios';
+import { transformImagePath } from './TransformUrl';
+const Navigation = ({ token, onSignOut, customerId }) => {
+  const navigate = useNavigate();
+  const [userProfilePhoto, setUserProfilePhoto] = useState(null);
 
-const Navigation = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const userAvatar = '/assets/CustomerImages/default.png'; // Update with the correct path to the user's avatar image
+  const handleSignOut = () => {
+    // Clear the token from local storage
+    onSignOut();
+    navigate('/signin'); // Redirect to the sign-in page or another appropriate destination
 
-  const logout = () => {
-    setIsLoggedIn(false);
+  };
+
+  useEffect(() => {
+    // Check if the user is authenticated based on the token.
+    const isLoggedIn = !!token;
+
+    if (isLoggedIn) {
+      // Fetch the user's profile information, including the profile photo URL.
+      fetchUserProfilephoto(); // Fetch user profile data
+
+      // Fetch the user's profile photo URL
+      //fetchUserProfilePhoto(); // New function to fetch user profile photo
+    }
+  }, [token]);
+
+  // Function to fetch the user's profile data.
+  const fetchUserProfilephoto = async () => {
+    try {
+      // Make an API request to retrieve the user's profile data, which should include the profile photo URL.
+      const response = await axios.get(`https://localhost:44382/api/Customer/GetCustomerByCustomerID/${customerId}`); // Replace with your API endpoint
+      if (response.status === 200) {
+        const data = response.data;
+        // Assume data contains profilePhotoURL
+        const userPhotoURL = transformImagePath(data.ProfilePhoto);; // Replace with the actual property from your API response.
+        setUserProfilePhoto(userPhotoURL);
+      } else {
+        console.error('Error fetching user profile data.');
+      }
+    } catch (error) {
+      console.error('Error fetching user profile data:', error);
+    }
   };
 
   return (
@@ -25,12 +60,12 @@ const Navigation = () => {
             <Nav.Link as={Link} to="/contact">
               Contact Us
             </Nav.Link>
-            {isLoggedIn ? (
-              <NavDropdown title={<Image src={userAvatar} roundedCircle style={{ width: '30px', height: '30px' }} />} id="basic-nav-dropdown" alignRight>
+            {token ? ( // Check if token exists
+              <NavDropdown title={<Image src={userProfilePhoto} roundedCircle style={{ width: '30px', height: '30px' }} />} id="basic-nav-dropdown" alignRight>
                 <NavDropdown.Item as={Link} to="/profile">
                   View Profile
                 </NavDropdown.Item>
-                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleSignOut}>Logout</NavDropdown.Item>
               </NavDropdown>
             ) : (
               <>
@@ -51,57 +86,3 @@ const Navigation = () => {
 
 export default Navigation;
 
-
-// import React from 'react';
-// import { Link } from 'react-router-dom';
-// import {  Image } from 'react-bootstrap'
-
-
-// const Navigation = () => {
-//   return (
-//     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-//       <div className="container">
-//         <Link to="/" className="navbar-brand">
-//           <Image src="/logo2.png" alt="SportsZone"  rounded style={{ width: '70px',height:'70px' }}  />
-//         </Link>
-//         <button
-//           className="navbar-toggler"
-//           type="button"
-//           data-toggle="collapse"
-//           data-target="#navbarNav"
-//           aria-controls="navbarNav"
-//           aria-expanded="false"
-//           aria-label="Toggle navigation"
-//         >
-//           <span className="navbar-toggler-icon"></span>
-//         </button>
-//         <div className="collapse navbar-collapse" id="navbarNav">
-//           <ul className="navbar-nav ms-auto"> {/* Use ms-auto to move items to the right */}
-//             <li className="nav-item">
-//               <Link to="/about" className="nav-link">
-//                 About
-//               </Link>
-//             </li>
-//             <li className="nav-item">
-//               <Link to="/contact" className="nav-link">
-//                 Contact Us
-//               </Link>
-//             </li>
-//             <li className="nav-item">
-//               <Link to="/signup" className="nav-link">
-//                 Sign Up
-//               </Link>
-//             </li>
-//             <li className="nav-item">
-//               <Link to="/signin" className="nav-link">
-//                 Sign In
-//               </Link>
-//             </li>
-//           </ul>
-//         </div>
-//       </div>
-//     </nav>
-//   );
-// };
-
-// export default Navigation;

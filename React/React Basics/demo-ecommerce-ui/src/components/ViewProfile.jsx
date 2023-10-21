@@ -3,8 +3,7 @@ import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap';
 import axios from 'axios';
 import { transformImagePath } from './TransformUrl';
 
-const ViewProfile = () => {
-  const customerId = "srimani@gmail.com";
+const ViewProfile = ( {customerId} ) => {
   const [customer, setCustomer] = useState({
     Email: '',
     FirstName: '',

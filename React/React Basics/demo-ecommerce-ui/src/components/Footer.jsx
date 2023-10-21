@@ -4,17 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFacebook,
   faTwitter,
-  faGoogle,
   faInstagram,
   faLinkedin,
-  faGithub,
 } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
   return (
     <footer className="text-center text-dark" style={{ backgroundColor: '#343a40' }}>
       <Container className="pt-4">
-        {/* Section: Social media */}
         <section className="mb-4">
           <a
             href="#!"
@@ -52,7 +49,6 @@ const Footer = () => {
             <FontAwesomeIcon icon={faLinkedin} />
           </a>
         </section>
-        {/* Section: Social media */}
       </Container>
       <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="text-light p-3">
         © {new Date().getFullYear()} Copyright:

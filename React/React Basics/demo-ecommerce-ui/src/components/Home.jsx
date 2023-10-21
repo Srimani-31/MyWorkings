@@ -1,20 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import axios from 'axios';
-
-// Function to transform a local file path into a URL path
-function transformImagePath(localPath) {
-  // Replace backslashes with forward slashes
-  const forwardSlashesPath = localPath.replace(/\\/g, '/');
-  // Find the 'public' directory and remove everything before it
-  const startIndex = forwardSlashesPath.indexOf('/assets/');
-  if (startIndex !== -1) {
-    const relativePath = forwardSlashesPath.substring(startIndex);
-    return relativePath;
-  }
-  // If 'public' directory is not found, return the original path
-  return forwardSlashesPath;
-}
+import { transformImagePath } from './TransformUrl';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
