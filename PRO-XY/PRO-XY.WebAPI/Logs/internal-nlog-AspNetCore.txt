@@ -1,0 +1,72 @@
+2023-12-02 17:57:31.5898 Info Loading assembly name: NLog.Web.AspNetCore
+2023-12-02 17:57:31.6327 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.5.967. Product version: 5.3.5+b3d46f80b6ea51e91ee7fe419da22e5abd972951. GlobalAssemblyCache: False
+2023-12-02 17:57:31.6836 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-12-02 17:57:31.6836 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-12-02 17:57:31.6870 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-12-02 17:57:31.6870 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.7.2287. Product version: 5.2.7+a1ef7cd83b5a6a172142a6850f0ced4e759a4b3b. GlobalAssemblyCache: False
+2023-12-02 17:57:31.7132 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=54, FilePath=D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\NLog.config
+2023-12-02 17:57:31.7259 Info Configuration initialized.
+2023-12-02 18:12:42.9903 Info Loading assembly name: NLog.Web.AspNetCore
+2023-12-02 18:12:43.0386 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.5.967. Product version: 5.3.5+b3d46f80b6ea51e91ee7fe419da22e5abd972951. GlobalAssemblyCache: False
+2023-12-02 18:12:43.0935 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-12-02 18:12:43.0935 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-12-02 18:12:43.0935 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-12-02 18:12:43.1032 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.7.2287. Product version: 5.2.7+a1ef7cd83b5a6a172142a6850f0ced4e759a4b3b. GlobalAssemblyCache: False
+2023-12-02 18:12:43.1032 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=54, FilePath=D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\NLog.config
+2023-12-02 18:12:43.1255 Info Configuration initialized.
+2023-12-02 18:15:29.2653 Info Loading assembly name: NLog.Web.AspNetCore
+2023-12-02 18:15:29.3102 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.5.967. Product version: 5.3.5+b3d46f80b6ea51e91ee7fe419da22e5abd972951. GlobalAssemblyCache: False
+2023-12-02 18:15:29.3701 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-12-02 18:15:29.3701 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-12-02 18:15:29.3701 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-12-02 18:15:29.3844 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.7.2287. Product version: 5.2.7+a1ef7cd83b5a6a172142a6850f0ced4e759a4b3b. GlobalAssemblyCache: False
+2023-12-02 18:15:29.3978 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=54, FilePath=D:\Upskilling\PRO-XY\PRO-XY.WebAPI\nlog.config
+2023-12-02 18:15:29.3978 Info Configuration initialized.
+2023-12-02 18:18:22.8225 Info Loading assembly name: NLog.Web.AspNetCore
+2023-12-02 18:18:22.8710 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.5.967. Product version: 5.3.5+b3d46f80b6ea51e91ee7fe419da22e5abd972951. GlobalAssemblyCache: False
+2023-12-02 18:18:22.9424 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-12-02 18:18:22.9424 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-12-02 18:18:22.9424 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-12-02 18:18:22.9424 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.7.2287. Product version: 5.2.7+a1ef7cd83b5a6a172142a6850f0ced4e759a4b3b. GlobalAssemblyCache: False
+2023-12-02 18:18:22.9649 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=54, FilePath=D:\Upskilling\PRO-XY\PRO-XY.WebAPI\nlog.config
+2023-12-02 18:18:22.9805 Info Configuration initialized.
+2023-12-02 18:20:07.0867 Info Loading assembly name: NLog.Web.AspNetCore
+2023-12-02 18:20:07.1271 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.5.967. Product version: 5.3.5+b3d46f80b6ea51e91ee7fe419da22e5abd972951. GlobalAssemblyCache: False
+2023-12-02 18:20:07.1839 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-12-02 18:20:07.1839 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-12-02 18:20:07.1839 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-12-02 18:20:07.1952 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.7.2287. Product version: 5.2.7+a1ef7cd83b5a6a172142a6850f0ced4e759a4b3b. GlobalAssemblyCache: False
+2023-12-02 18:20:07.2071 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=54, FilePath=D:\Upskilling\PRO-XY\PRO-XY.WebAPI\nlog.config
+2023-12-02 18:20:07.2215 Info Configuration initialized.
+2023-12-02 18:21:28.3053 Info Loading assembly name: NLog.Web.AspNetCore
+2023-12-02 18:21:28.3605 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.5.967. Product version: 5.3.5+b3d46f80b6ea51e91ee7fe419da22e5abd972951. GlobalAssemblyCache: False
+2023-12-02 18:21:28.4180 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-12-02 18:21:28.4180 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-12-02 18:21:28.4180 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-12-02 18:21:28.4308 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.7.2287. Product version: 5.2.7+a1ef7cd83b5a6a172142a6850f0ced4e759a4b3b. GlobalAssemblyCache: False
+2023-12-02 18:21:28.4463 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=54, FilePath=D:\Upskilling\PRO-XY\PRO-XY.WebAPI\nlog.config
+2023-12-02 18:21:28.4595 Info Configuration initialized.
+2023-12-02 18:28:51.7218 Info Loading assembly name: NLog.Web.AspNetCore
+2023-12-02 18:28:51.7641 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.5.967. Product version: 5.3.5+b3d46f80b6ea51e91ee7fe419da22e5abd972951. GlobalAssemblyCache: False
+2023-12-02 18:28:51.8469 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-12-02 18:28:51.8469 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-12-02 18:28:51.8469 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-12-02 18:28:51.8469 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.7.2287. Product version: 5.2.7+a1ef7cd83b5a6a172142a6850f0ced4e759a4b3b. GlobalAssemblyCache: False
+2023-12-02 18:28:51.8739 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=54, FilePath=D:\Upskilling\PRO-XY\PRO-XY.WebAPI\nlog.config
+2023-12-02 18:28:51.8861 Info Configuration initialized.
+2023-12-02 18:29:29.8796 Info Loading assembly name: NLog.Web.AspNetCore
+2023-12-02 18:29:29.9370 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.5.967. Product version: 5.3.5+b3d46f80b6ea51e91ee7fe419da22e5abd972951. GlobalAssemblyCache: False
+2023-12-02 18:29:30.0037 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-12-02 18:29:30.0037 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-12-02 18:29:30.0037 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-12-02 18:29:30.0170 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.7.2287. Product version: 5.2.7+a1ef7cd83b5a6a172142a6850f0ced4e759a4b3b. GlobalAssemblyCache: False
+2023-12-02 18:29:30.0348 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=54, FilePath=D:\Upskilling\PRO-XY\PRO-XY.WebAPI\nlog.config
+2023-12-02 18:29:30.0529 Info Configuration initialized.
+2023-12-02 19:34:13.1710 Info Loading assembly name: NLog.Web.AspNetCore
+2023-12-02 19:34:13.2198 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.5.967. Product version: 5.3.5+b3d46f80b6ea51e91ee7fe419da22e5abd972951. GlobalAssemblyCache: False
+2023-12-02 19:34:13.2916 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-12-02 19:34:13.2916 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-12-02 19:34:13.2916 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-12-02 19:34:13.3043 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.7.2287. Product version: 5.2.7+a1ef7cd83b5a6a172142a6850f0ced4e759a4b3b. GlobalAssemblyCache: False
+2023-12-02 19:34:13.3187 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=54, FilePath=D:\Upskilling\PRO-XY\PRO-XY.WebAPI\nlog.config
+2023-12-02 19:34:13.3187 Info Configuration initialized.

@@ -1,0 +1,12 @@
+D:\Upskilling\PRO-XY\LoggerService\bin\Debug\net5.0\LoggerService.deps.json
+D:\Upskilling\PRO-XY\LoggerService\bin\Debug\net5.0\LoggerService.dll
+D:\Upskilling\PRO-XY\LoggerService\bin\Debug\net5.0\ref\LoggerService.dll
+D:\Upskilling\PRO-XY\LoggerService\bin\Debug\net5.0\LoggerService.pdb
+D:\Upskilling\PRO-XY\LoggerService\obj\Debug\net5.0\LoggerService.GeneratedMSBuildEditorConfig.editorconfig
+D:\Upskilling\PRO-XY\LoggerService\obj\Debug\net5.0\LoggerService.AssemblyInfoInputs.cache
+D:\Upskilling\PRO-XY\LoggerService\obj\Debug\net5.0\LoggerService.AssemblyInfo.cs
+D:\Upskilling\PRO-XY\LoggerService\obj\Debug\net5.0\LoggerService.csproj.CoreCompileInputs.cache
+D:\Upskilling\PRO-XY\LoggerService\obj\Debug\net5.0\LoggerService.dll
+D:\Upskilling\PRO-XY\LoggerService\obj\Debug\net5.0\ref\LoggerService.dll
+D:\Upskilling\PRO-XY\LoggerService\obj\Debug\net5.0\LoggerService.pdb
+D:\Upskilling\PRO-XY\LoggerService\obj\Debug\net5.0\LoggerService.csproj.AssemblyReference.cache
