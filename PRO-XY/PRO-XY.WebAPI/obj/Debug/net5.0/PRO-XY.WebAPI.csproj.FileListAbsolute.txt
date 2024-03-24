@@ -65,3 +65,10 @@ D:\Upskilling\PRO-XY\PRO-XY.WebAPI\obj\Debug\net5.0\PRO-XY.WebAPI.genruntimeconf
 D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\nlog.config
 D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\LoggerService.dll
 D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\LoggerService.pdb
+D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\System.Data.SqlClient.dll
+D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\runtimes\win-arm64\native\sni.dll
+D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\runtimes\win-x64\native\sni.dll
+D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\runtimes\win-x86\native\sni.dll
+D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Upskilling\PRO-XY\PRO-XY.WebAPI\bin\Debug\net5.0\BCrypt.Net-Next.dll

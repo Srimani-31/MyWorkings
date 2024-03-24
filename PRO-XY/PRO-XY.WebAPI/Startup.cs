@@ -38,12 +38,17 @@ namespace PRO_XY.WebAPI
     {
       #region Connection Config
       //adding connection globally
-      services.AddDbContext<PRO_XYContext>(options =>
+      services.AddDbContext<Pro_XYDbContext>(options =>
       {
         options.UseSqlServer(Configuration.GetConnectionString("PRO_XY_DB"));
         options.EnableSensitiveDataLogging();
-      }); 
+      });
+
+      services.AddScoped(provider =>
+       new GraphDataRepository(Configuration.GetConnectionString("PRO_XY_DB")));
+
       #endregion
+
       #region Logger Config
       // Enable NLog as the logging provider for ASP.NET Core
       LoggerService.LoggerFactory.ConfigureNLog();
@@ -57,8 +62,27 @@ namespace PRO_XY.WebAPI
       });
       #endregion
 
-      services.AddScoped<IProXYDbContext, PRO_XYContext>();
+      #region CORS Policy
+      //configuration for the UI react
+      services.AddCors(options =>
+      {
+        options.AddPolicy("AllowAnyOrigin", builder =>
+        {
+          builder
+              .AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+        });
+      });
+      #endregion
+
+      services.AddScoped<IProXYDbContext, Pro_XYDbContext>();
       services.AddScoped<IHelper, Helper>();
+      services.AddScoped<IDashboardRepository, DashboardRepository>();
+      services.AddScoped<ISampleSuperstoreRepository, SampleSuperstoreRepository>();
+      services.AddScoped<IRoleRepository, RoleRepository>();
+      services.AddScoped<UserRepository>();
+      services.AddScoped<IAuthRepository,AuthRepository>();
 
       services.AddControllers();
       services.AddSwaggerGen(c =>
@@ -79,6 +103,9 @@ namespace PRO_XY.WebAPI
 
       //configuring the built-in exceptional hanlder
       app.ConfigureExceptionalHandler(loggerService);
+
+      //Apply CORS policy
+      app.UseCors("AllowAnyOrigin");
 
       app.UseHttpsRedirection();
 

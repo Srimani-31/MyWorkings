@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using PRO_XY.WebAPI.Data.Interfaces;
 using PRO_XY.WebAPI.Repositories.Interfaces;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace PRO_XY.WebAPI.Repositories
 {
@@ -29,6 +27,20 @@ namespace PRO_XY.WebAPI.Repositories
           isAvail = true;
       }
       return isAvail;
+    }
+    public static bool VerifyPassword(byte[] hashedPassword, string enteredPassword)
+    {
+      // Convert the byte[] hashed password to a string
+      string hashedPasswordString = Encoding.UTF8.GetString(hashedPassword);
+
+      // Use BCrypt's Verify method to compare the entered password with the hashed password
+      bool isPasswordMatch = BCrypt.Net.BCrypt.Verify(enteredPassword, hashedPasswordString);
+
+      return isPasswordMatch;
+    }
+    public static byte[] HashItemToBytes(string password)
+    {
+      return Encoding.UTF8.GetBytes(BCrypt.Net.BCrypt.HashPassword(password));
     }
   }
 }

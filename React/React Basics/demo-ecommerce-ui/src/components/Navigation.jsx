@@ -49,7 +49,7 @@ const Navigation = ({ token, onSignOut, customerId }) => {
     <Navbar bg="dark" expand="lg" variant="dark" fixed="top">
       <Container>
         <Navbar.Brand as={Link} to="/">
-          <Image src="/logo2.png" alt="SportsZone" rounded style={{ width: '70px', height: '70px' }} />
+          <Image src="/logo_Pro_xy_Black.png" alt="Pro-XY" rounded style={{ width: '70px', height: '70px' }} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarNav" />
         <Navbar.Collapse id="navbarNav">

@@ -1,0 +1,21 @@
+C:\Users\srimani.ravikumar\OneDrive - zucisystems.com\Desktop\HackerRank\bin\Debug\HackerRank.exe.config
+C:\Users\srimani.ravikumar\OneDrive - zucisystems.com\Desktop\HackerRank\bin\Debug\HackerRank.exe
+C:\Users\srimani.ravikumar\OneDrive - zucisystems.com\Desktop\HackerRank\bin\Debug\HackerRank.pdb
+C:\Users\srimani.ravikumar\OneDrive - zucisystems.com\Desktop\HackerRank\obj\Debug\HackerRank.csproj.AssemblyReference.cache
+C:\Users\srimani.ravikumar\OneDrive - zucisystems.com\Desktop\HackerRank\obj\Debug\HackerRank.csproj.CoreCompileInputs.cache
+C:\Users\srimani.ravikumar\OneDrive - zucisystems.com\Desktop\HackerRank\obj\Debug\HackerRank.exe
+C:\Users\srimani.ravikumar\OneDrive - zucisystems.com\Desktop\HackerRank\obj\Debug\HackerRank.pdb
+D:\Upskilling\HackerRank\bin\Debug\HackerRank.exe.config
+D:\Upskilling\HackerRank\bin\Debug\HackerRank.exe
+D:\Upskilling\HackerRank\bin\Debug\HackerRank.pdb
+D:\Upskilling\HackerRank\obj\Debug\HackerRank.csproj.AssemblyReference.cache
+D:\Upskilling\HackerRank\obj\Debug\HackerRank.csproj.CoreCompileInputs.cache
+D:\Upskilling\HackerRank\obj\Debug\HackerRank.exe
+D:\Upskilling\HackerRank\obj\Debug\HackerRank.pdb
+D:\Upskilling\ProblemSolving_DSA\HackerRank\bin\Debug\HackerRank.exe.config
+D:\Upskilling\ProblemSolving_DSA\HackerRank\bin\Debug\HackerRank.exe
+D:\Upskilling\ProblemSolving_DSA\HackerRank\bin\Debug\HackerRank.pdb
+D:\Upskilling\ProblemSolving_DSA\HackerRank\obj\Debug\HackerRank.csproj.AssemblyReference.cache
+D:\Upskilling\ProblemSolving_DSA\HackerRank\obj\Debug\HackerRank.csproj.CoreCompileInputs.cache
+D:\Upskilling\ProblemSolving_DSA\HackerRank\obj\Debug\HackerRank.exe
+D:\Upskilling\ProblemSolving_DSA\HackerRank\obj\Debug\HackerRank.pdb

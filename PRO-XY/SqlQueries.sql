@@ -35,17 +35,17 @@ DROP TABLE [Users]
 
 CREATE TABLE [Dashboards] (
 
-    [Id] INT PRIMARY KEY IDENTITY(1,1),
+    [Id] UNIQUEIDENTIFIER PRIMARY KEY ,
 
     [Json_Value] varchar(Max) NOT NULL
 
 );
-
+DROP TABLE [Dashboards]
 CREATE TABLE [SharedDashboards] (
 
-    [Id] INT PRIMARY KEY,
+    [Id] INT PRIMARY KEY IDENTITY(1,1),
 
-    Dashboard_Id INT,
+    Dashboard_Id UNIQUEIDENTIFIER,
 
     [User_Id] INT,
 
@@ -57,43 +57,43 @@ CREATE TABLE [SharedDashboards] (
 drop table SharedDashboard
 --roles
 
-INSERT INTO [Roles] ([Id], [Role_Name], [Description])
+INSERT INTO [Roles] ( [Role_Name], [Description])
 
-VALUES (1, 'Admin', 'Full Access');
+VALUES ('Admin', 'Full Access');
  
-INSERT INTO [Roles] ([Id], [Role_Name], [Description])
+INSERT INTO [Roles] ( [Role_Name], [Description])
 
-VALUES (2, 'CIO', 'Read Only');
+VALUES ('CIO', 'Read Only');
  
-INSERT INTO [Roles] ([Id], [Role_Name], [Description])
+INSERT INTO [Roles] ( [Role_Name], [Description])
 
-VALUES (3, 'Data Engineer', 'Read Only');
+VALUES ('Data Engineer', 'Read Only');
  
-INSERT INTO [Roles] ([Id], [Role_Name], [Description])
+INSERT INTO [Roles] ( [Role_Name], [Description])
 
-VALUES (4, 'Data Scientist', 'Read Only');
+VALUES ( 'Data Scientist', 'Read Only');
 
 --users
 
-INSERT INTO [Users] ([Id], [Name], [User_Name], [Password], [Address], [Phone_No], [Role_Id])
+INSERT INTO [Users] ( [Name], [User_Name], [Password], [Address], [Phone_No], [Role_Id])
 
-VALUES (1, 'Admin', 'admin@gmail.com',HASHBYTES('SHA2_256','admin123' ), 'Texas', '1234245', 1);
+VALUES ( 'Admin', 'admin@gmail.com',HASHBYTES('SHA2_256','admin123' ), 'Texas', '1234245', 1);
  
-INSERT INTO [Users] ([Id], [Name], [User_Name], [Password], [Address], [Phone_No], [Role_Id])
+INSERT INTO [Users] ( [Name], [User_Name], [Password], [Address], [Phone_No], [Role_Id])
 
-VALUES (2, 'John CIO', 'john@gmail.com', HASHBYTES('SHA2_256','12345' ), 'Texas', '1234245', 2);
+VALUES ( 'John CIO', 'john@gmail.com', HASHBYTES('SHA2_256','12345' ), 'Texas', '1234245', 2);
  
-INSERT INTO [Users] ([Id], [Name], [User_Name], [Password], [Address], [Phone_No], [Role_Id])
+INSERT INTO [Users] ( [Name], [User_Name], [Password], [Address], [Phone_No], [Role_Id])
 
-VALUES (3, 'Mike DE', 'Mike@gmail.com', HASHBYTES('SHA2_256','12345' ), 'Texas', '1234245', 3);
+VALUES ( 'Mike DE', 'Mike@gmail.com', HASHBYTES('SHA2_256','12345' ), 'Texas', '1234245', 3);
  
-INSERT INTO [Users] ([Id], [Name], [User_Name], [Password], [Address], [Phone_No], [Role_Id])
+INSERT INTO [Users] ( [Name], [User_Name], [Password], [Address], [Phone_No], [Role_Id])
 
-VALUES (4, 'Smith DS', 'Smith@gmail.com',HASHBYTES('SHA2_256','12345' ), 'Texas', '1234245', 4);
+VALUES ( 'Smith DS', 'Smith@gmail.com',HASHBYTES('SHA2_256','12345' ), 'Texas', '1234245', 4);
 
 --dashboard 
 
-INSERT INTO [Dashboards] ([Id],[Json_Value]) VALUES(1,'[
+INSERT INTO [Dashboards] ([Id],[Json_Value]) VALUES(NEWID(),'[
   {
     "state": "Illinois",
     "salesInState": 80167
@@ -292,8 +292,14 @@ INSERT INTO [Dashboards] ([Id],[Json_Value]) VALUES(1,'[
   }
 ]')
 
-INSERT into [SharedDashboards] ([Id],[Dashboard_Id],[User_Id]) values(1,1,2)
+INSERT into [SharedDashboards] ([Dashboard_Id],[User_Id]) values('0818092C-FC64-4D6A-9466-0AC3A9228A51',1)
  SELECT * from [Roles]
  SELECT * from [Users]
  SELECT * from [Dashboards]
  SELECT * from [SharedDashboards]
+
+ select * from [samplesuperstore]
+
+ delete  from [Users] where [Name]='Admin' 
+
+ DROP DATABASE [PRO_XY]

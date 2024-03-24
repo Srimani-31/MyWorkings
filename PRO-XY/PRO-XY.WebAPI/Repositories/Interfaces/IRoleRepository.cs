@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using PRO_XY.WebAPI.Entities;
-using System;
+﻿using PRO_XY.WebAPI.Entities;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PRO_XY.WebAPI.Repositories.Interfaces
