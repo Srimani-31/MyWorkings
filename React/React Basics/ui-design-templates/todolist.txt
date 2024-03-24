@@ -1,0 +1,17 @@
+1. create a react app
+2. create a login component
+3. create a register component
+4. create a header component
+5. create a about us component
+6. create a about us component
+7. create a footer component
+8. create a router component
+9. Alter the header profile after  & before login
+10. create a list product component
+11. create a product view component
+12. create a edit profile component
+13. create a shipping address component
+14. create a payment component
+15. create a view order component
+16. create a my order component
+17. create a ordered item component

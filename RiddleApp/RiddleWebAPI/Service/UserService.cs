@@ -18,6 +18,17 @@ namespace RiddleWebAPI.Service
             _mapper = mapper;
             _userRepository = userRepository;
         }
+        public async Task<bool> IsAvail(string username)
+        {
+            try
+            {
+                return await _userRepository.IsAvail(username);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task AddUserAsync(UserDto userDto)
         {
             try

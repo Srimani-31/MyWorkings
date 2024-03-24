@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SportsZoneWebAPI.DTOs;
 using SportsZoneWebAPI.Models;
 using SportsZoneWebAPI.Repositories.Interfaces;
+using SportsZoneWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using SportsZoneWebAPI.Services.Interfaces;
 using System.IO;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace SportsZoneWebAPI.Services
 {
@@ -62,15 +62,15 @@ namespace SportsZoneWebAPI.Services
                 throw;
             }
         }
-        public async Task CreateCustomer(CustomerRequestDTO customerRequestDTO,IFormFile image)
+        public async Task CreateCustomer(CustomerRequestDTO customerRequestDTO, IFormFile image)
         {
             try
             {
                 Customer customer = _mapper.Map<Customer>(customerRequestDTO);
                 customer.CreatedBy = customerRequestDTO.CreatedUpdatedBy;
                 customer.CreatedDate = DateTime.Now;
-               
-                await _customerRepository.CreateCustomer(customer,image);
+
+                await _customerRepository.CreateCustomer(customer, image);
             }
             catch (Exception)
             {
@@ -119,7 +119,7 @@ namespace SportsZoneWebAPI.Services
             {
                 return _customerRepository.GetImage(imagePath);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }

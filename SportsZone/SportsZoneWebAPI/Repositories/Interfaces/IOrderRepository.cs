@@ -1,5 +1,4 @@
-﻿using SportsZoneWebAPI.DTOs;
-using SportsZoneWebAPI.Models;
+﻿using SportsZoneWebAPI.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace SportsZoneWebAPI.Repositories.Interfaces
@@ -14,7 +13,7 @@ namespace SportsZoneWebAPI.Repositories.Interfaces
         public Task<IEnumerable<Order>> GetAllCancelledOrders();
         public Task<IEnumerable<Order>> GetAllCancelledOrdersByCustomerID(string email);
         public Task<IEnumerable<Order>> GetAllDeliveredOrders();
-        public Task<IEnumerable<Order>> GetAllDeliveredOrdersByCustomerID(string email);   
+        public Task<IEnumerable<Order>> GetAllDeliveredOrdersByCustomerID(string email);
         public Task<IEnumerable<Order>> GetAllReturnedOrders();
         public Task<IEnumerable<Order>> GetAllReturnedOrdersByCustomerID(string email);
         public Task<IEnumerable<Order>> GetAllOrdersViaCartMode();

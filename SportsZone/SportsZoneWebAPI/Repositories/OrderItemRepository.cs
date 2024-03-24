@@ -13,20 +13,20 @@ namespace SportsZoneWebAPI.Repositories
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
         private readonly ICartItemRepository _cartItemRepository;
-        private readonly IUtil _util;
+        private readonly IHelper _helper;
         public OrderItemRepository(ISportsZoneDbContext sportsZoneDbContext
             , ICartItemRepository cartItemRepository
-            , IUtil util)
+            , IHelper util)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
             _cartItemRepository = cartItemRepository;
-            _util = util;
+            _helper = util;
         }
         public async Task<bool> IsAvail(int orderITemID)
         {
             try
             {
-                return await _util.IsAvail(dbSet: _sportsZoneDbContext.OrderItems, intID: orderITemID);
+                return await _helper.IsAvail(dbSet: _sportsZoneDbContext.OrderItems, intID: orderITemID);
             }
             catch (Exception)
             {
@@ -182,7 +182,7 @@ namespace SportsZoneWebAPI.Repositories
             {
                 Order order = await _sportsZoneDbContext.Orders.FindAsync(orderID);
 
-                decimal totalPrice = _util.CalculateTotalAmountByQuantity(productID, quantity);
+                decimal totalPrice = _helper.CalculateTotalAmountByQuantity(productID, quantity);
 
                 OrderItem orderItem = new OrderItem()
                 {

@@ -1,0 +1,38 @@
+The error you're encountering, "Not allowed to load local resource," occurs because modern web browsers do not allow loading local files using the `file://` protocol due to security restrictions. To display images from your local file system in a web application, you should consider serving those images from a web server or using a public URL.
+
+Here's how you can resolve this issue and display images using a public URL or a web server:
+
+1. **Upload Images to a Web Server**:
+
+   The best practice is to upload your images to a web server or a cloud storage service (e.g., Amazon S3, Google Cloud Storage) and obtain a public URL for each image. Once you have the URLs, you can use them in your application.
+
+2. **Serve Images from a Local Web Server**:
+
+   If you prefer to serve images from your local machine for development purposes, you can set up a local web server. One popular option is to use a Node.js server or Python's SimpleHTTPServer module. Here's how you can do it with Node.js:
+
+   a. Install `http-server` globally using npm:
+
+   ```bash
+   npm install -g http-server
+   ```
+
+   b. Navigate to the directory containing your images and start the server:
+
+   ```bash
+   cd D:/path-to-your-images
+   http-server -p 8080 # or any other port you prefer
+   ```
+
+   c. Your images will be available at `http://localhost:8080/your-image.jpg`. Use this URL in your React application.
+
+3. **Update the `src` Attribute**:
+
+   Once you have a public URL for your images, you can update the `src` attribute of your `Card.Img` component to load the images:
+
+   ```jsx
+   <Card.Img variant="top" src={product.ProductImageURL} alt={product.ProductName} />
+   ```
+
+   Ensure that `product.ProductImageURL` contains the correct public URL of the image you want to display.
+
+By following one of these approaches, you can display images in your React application without encountering the "Not allowed to load local resource" error.

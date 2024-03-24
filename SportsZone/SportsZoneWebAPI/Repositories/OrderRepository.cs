@@ -15,26 +15,26 @@ namespace SportsZoneWebAPI.Repositories
         private readonly ICartRepository _cartRepository;
         private readonly ICartItemRepository _cartItemRepository;
         private readonly IProductRepository _productRepository;
-        private readonly IUtil _util;
+        private readonly IHelper _helper;
         public OrderRepository(ISportsZoneDbContext sportsZoneDbContext,
             IOrderItemRepository orderItemRepository,
             ICartRepository cartRepository,
             ICartItemRepository cartItemRepository,
             IProductRepository productRepository,
-            IUtil util)
+            IHelper helper)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
             _orderItemRepository = orderItemRepository;
             _cartRepository = cartRepository;
             _cartItemRepository = cartItemRepository;
             _productRepository = productRepository;
-            _util = util;
+            _helper = helper;
         }
         public async Task<bool> IsAvail(string orderID)
         {
             try
             {
-                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Orders, stringID: orderID);
+                return await _helper.IsAvail(dbSet: _sportsZoneDbContext.Orders, stringID: orderID);
             }
             catch (Exception)
             {
@@ -347,8 +347,8 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                string orderID = _util.GenerateOrderID();
-                decimal totalAmount = _util.EvaluateCartTotal((int)cartID);
+                string orderID = _helper.GenerateOrderID();
+                decimal totalAmount = _helper.EvaluateCartTotal((int)cartID);
                 Order order = new()
                 {
                     OrderID = orderID,
@@ -390,8 +390,8 @@ namespace SportsZoneWebAPI.Repositories
         {
             try
             {
-                string orderID = _util.GenerateOrderID();
-                decimal totalAmount = _util.CalculateTotalAmountByQuantity(productID, quantity);
+                string orderID = _helper.GenerateOrderID();
+                decimal totalAmount = _helper.CalculateTotalAmountByQuantity(productID, quantity);
                 Order order = new()
                 {
                     OrderID = orderID,

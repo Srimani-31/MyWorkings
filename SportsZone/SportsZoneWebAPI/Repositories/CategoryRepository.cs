@@ -11,17 +11,17 @@ namespace SportsZoneWebAPI.Repositories
     public class CategoryRepository : ICategoryRespository
     {
         private readonly ISportsZoneDbContext _sportsZoneDbContext;
-        private readonly IUtil _util;
-        public CategoryRepository(ISportsZoneDbContext sportsZoneDbContext, IUtil util)
+        private readonly IHelper _helper;
+        public CategoryRepository(ISportsZoneDbContext sportsZoneDbContext, IHelper helper)
         {
             _sportsZoneDbContext = sportsZoneDbContext;
-            _util = util;
+            _helper = helper;
         }
         public async Task<bool> IsAvail(int categoryID)
         {
             try
             {
-                return await _util.IsAvail(dbSet: _sportsZoneDbContext.Categories, intID: categoryID);
+                return await _helper.IsAvail(dbSet: _sportsZoneDbContext.Categories, intID: categoryID);
             }
             catch (Exception)
             {

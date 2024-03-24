@@ -46,10 +46,13 @@
   <ItemGroup>
     <Compile Include="Bookmarks.cs" />
     <Compile Include="CodeSnippets.cs" />
+    <Compile Include="DemoLINQ.cs" />
+    <Compile Include="DemoRefactor.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="ObjectBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuickActions.cs" />
+    <Compile Include="RenamingAnIdentifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="JsonData.json" />

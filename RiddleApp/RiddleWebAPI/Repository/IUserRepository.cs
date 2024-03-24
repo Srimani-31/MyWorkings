@@ -15,6 +15,7 @@ namespace RiddleWebAPI.Repository
         public Task<bool> AuthenticateUser(Login login);
         public string HashPassword(string password);
         public bool IsValidPassword(string password,string hashedPassword);
+        public Task<bool> IsAvail(string username);
 
     }
 }

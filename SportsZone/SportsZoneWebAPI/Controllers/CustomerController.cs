@@ -56,22 +56,54 @@ namespace SportsZoneWebAPI.Controllers
             }
         }
 
-        [HttpPost, Route("CreateCustomer")]
-        public async Task<ActionResult<CustomerRequestDTO>> CreateCustomer([FromForm] CustomerRequestDTO customerRequestDTO)
+        //[HttpPost, Route("CreateCustomer")]
+        //public async Task<ActionResult<CustomerRequestDTO>> CreateCustomer([FromForm] CustomerRequestDTO customerRequestDTO)
+        //{
+        //    try
+        //    {
+        //        if (!ModelState.IsValid)
+        //        {
+        //            // Model validation failed: Return a BadRequest response with validation errors
+        //            return BadRequest(ModelState);
+        //        }
+        //        if (await _customerService.IsAvail(customerRequestDTO.Email))
+        //        {
+        //            return Conflict();
+        //        }
+        //        await _customerService.CreateCustomer(customerRequestDTO, customerRequestDTO.ProfilePhoto);
+        //        return Ok(customerRequestDTO);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, e.InnerException);
+        //    }
+        //}
+        [HttpPost("CreateCustomer")]
+        public async Task<IActionResult> CreateCustomer([FromForm] CustomerRequestDTO customerRequestDTO)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    // Model validation failed: Return a BadRequest response with validation errors
                     return BadRequest(ModelState);
                 }
+
                 if (await _customerService.IsAvail(customerRequestDTO.Email))
                 {
                     return Conflict();
                 }
                 await _customerService.CreateCustomer(customerRequestDTO, customerRequestDTO.ProfilePhoto);
                 return Ok(customerRequestDTO);
+
+                //// Save the profile photo
+                //string imageFilePath = await StoreImage(customerRequestDTO.ProfilePhoto, customerRequestDTO.Email);
+
+                //// Set the profilePhoto property to the file path
+                //customerRequestDTO.ProfilePhoto = imageFilePath;
+
+                //await _customerService.CreateCustomer(customerRequestDTO);
+
+                //return Ok(customerRequestDTO);
             }
             catch (Exception e)
             {
@@ -129,7 +161,7 @@ namespace SportsZoneWebAPI.Controllers
                         }
                         CustomerResponseDTO customerResponseDTO = await _customerService.GetCustomerByCustomerID(email);
                         customerResponseDTO.ProfilePhoto = filePath;
-                        
+
 
                         return Ok("Image uploaded successfully");
                     }

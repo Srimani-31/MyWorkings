@@ -62,7 +62,7 @@ namespace SportsZoneWebAPI
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IAuthRepository, AuthRepository>();
-            services.AddScoped<IUtil, Util>();
+            services.AddScoped<IHelper, Helper>();
 
             //automapper configuration
             services.AddAutoMapper(typeof(SecurityMapping));
@@ -132,6 +132,18 @@ namespace SportsZoneWebAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:key"]))
                 };
             });
+
+            //configuration for the UI react
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -143,6 +155,9 @@ namespace SportsZoneWebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SportsZoneWebAPI v1"));
             }
+
+            //Apply CORS policy
+            app.UseCors("AllowAnyOrigin");
 
             app.UseHttpsRedirection();
 

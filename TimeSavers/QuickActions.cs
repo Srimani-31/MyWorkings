@@ -25,6 +25,8 @@ namespace TimeSavers
 
             Course = course;
         }
+
         //create constructor via qucik actions menu 
+
     }
 }

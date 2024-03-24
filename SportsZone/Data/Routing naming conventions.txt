@@ -1,0 +1,107 @@
+Certainly! Here's how you can structure your ASP.NET Core Web API for CRUD (Create, Read, Update, Delete) operations for both the "User" and "Riddle" resources. We'll provide examples for each CRUD operation in both controllers.
+
+Assuming you have a `UsersController` and a `RiddlesController`:
+
+**1. Create (POST) Operation:**
+
+```csharp
+// UsersController
+[HttpPost]
+public IActionResult CreateUser([FromBody] User user)
+{
+    // Logic to create a new user
+    // Return created user data or a success response
+}
+
+// RiddlesController
+[HttpPost]
+public IActionResult CreateRiddle([FromBody] Riddle riddle)
+{
+    // Logic to create a new riddle
+    // Return created riddle data or a success response
+}
+```
+
+**2. Read (GET) Operations:**
+
+```csharp
+// UsersController
+[HttpGet]
+public IActionResult GetAllUsers()
+{
+    // Logic to retrieve all users
+    // Return a list of user data
+}
+
+[HttpGet("{id}")]
+public IActionResult GetUser(int id)
+{
+    // Logic to retrieve a user by ID
+    // Return user data or a not-found response
+}
+
+// RiddlesController
+[HttpGet]
+public IActionResult GetAllRiddles()
+{
+    // Logic to retrieve all riddles
+    // Return a list of riddle data
+}
+
+[HttpGet("{id}")]
+public IActionResult GetRiddle(int id)
+{
+    // Logic to retrieve a riddle by ID
+    // Return riddle data or a not-found response
+}
+```
+
+**3. Update (PUT) Operations:**
+
+```csharp
+// UsersController
+[HttpPut("{id}")]
+public IActionResult UpdateUser(int id, [FromBody] User user)
+{
+    // Logic to update a user by ID
+    // Return updated user data or a not-found response
+}
+
+// RiddlesController
+[HttpPut("{id}")]
+public IActionResult UpdateRiddle(int id, [FromBody] Riddle riddle)
+{
+    // Logic to update a riddle by ID
+    // Return updated riddle data or a not-found response
+}
+```
+
+**4. Delete (DELETE) Operations:**
+
+```csharp
+// UsersController
+[HttpDelete("{id}")]
+public IActionResult DeleteUser(int id)
+{
+    // Logic to delete a user by ID
+    // Return a success response or an error response
+}
+
+// RiddlesController
+[HttpDelete("{id}")]
+public IActionResult DeleteRiddle(int id)
+{
+    // Logic to delete a riddle by ID
+    // Return a success response or an error response
+}
+```
+
+In the above examples:
+
+- For each controller, we have created corresponding CRUD actions: `Create`, `Read`, `Update`, and `Delete`.
+- The `[HttpPost]`, `[HttpGet]`, `[HttpPut]`, and `[HttpDelete]` attributes are used to define the HTTP methods associated with each action.
+- The `{id}` parameter in the route templates allows you to specify the resource ID when performing read, update, or delete operations.
+- The `[FromBody]` attribute is used to specify that the data should be read from the request body for create and update operations.
+- In each action, you can include your business logic to perform the respective CRUD operation and return appropriate responses.
+
+These actions should cover the basic CRUD operations for your "User" and "Riddle" resources in your ASP.NET Core Web API.

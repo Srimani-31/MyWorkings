@@ -49,7 +49,7 @@ namespace SportsZoneWebAPI.Repositories
                     expires: DateTime.Now.AddMinutes(10),
                     signingCredentials: signIn
                 );
-                string tokenhandler = "Bearer "+ new JwtSecurityTokenHandler().WriteToken(token);
+                string tokenhandler = new JwtSecurityTokenHandler().WriteToken(token);
                 return tokenhandler;
             }
             catch (Exception)
@@ -73,7 +73,7 @@ namespace SportsZoneWebAPI.Repositories
             IEnumerable<Security> securities = await _securityRepository.GetAllSecurityDetails();
             foreach (Security security in securities)
             {
-                if (Util.VerifyPassword(security.Password, password))
+                if (Helper.VerifyPassword(security.Password, password))
                     return true;
             }
             return false;
